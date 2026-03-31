@@ -1,0 +1,19 @@
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;   /* 🔥 IMPORTANT */
+}
+
+.admin-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;   /* 🔥 VERY IMPORTANT (fix overflow gap) */
+}
+
+.admin-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #f1f5f9;
+}

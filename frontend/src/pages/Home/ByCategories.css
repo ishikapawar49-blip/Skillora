@@ -1,0 +1,83 @@
+.cat-section{
+padding:50px 0px 70px 0px;
+background:#f3f5fb;
+}
+
+.cat-container{
+max-width:1300px;
+margin:auto;
+padding:0 20px;
+}
+
+/* TITLE */
+.cat-title{
+font-family:'Playfair Display', serif;
+font-size:48px;
+font-weight:700;
+text-align:center;
+color:#1d1d1f;
+margin-bottom:0px;
+margin-top: 0px;
+}
+
+.cat-subtitle{
+text-align:center;
+font-size:18px;
+color:#6b7280;
+margin-top: 0px;
+margin-bottom:50px;
+}
+
+/* GRID */
+.cat-grid{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:10px;
+}
+
+/* CARD */
+.cat-card{
+background:white;
+border-radius:20px;
+padding:20px 20px 20px 20px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.06);
+transition:0.3s;
+cursor:pointer;
+width: 155px;
+height: 140px;
+}
+
+.cat-card:hover{
+transform:translateY(-6px);
+box-shadow:0 18px 35px rgba(0,0,0,0.12);
+}
+
+/* ICON */
+.cat-icon{
+width:70px;
+height:70px;
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 18px auto;
+background: linear-gradient(90deg, #7C6BFF, #FF6A6A);
+color:white;
+margin-bottom: 10px;
+}
+
+/* TEXT */
+.cat-card h3{
+font-family:'Playfair Display', serif;
+font-size:20px;
+margin-top: 0px;
+margin-bottom:0px;
+color:#1d1d1f;
+}
+
+.cat-card p{
+color:#6b7280;
+font-size:15px;
+margin-top: 0px;
+}

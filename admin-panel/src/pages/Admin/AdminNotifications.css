@@ -1,0 +1,111 @@
+.ant-wrapper {
+  padding: 20px;
+}
+
+/* Header */
+.ant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ant-header h2 {
+  font-size: 22px;
+}
+
+.ant-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Button */
+.ant-btn {
+  border: 1px solid #ddd;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.ant-btn:hover {
+  background: #f1f5f9;
+}
+
+/* List */
+.ant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card */
+.ant-card {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+  transition: 0.3s;
+}
+
+.ant-card:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+/* Unread */
+.ant-unread {
+  border-left: 4px solid #8b5cf6;
+}
+
+/* Icon */
+.ant-icon-box {
+  padding: 10px;
+  border-radius: 10px;
+  background: #f1f5f9;
+}
+
+.ant-gradient {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.ant-icon {
+  width: 18px;
+  color: #6b7280;
+}
+
+.ant-gradient .ant-icon {
+  color: white;
+}
+
+/* Content */
+.ant-content {
+  flex: 1;
+}
+
+.ant-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ant-title {
+  font-size: 14px;
+}
+
+.ant-bold {
+  font-weight: 600;
+}
+
+.ant-time {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ant-message {
+  font-size: 13px;
+  color: #4b5563;
+  margin-top: 4px;
+}

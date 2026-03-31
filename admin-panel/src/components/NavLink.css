@@ -1,0 +1,17 @@
+/* Default navlink style */
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+/* Active state */
+.nav-link.active {
+  font-weight: 600;
+  color: #6366f1;
+}
+
+/* Pending (optional) */
+.nav-link.pending {
+  opacity: 0.6;
+}

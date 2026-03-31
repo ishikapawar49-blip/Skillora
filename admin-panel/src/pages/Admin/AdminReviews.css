@@ -1,0 +1,141 @@
+.arv-wrapper {
+  padding: 20px;
+}
+
+/* Header */
+.arv-header h2 {
+  font-size: 22px;
+}
+
+.arv-header p {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* Grid */
+.arv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* Card */
+.arv-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+  position: relative;
+  transition: 0.3s;
+}
+
+.arv-card:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+/* Top Section */
+.arv-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.arv-user {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.arv-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.arv-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.arv-date {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Dropdown */
+.arv-menu {
+  position: relative;
+}
+
+.arv-menu button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.arv-dropdown {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  width: 120px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.arv-dropdown p {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.arv-dropdown p:hover {
+  background: #f1f5f9;
+}
+
+.arv-danger {
+  color: red;
+}
+
+/* Meta */
+.arv-meta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 5px;
+}
+
+/* Stars */
+.arv-stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.arv-star-filled {
+  width: 14px;
+  color: #facc15;
+  fill: #facc15;
+}
+
+.arv-star-empty {
+  width: 14px;
+  color: #d1d5db;
+}
+
+/* Comment */
+.arv-comment {
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+}

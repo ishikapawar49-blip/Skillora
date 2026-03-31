@@ -1,0 +1,105 @@
+.services {
+  padding: 20px;
+}
+
+/* Header */
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.services-header h2 {
+  font-size: 22px;
+}
+
+.services-header p {
+  color: gray;
+  font-size: 14px;
+}
+
+/* Add Button */
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-btn svg {
+  width: 16px;
+}
+
+/* Table */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f8fafc;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+tr {
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background: #f1f5f9;
+}
+
+/* Badge */
+.badge {
+  background: #eef2ff;
+  color: #6366f1;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+/* Price */
+.price {
+  font-weight: 600;
+  color: #8b5cf6;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.actions svg {
+  width: 18px;
+  color: gray;
+}
+
+.actions svg:hover {
+  color: black;
+}
+
+/* Service Name */
+.service-name {
+  font-weight: 500;
+}

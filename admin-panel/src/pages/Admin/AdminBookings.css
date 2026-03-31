@@ -1,0 +1,98 @@
+.abk-wrapper {
+  padding: 20px;
+}
+
+/* Header */
+.abk-header h2 {
+  font-size: 22px;
+}
+
+.abk-header p {
+  color: #6b7280;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Table Container */
+.abk-table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+}
+
+/* Table */
+.abk-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.abk-table thead {
+  background: #f8fafc;
+}
+
+.abk-table th,
+.abk-table td {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.abk-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.abk-table tr:hover {
+  background: #f1f5f9;
+}
+
+/* Booking ID */
+.abk-id {
+  font-family: monospace;
+  font-weight: 600;
+}
+
+/* Amount */
+.abk-amount {
+  font-weight: 600;
+}
+
+/* Status */
+.abk-status {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+/* Status Variants */
+.abk-completed {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.abk-pending {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+.abk-cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Actions */
+.abk-actions {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.abk-actions svg {
+  width: 18px;
+  color: #6b7280;
+}
+
+.abk-actions svg:hover {
+  color: #000;
+}

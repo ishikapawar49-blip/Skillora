@@ -1,0 +1,87 @@
+.dashboard {
+  padding: 20px;
+}
+
+/* Header */
+.page-header h1 {
+  font-size: 22px;
+}
+
+.page-header p {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.card svg {
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin: 5px 0;
+}
+
+.gradient {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+}
+
+/* Charts */
+.charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.chart-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+/* Bottom */
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Activity */
+.activity {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.activity-item:hover {
+  background: #f1f5f9;
+}
+
+.activity-icon {
+  margin-right: 10px;
+}
