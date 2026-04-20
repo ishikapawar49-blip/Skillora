@@ -105,6 +105,34 @@
   color: white;
 }
 
+/* DATE INPUT NORMAL */
+.date-input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  background: #fff;
+  transition: 0.3s ease;
+}
+
+/* Calendar selected only when not in cards */
+.calendar-selected {
+  background: linear-gradient(90deg, #7b61ff, #ff6f91);
+  color: white;
+  border: none;
+}
+
+/* icon white */
+.calendar-selected::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* CALENDAR ICON COLOR FIX */
+.selected-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 /* TIME */
 .book-service-time-grid {
   display: flex;
@@ -191,4 +219,12 @@
   display: flex;
   justify-content: space-between;
   font-weight: bold;
+}
+
+.book-service-time-card.disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
 }

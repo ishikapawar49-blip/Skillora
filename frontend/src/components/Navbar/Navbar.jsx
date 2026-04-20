@@ -1,8 +1,30 @@
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FiHeart, FiUser } from "react-icons/fi";
 
 function Navbar() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Check login status on load
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userInfo");
+
+    setIsLoggedIn(false);
+
+    alert("Logged out successfully 👋");
+    navigate("/auth");
+  };
+
   return (
     <header className="navbar">
 
@@ -29,11 +51,19 @@ function Navbar() {
             <FiUser className="nav-icon"/>
           </Link>
 
-          <Link to="/auth">
-            <button className="nav-signin-btn">
-              Sign In
+           {/* 🔥 CONDITIONAL BUTTON */}
+          {isLoggedIn ? (
+            <button className="nav-signin-btn" onClick={handleLogout}>
+              Logout
             </button>
-          </Link>
+          ) : (
+            <Link to="/auth">
+              <button className="nav-signin-btn">
+                Sign In
+              </button>
+            </Link>
+          )}
+
         </div>
 
       </div>

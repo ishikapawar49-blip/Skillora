@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import servicesData from "../../data/servicesData";
 import "./ServiceDetails.css";
 
 import TopProfessionals from "../Home/TopProfessionals";
@@ -13,14 +12,34 @@ const ServiceDetails = () => {
 
   const { slug } = useParams();
   const navigate = useNavigate();
+  const [service, setService] = useState(null);
 
-  const service = servicesData.find(
-    (s) => s.slug === slug
-  );
+useEffect(() => {
+  const fetchService = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/vendor/services/slug/${slug}`
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log("Error:", data);
+        return;
+      }
+
+      setService(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchService();
+}, [slug]);
 
   if (!service) {
-    return <h2>Service not found</h2>;
-  }
+  return <h2>Loading...</h2>;
+}
 
   return (
     <section className="service-detail">
@@ -88,72 +107,9 @@ const ServiceDetails = () => {
       </div>
 
 
-      {/* Packages */}
-
-      <div className="packages">
-
-        <h2>Choose a Package</h2>
-
-        <div className="package-grid">
-
-          <div className="package">
-            <h3>Basic</h3>
-            <h2>₹49</h2>
-            <ul>
-              <li>1 room service</li>
-              <li>Basic cleaning supplies</li>
-              <li>2 hour duration</li>
-            </ul>
-
-            <button onClick={() => navigate(`/services/${slug}/book`)}>
-  Select
-</button>
-          </div>
-
-          <div className="package popular">
-            <span>Most Popular</span>
-
-            <h3>Standard</h3>
-            <h2>₹89</h2>
-
-            <ul>
-              <li>3 room service</li>
-              <li>Premium supplies</li>
-              <li>4 hour duration</li>
-              <li>Free re-service</li>
-            </ul>
-
-            <button onClick={() => navigate(`/services/${slug}/book`)}>
-  Select
-</button>
-
-          </div>
-
-          <div className="package">
-            <h3>Premium</h3>
-            <h2>₹149</h2>
-
-            <ul>
-              <li>Full home service</li>
-              <li>Premium eco supplies</li>
-              <li>6 hour duration</li>
-              <li>Free re-service</li>
-            </ul>
-
-            <button onClick={() => navigate(`/services/${slug}/book`)}>
-  Select
-</button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
       {/* Home page same sections */}
 
-      <TopProfessionals />
+      {/* <TopProfessionals /> */}
 
       {/* <Testimonials /> */}
 

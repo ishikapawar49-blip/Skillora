@@ -1,0 +1,183 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.ven-pro-container {
+  max-width: 900px;
+  padding: 24px;
+}
+
+/* HEADER */
+.ven-pro-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.ven-pro-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* CARD */
+.ven-pro-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* TOP */
+.ven-pro-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* AVATAR */
+.ven-pro-avatar-box {
+  position: relative;
+}
+
+.ven-pro-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.ven-pro-camera {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+/* FORM */
+.ven-pro-form label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  display: block;
+  color: #334155;
+}
+
+.ven-pro-form input,
+.ven-pro-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.ven-pro-form textarea {
+  resize: none;
+  height: 80px;
+}
+
+.ven-pro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* TITLE */
+.ven-pro-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* UPLOAD */
+.ven-pro-upload {
+  border: 2px dashed #e2e8f0;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+}
+
+.ven-pro-upload svg {
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* BUTTON */
+.ven-pro-btn-outline {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+/* DOC LIST */
+.ven-pro-doc-list {
+  margin-top: 14px;
+}
+
+.ven-pro-doc-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  margin-bottom: 8px;
+}
+
+.ven-pro-doc-item button {
+  background: none;
+  border: none;
+  color: #7c3aed;
+  cursor: pointer;
+}
+
+/* SAVE */
+.ven-pro-save {
+  margin-top: 20px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.ven-doc-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.ven-doc-actions button {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}

@@ -1,21 +1,80 @@
 import "./PopularServices.css";
-import { popularServices } from "../../data/popularServices";
 import { FiHeart, FiClock } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PopularServices(){
 
-const [liked,setLiked] = useState({});
+const [services, setServices] = useState([]);
+const [liked, setLiked] = useState({});
+const navigate = useNavigate();
 
-const toggleLike = (id) =>{
-  setLiked(prev => ({
-    ...prev,
-    [id]: !prev[id]
-  }));
-}
 
-  return(
+// ✅ FETCH POPULAR SERVICES
+useEffect(() => {
+  const fetchPopular = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/services/popular");
+      const data = await res.json();
+      setServices(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // ✅ FETCH WISHLIST (for red hearts)
+  const fetchWishlist = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/wishlist", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      });
+
+      const data = await res.json();
+
+      const likedMap = {};
+      data.forEach((item) => {
+        likedMap[item.service._id] = true;
+      });
+
+      setLiked(likedMap);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchPopular();
+  fetchWishlist();
+
+}, []);
+
+
+// ❤️ LIKE TOGGLE
+const toggleLike = async (serviceId) => {
+  try {
+    await fetch("http://localhost:5000/api/wishlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+      body: JSON.stringify({ serviceId }),
+    });
+
+    setLiked((prev) => ({
+      ...prev,
+      [serviceId]: !prev[serviceId],
+    }));
+
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+return(
 
 <section className="pop-section">
 
@@ -28,28 +87,41 @@ const toggleLike = (id) =>{
 <p>Most booked services by our customers</p>
 </div>
 
-<a className="pop-view">View All →</a>
+{/* ✅ NAVIGATION FIX */}
+<button 
+  className="pop-view"
+  onClick={() => navigate("/services")}
+>
+  View All →
+</button>
 
 </div>
 
 
 <div className="pop-grid">
 
-{popularServices.map((service)=> (
+{services.map((service)=> (
 
-<div className="pop-card" key={service.id}>
+<div 
+className="pop-card" 
+key={service._id}
+onClick={() => navigate(`/services/${service.slug}`)}
+>
 
 <div className="pop-img">
 
-<img src={service.image} />
+<img src={service.image} alt={service.title}/>
 
 <span className="pop-tag">{service.category}</span>
 
 <div 
-className={`pop-heart ${liked[service.id] ? "active" : ""}`}
-onClick={()=>toggleLike(service.id)}
+className="pop-heart"
+onClick={(e)=>{
+  e.stopPropagation();
+  toggleLike(service._id);
+}}
 >
-{liked[service.id] ? (
+{liked[service._id] ? (
   <FaHeart className="heart-filled"/>
 ) : (
   <FiHeart/>
@@ -63,25 +135,25 @@ onClick={()=>toggleLike(service.id)}
 
 <div className="pop-rating">
 <FaStar className="pop-star"/>
-{service.rating}
-<span>({service.reviews})</span>
+{service.rating || 4.5}
+<span>({service.reviews || 0})</span>
 </div>
 
 <h3>{service.title}</h3>
 
 <p className="pop-desc">
-{service.desc}
+{service.description}
 </p>
 
 <div className="pop-bottom">
 
 <div className="pop-time">
 <FiClock/>
-{service.time}
+{service.duration} min
 </div>
 
 <div className="pop-price">
-{service.price}<span>/service</span>
+₹{service.price}<span>/service</span>
 </div>
 
 </div>
@@ -98,7 +170,7 @@ onClick={()=>toggleLike(service.id)}
 
 </section>
 
-  )
+)
 }
 
-export default PopularServices
+export default PopularServices;

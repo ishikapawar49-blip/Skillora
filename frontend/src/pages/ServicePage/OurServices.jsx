@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, } from "react-router-dom";
 import "./OurServices.css";
-import servicesData from "../../data/servicesData";
 import { FiSearch, FiHeart, FiClock } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 
@@ -10,7 +9,8 @@ const categories = [
   "Cleaning",
   "Plumbing",
   "Electrical",
-  "Beauty & Spa",
+  "Beauty",
+  "Makeup",
   "Appliance Repair",
   "Painting",
 ];
@@ -18,26 +18,107 @@ const categories = [
 const OurServices = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
-
+  const [services, setServices] = useState([]);
   const [liked, setLiked] = useState({});
-  const toggleLike = (id) => {
-  setLiked((prev) => ({
-    ...prev,
-    [id]: !prev[id],
-  }));
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+
+  const vendorId = params.get("vendor");   // 🔥 NEW
+  const categoryFromURL = params.get("category"); 
+
+  // 🔥 FETCH SERVICES
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+       let url = "http://localhost:5000/api/services";
+
+if (vendorId) {
+  url += `?vendor=${vendorId}`;
+} else if (categoryFromURL) {
+  url += `?category=${categoryFromURL}`;
+}
+
+const res = await fetch(url);
+        const data = await res.json();
+        setServices(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+      // ✅ FETCH WISHLIST (for red hearts)
+  const fetchWishlist = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/wishlist", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      });
+
+      const data = await res.json();
+
+      const likedMap = {};
+      data.forEach((item) => {
+        likedMap[item.service._id] = true;
+      });
+
+      setLiked(likedMap);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+    fetchServices();
+    fetchWishlist();
+  }, []);
+
+  
+
+// ❤️ LIKE TOGGLE (BACKEND CONNECTED)
+const toggleLike = async (serviceId) => {
+  try {
+    await fetch("http://localhost:5000/api/wishlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+      body: JSON.stringify({ serviceId }),
+    });
+
+    // UI update
+    setLiked((prev) => ({
+      ...prev,
+      [serviceId]: !prev[serviceId],
+    }));
+
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-  const filteredServices = servicesData.filter((service) => {
-    const matchCategory =
-      activeCategory === "All" || service.category === activeCategory;
+  // 🔍 FILTER
+  const filteredServices = services.filter((service) => {
+  const matchCategory =
+    activeCategory === "All" ||
+    service.category.toLowerCase() === activeCategory.toLowerCase();
 
-    const matchSearch = service.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
+  const matchSearch = service.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
 
-    return matchCategory && matchSearch;
-  });
+  return matchCategory && matchSearch;
+});
+
+
+// ✅ SYNC CATEGORY WITH URL
+useEffect(() => {
+  if (categoryFromURL) {
+    setActiveCategory(categoryFromURL);
+  }
+}, [categoryFromURL]);
 
   return (
     <section className="services-section">
@@ -47,7 +128,7 @@ const OurServices = () => {
         Find and book the perfect service for your needs
       </p>
 
-      {/* Search */}
+      {/* 🔍 SEARCH */}
       <div className="services-search">
         <FiSearch className="search-icon" />
         <input
@@ -59,7 +140,7 @@ const OurServices = () => {
         <button>Search</button>
       </div>
 
-      {/* Categories */}
+      {/* 🔘 CATEGORY */}
       <div className="services-filters">
         {categories.map((cat) => (
           <button
@@ -74,40 +155,49 @@ const OurServices = () => {
         ))}
       </div>
 
-      {/* Cards */}
+      {/* 🔥 SERVICES GRID */}
       <div className="services-grid">
         {filteredServices.map((service) => (
           <div
-  className="service-card"
-  key={service.id}
-  onClick={() => navigate(`/services/${service.slug}`)}
->
+            className="service-card"
+            key={service._id}
+            onClick={() => navigate(`/services/${service.slug}`)}
+          >
 
             <div className="service-image">
-              <img src={service.image} alt={service.title} />
+              <img
+                src={service.image || "/images/default.jpg"}
+                alt={service.title}
+              />
 
               <span className="service-category">
                 {service.category}
               </span>
 
-<div
-  className="fav"
-  onClick={() => toggleLike(service.id)}
->
-  {liked[service.id] ? (
-    <FaHeart className="heart-filled"/>
-  ) : (
-    <FiHeart className="heart-outline"/>
-  )}
-</div>
+              {/* ❤️ LIKE */}
+              <div
+                className="fav"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleLike(service._id);
+                }}
+              >
+                {liked[service._id] ? (
+                  <FaHeart className="heart-filled" />
+                ) : (
+                  <FiHeart className="heart-outline" />
+                )}
+              </div>
             </div>
 
             <div className="service-body">
 
               <div className="service-rating">
                 <FaStar />
-                <span>{service.rating}</span>
-                <span className="service-reviews">({service.reviews})</span>
+                <span>{service.rating || 4.5}</span>
+                <span className="service-reviews">
+                  ({service.reviews || 0})
+                </span>
               </div>
 
               <h3>{service.title}</h3>
@@ -118,7 +208,7 @@ const OurServices = () => {
 
                 <div className="duration">
                   <FiClock />
-                  {service.duration}
+                  {service.duration} min
                 </div>
 
                 <div className="price">

@@ -1,0 +1,144 @@
+/* Navbar */
+.admin-navbar {
+  height: 60px;
+
+  flex-shrink: 0; 
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+}
+
+/* Left */
+.admin-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-menu-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.admin-nav-left h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Right */
+.admin-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Search */
+.admin-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.admin-search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  margin-left: 8px;
+}
+
+.admin-search-icon {
+  width: 16px;
+  color: gray;
+}
+
+/* Bell */
+.admin-bell {
+  position: relative;
+  cursor: pointer;
+}
+
+.admin-bell svg {
+  width: 20px;
+}
+
+.admin-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  background: #8b5cf6;
+  border-radius: 50%;
+}
+
+/* Profile */
+.admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.admin-avatar {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.admin-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.admin-role {
+  font-size: 11px;
+  color: gray;
+}
+
+.admin-chevron {
+  width: 16px;
+}
+
+/* Dropdown */
+.admin-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  width: 140px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.admin-dropdown p {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  background: #f1f5f9;
+}
+

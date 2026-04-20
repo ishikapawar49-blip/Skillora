@@ -50,9 +50,6 @@
   }
 }
 
-body {
-  margin: 0;
-}
 
 #root {
   width: 100%;
@@ -121,6 +118,7 @@ html, body, #root {
 body {
   margin: 0;
 }
+
 
 /* ROOT */
 #root {

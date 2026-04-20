@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./SuccessPage.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
@@ -7,19 +7,46 @@ const SuccessPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { slug } = useParams();
-
-  const { selectedDate, selectedTime, address } = location.state || {};
+  
+  const { id } = useParams();
+  const [booking, setBooking] = useState(null);
 
   const formatDate = (d) => {
-    if (!d) return "";
-    const today = new Date();
-    const newDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      d.date
-    );
-    return newDate.toISOString().split("T")[0];
+  if (!d) return "";
+
+  const today = new Date();
+  const newDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    d.date
+  );
+
+  return newDate.toLocaleDateString("en-GB"); // ✅ DD-MM-YYYY
+};
+
+
+  useEffect(() => {
+  const fetchBooking = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/bookings/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+      setBooking(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  fetchBooking();
+}, [id]);
+if (!booking) return <h2>Loading booking...</h2>;
 
   return (
     <div className="success-container">
@@ -45,10 +72,16 @@ const SuccessPage = () => {
           <p>Your service has been scheduled successfully.</p>
 
           <div className="success-details">
-            <p><strong>Service:</strong> Deep Home Cleaning</p>
-            <p><strong>Date:</strong> {formatDate(selectedDate)}</p>
-            <p><strong>Time:</strong> {selectedTime}</p>
-            <p><strong>Address:</strong> {address}</p>
+            <p><strong>Service:</strong> {booking?.service?.title}</p>
+
+<p><strong>Date:</strong> {formatDate(booking?.selectedDate)}</p>
+
+<p><strong>Time:</strong> {booking?.selectedTime}</p>
+
+<p>
+  <strong>Address:</strong>{" "}
+  {booking?.address?.flat}, {booking?.address?.locality}, {booking?.address?.pincode}
+</p>
           </div>
 
         </div>
@@ -82,28 +115,29 @@ const SuccessPage = () => {
           <h2>Booking Summary</h2>
 
           <img
-            src="https://images.unsplash.com/photo-1581578731548-c64695cc6952"
-            alt="service"
+          src={booking?.service?.image} alt="service"
           />
 
-          <h3>Deep Home Cleaning</h3>
-          <p>Cleaning</p>
+          <h3>{booking?.service?.title}</h3>
+<p>{booking?.service?.category}</p>
+
 
           <hr />
 
           <div className="book-service-row">
             <span>Date</span>
-            <span>{formatDate(selectedDate)}</span>
+            <span>{formatDate(booking?.selectedDate)}</span>
           </div>
 
           <div className="book-service-row">
             <span>Time</span>
-            <span>{selectedTime}</span>
+            <span>{booking?.selectedTime}</span>
           </div>
 
           <div className="book-service-total">
             <span>Total</span>
-            <span>$89</span>
+            <span>₹{booking?.service?.price}</span>
+
           </div>
 
         </div>

@@ -1,11 +1,11 @@
 .wishlist-page{
-padding:40px;
+padding:20px 50px;
 background:#f7f7f7;
 min-height:100vh;
 }
 
 .wishlist-title{
-    font-family: 'Times New Roman', Times, serif;
+font-family: 'Times New Roman', Times, serif;
 font-size:36px;
 display:flex;
 align-items:center;
