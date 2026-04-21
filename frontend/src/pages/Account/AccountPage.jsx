@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AccountPage.css";
 import { 
   FiCalendar, 
   FiClock, 
   FiCreditCard, 
   FiUser,
-  FiMapPin   
+  FiMapPin,
 } from "react-icons/fi";
+import { FaStar } from "react-icons/fa";
 
 const AccountPage = () => {
 
   const [activeTab,setActiveTab] = useState("upcoming");
   const [user, setUser] = useState({});
   const [bookings, setBookings] = useState([]);
-
+  const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate();
   const token = localStorage.getItem("userToken");
 
 // 🔥 FETCH DATA
@@ -31,6 +34,13 @@ const AccountPage = () => {
         });
         const bookingData = await bookingRes.json();
         setBookings(bookingData);
+
+        // 🔥 ADD THIS
+      const reviewRes = await fetch("http://localhost:5000/api/users/reviews", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const reviewData = await reviewRes.json();
+      setReviews(reviewData);
 
       } catch (err) {
         console.log(err);
@@ -66,8 +76,10 @@ const past = bookings.filter(
     setUser(data);
     alert("Profile updated ✅");
   };
+ 
 
   return (
+    
     <div className="account-page">
 
       <div className="account-header">
@@ -122,7 +134,7 @@ const past = bookings.filter(
         {/* 🔥 UPCOMING */}
         {activeTab==="upcoming" && upcoming.map(b => (
   <div className="account-booking-card" key={b._id}>
-
+ 
   {/* LEFT IMAGE */}
   <div className="booking-img-box">
     <img
@@ -155,9 +167,9 @@ const past = bookings.filter(
     </div>
   </div>
 
-  {/* RIGHT STATUS */}
+{/* RIGHT STATUS */}
 <div className={`account-status ${b.status}`}>
-  {b.status}
+  {b.status.charAt(0).toUpperCase() + b.status.slice(1)}
 </div>
 
 </div>
@@ -165,8 +177,26 @@ const past = bookings.filter(
 ))}
 
         {/* 🔥 PAST BOOKINGS */}
-{activeTab==="past" && past.map(b => (
-  <div className="account-booking-card" key={b._id}>
+{activeTab==="past" && past.map(b => {
+
+  const review = reviews.find(r => r.booking?._id === b._id);
+
+  return (
+ <>
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#7C6BFF" />
+          <stop offset="100%" stopColor="#FF6A6A" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+      <div 
+    className="account-booking-card" 
+    key={b._id}
+    style={{ cursor: b.status === "completed" ? "pointer" : "default" }}
+  >
 
     {/* LEFT IMAGE */}
     <div className="booking-img-box">
@@ -203,15 +233,58 @@ const past = bookings.filter(
       </div>
     </div>
 
-    {/* RIGHT STATUS */}
-    <div className={`account-status ${b.status}`}>
-      {b.status}
+    
+{b.status === "completed" && (
+  <div className="review-section">
+
+    {/* ✅ STATUS FIRST */}
+    <div className="account-status completed">
+      Completed
     </div>
 
-  </div>
-))}
 
+  {/* ✅ TEXT */}
+<p className="acc-review-message">
+  Your service has been successfully completed.
+  <br />
+  We hope you had a great experience!
+</p>
 
+  {/* ✅ IF REVIEW EXISTS → SHOW STARS */}
+  {review ? (
+    <div className="acc-review-stars">
+      {[1,2,3,4,5].map((star) => (
+        <FaStar
+          key={star}
+          size={18}
+          style={{
+            fill: star <= review.rating ? "url(#starGradient)" : "#e5e7eb"
+          }}
+        />
+      ))}
+    </div>
+
+  ) : (
+
+    /* ❌ NO REVIEW → SHOW BUTTON */
+    <button
+      className="acc-review-btn"
+      onClick={(e) => {
+        e.stopPropagation(); // 🔥 IMPORTANT (card click stop)
+        navigate(`/review/${b._id}`);
+      }}
+    >
+      Rate & Review
+    </button>
+
+  )}
+
+</div>
+)} 
+ </div>   
+ </>
+);
+})}
          {/* 🔥 PAYMENTS */}
         {activeTab==="payments" && (
           <table className="account-payment-table">
@@ -271,6 +344,7 @@ const past = bookings.filter(
       </div>
 
     </div>
+    
   );
 };
 

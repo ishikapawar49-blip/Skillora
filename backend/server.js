@@ -10,7 +10,7 @@ import bookingRoutes from "./routes/Booking/bookingRoutes.js";
 import serviceRoutes from "./routes/Service/serviceRoutes.js";
 import paymentRoutes from "./routes/User/paymentRoutes.js";
 import wishlistRoutes from "./routes/User/wishlistRoutes.js";
-
+// import { sendEmail } from "./utils/sendEmail.js";
 
 dotenv.config();
 connectDB();
@@ -30,6 +30,14 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 
+// ✅ 🔥 ADD THIS HERE (EXACTLY HERE)
+// sendEmail(
+//   "ishikapawar49@gmail.com",
+//   "TEST EMAIL",
+//   "<h1>Hello Ishika 🚀 Skillora working!</h1>"
+// );
+// console.log("EMAIL:", process.env.EMAIL_USER);
+// console.log("PASS:", process.env.EMAIL_PASS);
 
 // test route
 app.get("/", (req, res) => {

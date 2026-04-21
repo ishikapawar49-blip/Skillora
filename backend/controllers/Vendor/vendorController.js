@@ -4,7 +4,9 @@ import jwt from "jsonwebtoken";
 import Service from "../../models/Service/Service.js";
 import Booking from "../../models/Booking/Booking.js";
 import Payout from "../../models/Vendor/Payout.js";
-
+import Notification from "../../models/Vendor/Notification.js";
+import { sendEmail } from "../../utils/sendEmail.js";
+import { skilloraTemplate } from "../../utils/emailTemplate.js";
 
 // 🔐 TOKEN
 const generateToken = (id) => {
@@ -98,6 +100,23 @@ export const addService = async (req, res) => {
       description,
       duration,
     });
+
+    // ✅ ADD HERE
+    await Notification.create({
+      vendor: req.vendor._id,
+      type: "service",
+      title: "Service Added",
+      message: `${service.title} added successfully`,
+    });
+
+    await sendEmail(
+  req.vendor.email,
+  "Service Added",
+  skilloraTemplate(
+    "Service Added",
+    `${service.title} added successfully`
+  )
+);
 
     res.status(201).json(service);
   } catch (error) {
@@ -326,3 +345,90 @@ export const getVendorEarnings = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+// ✅ CREATE WITHDRAW REQUEST
+export const createWithdrawRequest = async (req, res) => {
+  try {
+    const vendorId = req.vendor._id;
+    const { amount } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ message: "Invalid amount" });
+    }
+
+    // get earnings
+    const bookings = await Booking.find({ vendor: vendorId });
+    const payouts = await Payout.find({ vendor: vendorId });
+
+    const totalEarnings = bookings
+      .filter(b => b.status === "completed")
+      .reduce((acc, b) => acc + b.amount, 0);
+
+    const totalWithdrawn = payouts
+      .filter(p => p.status === "completed")
+      .reduce((acc, p) => acc + p.amount, 0);
+
+    const availableBalance = totalEarnings - totalWithdrawn;
+
+    if (amount > availableBalance) {
+      return res.status(400).json({ message: "Insufficient balance" });
+    }
+
+// 🔥 GET LAST PAYOUT
+const lastPayout = await Payout.findOne().sort({ createdAt: -1 });
+
+// 🔥 GENERATE NEXT ID
+let nextNumber = 10001;
+
+if (lastPayout && lastPayout.payoutId) {
+  const lastNumber = parseInt(lastPayout.payoutId.split("-")[1]);
+  nextNumber = lastNumber + 1;
+}
+
+const payoutId = `WT-${nextNumber}`;
+
+// 🔥 CREATE PAYOUT
+const payout = await Payout.create({
+  vendor: vendorId,
+  amount,
+  status: "completed",
+  method: "bank",
+  date: new Date(),
+  payoutId, // ✅ IMPORTANT
+});
+
+await Notification.create({
+  vendor: vendorId,
+  type: "payout",
+  title: "Payout Processed",
+  message: `Withdrawal processed successfully`,
+});
+
+await sendEmail(
+  req.vendor.email,
+  "Payout Processed",
+  skilloraTemplate(
+    "Payout Processed",
+    `₹${amount} withdrawal processed successfully`
+  )
+);
+
+    res.json({ message: "Withdraw request sent", payout });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// ✅ GET VENDOR PROFILE
+export const getVendorProfile = async (req, res) => {
+  try {
+    const vendor = await Vendor.findById(req.vendor._id).select("-password");
+    res.json(vendor);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+

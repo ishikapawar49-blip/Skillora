@@ -2,6 +2,7 @@ import express from "express";
 import { getAllUsers, registerUser, loginUser, getUserAddress, saveAddress,} from "../../controllers/User/userController.js";
 import { createBooking } from "../../controllers/User/bookingController.js";
 import protect, { protectUser } from "../../middleware/authMiddleware.js";
+import { createReview, getMyReviews } from "../../controllers/User/reviewController.js";
 
 const router = express.Router();
 
@@ -50,5 +51,11 @@ router.get("/address", protectUser, getUserAddress);
 
 // 🔐 SAVE ADDRESS
 router.post("/address", protectUser, saveAddress);
+
+// 🔐 CREATE REVIEW
+router.post("/reviews", protectUser, createReview);
+
+// 
+router.get("/reviews", protectUser, getMyReviews);
 
 export default router;

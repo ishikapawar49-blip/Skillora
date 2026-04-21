@@ -10,11 +10,16 @@ import {
   updateBookingStatus,
   getServiceBySlug,
   getVendorEarnings,
+  createWithdrawRequest,
+  getVendorProfile,
 } from "../../controllers/Vendor/vendorController.js";
 import Vendor from "../../models/Vendor/Vendor.js";
 import { protectVendor } from "../../middleware/authMiddleware.js";
 import upload from "../../middleware/uploadMiddleware.js";
 import Service from "../../models/Service/Service.js";
+import { getVendorReviews } from "../../controllers/User/reviewController.js";
+import { getVendorNotifications, markAllRead } from "../../controllers/Vendor/notificationController.js";
+
 
 const router = express.Router();
 
@@ -98,7 +103,7 @@ router.get("/profile", protectVendor, async (req, res) => {
 router.put("/profile", protectVendor, async (req, res) => {
   try {
     const vendor = await Vendor.findById(req.vendor._id);
-
+    
     vendor.businessName = req.body.businessName;
     vendor.bio = req.body.bio;
     vendor.address = req.body.address;
@@ -107,15 +112,11 @@ router.put("/profile", protectVendor, async (req, res) => {
     // ❌ NOT editable
     // vendor.ownerName ❌
     // vendor.email ❌
-
     if (req.body.profileImage) {
       vendor.profileImage = req.body.profileImage;
     }
-
     await vendor.save();
-
     res.json(vendor);
-
   } catch (err) {
     res.status(500).json({ message: "Update failed" });
   }
@@ -130,13 +131,9 @@ router.post(
   async (req, res) => {
     try {
       const vendor = await Vendor.findById(req.vendor._id);
-
       vendor.profileImage = req.file.path;
-
       await vendor.save();
-
       res.json({ url: req.file.path });
-
     } catch (err) {
       res.status(500).json({ message: "Image upload failed" });
     }
@@ -152,18 +149,13 @@ router.post(
   async (req, res) => {
     try {
       const vendor = await Vendor.findById(req.vendor._id);
-
       const docs = req.files.map((file) => ({
         name: file.originalname,
         url: file.path,
       }));
-
       vendor.documents = [...vendor.documents, ...docs];
-
       await vendor.save();
-
       res.json({ documents: vendor.documents });
-
     } catch (err) {
       res.status(500).json({ message: "Upload failed" });
     }
@@ -174,27 +166,21 @@ router.post(
 router.delete("/document/:docId", protectVendor, async (req, res) => {
   try {
     const vendor = await Vendor.findById(req.vendor._id);
-
     if (!vendor) {
       return res.status(404).json({ message: "Vendor not found" });
     }
-
     console.log("Before:", vendor.documents);
 
     // 🔥 IMPORTANT FIX (string compare)
     vendor.documents = vendor.documents.filter(
       (doc) => doc._id.toString() !== req.params.docId
     );
-
     await vendor.save();
-
     console.log("After:", vendor.documents);
-
     res.json({
       success: true,
       documents: vendor.documents
     });
-
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Delete failed" });
@@ -212,7 +198,21 @@ router.get("/all", async (req, res) => {
 });
 
 
-
 // ✅ GET EARNINGS & STATS
 router.get("/earnings", protectVendor, getVendorEarnings);
+
+// ✅ WITHDRAW REQUEST
+router.post("/withdraw", protectVendor, createWithdrawRequest);
+
+// ✅ GET VENDOR REVIEWS
+router.get("/reviews", protectVendor, getVendorReviews);
+
+// ✅ GET NOTIFICATIONS
+router.get("/notifications", protectVendor, getVendorNotifications);
+router.put("/notifications/read", protectVendor, markAllRead);
+
+//
+// router.get("/profile", protectVendor, getVendorProfile);
+// router.get("/notifications/unread-count", protectVendor, getUnreadCount);
+
 export default router;

@@ -5,7 +5,10 @@ const payoutSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  payoutId: String,
+  payoutId: {
+  type: String,
+  unique: true,
+},
   amount: Number,
   method: String,
   status: {

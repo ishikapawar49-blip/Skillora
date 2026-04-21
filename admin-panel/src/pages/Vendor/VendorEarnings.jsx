@@ -23,7 +23,7 @@ export default function VendorEarnings() {
 const [stats, setStats] = useState({});
 const [earningsData, setEarningsData] = useState([]);
 const [payouts, setPayouts] = useState([]);
-
+const [withdrawing, setWithdrawing] = useState(false);
 
 useEffect(() => {
   const fetchEarnings = async () => {
@@ -50,6 +50,55 @@ useEffect(() => {
   fetchEarnings();
 }, []);
 
+const handleWithdraw = async () => {
+  const amount = prompt("Enter amount to withdraw");
+
+  if (!amount) return;
+
+  try {
+    setWithdrawing(true);
+
+    const token = localStorage.getItem("vendorToken");
+
+    const res = await fetch("http://localhost:5000/api/vendor/withdraw", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount: Number(amount) }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Withdraw request sent ✅");
+
+      // 🔥 IMPORTANT: refresh data
+      const refresh = await fetch("http://localhost:5000/api/vendor/earnings", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const newData = await refresh.json();
+
+      setStats(newData.stats);
+      setEarningsData(newData.chart);
+      setPayouts(newData.payouts);
+
+    } else {
+      alert(data.message);
+    }
+
+  } catch (err) {
+    alert("Something went wrong");
+  } finally {
+    setWithdrawing(false);
+  }
+};
+
+
   return (
     <div className="ven-earn-container">
 
@@ -60,10 +109,18 @@ useEffect(() => {
           <p>Track your earnings and manage withdrawals</p>
         </div>
 
-        <button className="ven-earn-btn">
-          <ArrowDownToLine size={16} />
-          Withdraw
-        </button>
+        <button 
+  className="ven-earn-btn"
+  onClick={handleWithdraw}
+  disabled={withdrawing}
+  style={{
+    opacity: withdrawing ? 0.6 : 1,
+    cursor: withdrawing ? "not-allowed" : "pointer"
+  }}
+>
+  <ArrowDownToLine size={16} />
+  {withdrawing ? "Processing..." : "Withdraw"}
+</button>
       </div>
 
       {/* STATS */}

@@ -1,5 +1,9 @@
 import Booking from "../../models/Booking/Booking.js";
 import Service from "../../models/Service/Service.js";
+import Notification from "../../models/Vendor/Notification.js";
+import { sendEmail } from "../../utils/sendEmail.js";
+import { skilloraTemplate } from "../../utils/emailTemplate.js";
+import Vendor from "../../models/Vendor/Vendor.js";
 
 // ✅ CREATE BOOKING (UPDATED)
 export const createBooking = async (req, res) => {
@@ -41,6 +45,26 @@ const booking = await Booking.create({
   status: "pending", // 🔥 FIX STATUS (always start from pending)
 });
 
+// 🔥 CREATE NOTIFICATION FOR VENDOR
+await Notification.create({
+  vendor: service.vendor,
+  type: "booking",
+  title: "New Booking Request",
+  message: `${req.user.name} booked ${service.title}`,
+});
+
+const vendor = await Vendor.findById(service.vendor);
+
+if (vendor) {
+  await sendEmail(
+    vendor.email,
+    "New Booking Received",
+    skilloraTemplate(
+      "New Booking",
+      `${req.user.name} booked ${service.title}`
+    )
+  );
+}
 
     // 🔥 populate service data
     const fullBooking = await Booking.findById(booking._id)

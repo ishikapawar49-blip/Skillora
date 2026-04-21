@@ -1,0 +1,96 @@
+.review-wrapper {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f8fafc;
+  padding: 40px;
+}
+
+.review-box {
+  width: 100%;
+  max-width: 520px;
+  padding: 40px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  text-align: center;
+  align-items: center;
+}
+
+.review-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.review-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+.review-stars-ui {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.review-star-icon {
+  font-size: 32px;
+  cursor: pointer;
+  color: #d1d5db;
+  transition: all 0.3s ease;
+}
+
+/* ⭐ ACTIVE (gradient stars) */
+.review-star-icon {
+  font-size: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 hover effect */
+.review-star-icon:hover {
+  transform: scale(1.25);
+}
+
+
+.review-input {
+  width: 100%;
+  max-width: 460px; /* 🔥 control width */
+  height: 130px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  font-size: 14px;
+  outline: none;
+  margin: 0 auto 25px auto; /* 🔥 PERFECT CENTER */
+  display: block; /* 🔥 IMPORTANT */
+  transition: 0.3s;
+  resize: vertical;
+}
+
+.review-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124,58,237,0.1);
+}
+
+.review-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg,#7C6BFF,#FF6A6A);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.review-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(124,58,237,0.2);
+}
