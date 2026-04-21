@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./VendorDashboard.css";
 import {
   DollarSign,
@@ -14,30 +15,40 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const earningsData = [
-  { month: "Jul", earnings: 1200 },
-  { month: "Aug", earnings: 1800 },
-  { month: "Sep", earnings: 2200 },
-  { month: "Oct", earnings: 1900 },
-  { month: "Nov", earnings: 2800 },
-  { month: "Dec", earnings: 3100 },
-];
-
-const recentBookings = [
-  { customer: "Sarah Johnson", service: "Hair Styling · Dec 15", amount: "$50", status: "completed" },
-  { customer: "Mike Chen", service: "Makeup Session · Dec 16", amount: "$75", status: "pending" },
-  { customer: "Emma Wilson", service: "Hair Coloring · Dec 17", amount: "$120", status: "pending" },
-  { customer: "James Brown", service: "Hair Styling · Dec 18", amount: "$50", status: "completed" },
-];
 
 export default function VendorDashboard() {
+
+const [data, setData] = useState(null);
+
+useEffect(() => {
+  const fetchData = async () => {
+    const token = localStorage.getItem("vendorToken");
+
+    const res = await fetch("http://localhost:5000/api/vendor/dashboard", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const d = await res.json();
+    console.log("API DATA 👉", d); 
+    setData(d);
+  };
+  
+  fetchData();
+}, []);
+
+if (!data) return <p>Loading...</p>;
+
   return (
     <div className="vdash-container">
 
       {/* HEADER */}
       <div className="vdash-header">
         <h1>Dashboard</h1>
-        <p>Welcome back, Maria! Here's your overview.</p>
+      <p>
+        Welcome back, {data.ownerName || "Vendor"}! Here's your overview.
+      </p>
       </div>
 
       {/* STATS */}
@@ -45,29 +56,35 @@ export default function VendorDashboard() {
         <div className="vdash-card gradient">
           <div className="vdash-icon"><DollarSign size={18} /></div>
           <p>Total Earnings</p>
-          <h2>$12,480</h2>
-          <span>+18% this month</span>
+          <h2>₹{data.totalEarnings}</h2>
+          <span className={data.growth >= 0 ? "vdash-green" : "vdash-red"}>
+            {data.growth >= 0 ? "+" : ""}
+            {data.growth}% this month
+          </span>
         </div>
 
         <div className="vdash-card">
           <div className="vdash-icon light"><CalendarCheck size={18} /></div>
           <p>Active Bookings</p>
-          <h2>24</h2>
-          <span className="vdash-green">+5 new today</span>
+          <h2>{data.activeBookings}</h2>
+          <span className="vdash-green">+{data.todayBookings} new today</span>
         </div>
 
         <div className="vdash-card">
           <div className="vdash-icon light"><Star size={18} /></div>
           <p>Average Rating</p>
-          <h2>4.8</h2>
-          <span>Based on 156 reviews</span>
+          <h2>{data.avgRating}</h2>
+          <span>Based on {data.totalReviews} reviews</span>
         </div>
 
         <div className="vdash-card">
           <div className="vdash-icon light"><TrendingUp size={18} /></div>
           <p>This Month</p>
-          <h2>$3,100</h2>
-          <span className="green">+12% vs last month</span>
+          <h2>₹{data.thisMonth}</h2>
+<span className={data.growth >= 0 ? "vdash-green" : "vdash-red"}>
+  {data.growth >= 0 ? "+" : ""}
+  {data.growth}% vs last month
+</span>
         </div>
       </div>
 
@@ -79,7 +96,7 @@ export default function VendorDashboard() {
           <h3>Earnings Overview</h3>
 
           <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={earningsData} barCategoryGap="25%">
+            <BarChart data={data.monthlyData} barCategoryGap="25%">
 
               <XAxis
                 dataKey="month"
@@ -115,7 +132,7 @@ export default function VendorDashboard() {
         <div className="vdash-box">
           <h3>Recent Bookings</h3>
 
-          {recentBookings.map((b, i) => (
+          {data?.recentBookings?.map((b, i) => (
             <div key={i} className="vdash-booking">
               <div>
                 <p className="vdash-name">{b.customer}</p>

@@ -431,4 +431,11 @@ export const getVendorProfile = async (req, res) => {
   }
 };
 
+export const getVendorNotifications = async (req, res) => {
+  const vendorId = req.vendor._id;
 
+  const notifications = await Notification.find({ vendor: vendorId })
+    .sort({ createdAt: -1 });
+
+  res.json(notifications);
+};

@@ -8,7 +8,6 @@ import {
   Info,
 } from "lucide-react";
 
-
 export default function VendorNotifications() {
 
 const [notifications, setNotifications] = useState([]);
@@ -26,6 +25,8 @@ const [notifications, setNotifications] = useState([]);
         return CreditCard;
       case "service":
         return Bell;
+      case "reminder": 
+      return Bell;
       default:
         return Info;
     }
@@ -99,11 +100,11 @@ const [notifications, setNotifications] = useState([]);
           return (
             <div
               key={n._id}
-              className={`ven-noti-card ${!n.read ? "unread" : ""}`}
+              className={`ven-noti-card ${!n.isRead ? "unread" : ""}`}
             >
 
               {/* ICON */}
-              <div className={`ven-noti-icon ${!n.read ? "active" : ""}`}>
+              <div className={`ven-noti-icon ${!n.isRead ? "active" : ""}`}>
                 <Icon size={16} />
               </div>
 
@@ -111,8 +112,8 @@ const [notifications, setNotifications] = useState([]);
               <div className="ven-noti-content">
 
                 <div className="ven-noti-top">
-                  <p className={`title ${!n.read ? "bold" : ""}`}>
-                    {n.title}
+                  <p className={`title ${!n.isRead ? "bold" : ""}`}>
+                    {n.title || "Notification"}
                   </p>
                   <span>{new Date(n.createdAt).toLocaleString()}</span>
                 </div>

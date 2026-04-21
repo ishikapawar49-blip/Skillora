@@ -17,7 +17,7 @@ const items = [
 
 export default function VendorSidebar() {
   return (
-    <div className="vendor-sidebar">
+    <div className="sidebar">
       
       {/* Header */}
       <div className="sidebar-header">
@@ -29,29 +29,29 @@ export default function VendorSidebar() {
       </div>
 
       {/* Menu */}
-      <div className="menu-section">
+      <div className="sidebar-menu">
         <p className="menu-title">Menu</p>
-
+<ul>
         {items.map((item) => {
-          const Icon = item.icon;
+  const Icon = item.icon;
 
-          return (
-            <NavLink
-              to={item.url}
-              key={item.title}
-              end={item.url === "/vendor"}
-              className={({ isActive }) =>
-                isActive
-                  ? "menu-item active"
-                  : "menu-item"
-              }
-            >
-              <Icon className="menu-icon" />
-              <span>{item.title}</span>
-            </NavLink>
-          );
-        })}
-      </div>
+  return (
+    <li key={item.title}>
+      <NavLink
+        to={item.url}
+        end={item.url === "/vendor"}
+        className={({ isActive }) =>
+          isActive ? "menu-link active" : "menu-link"
+        }
+      >
+        <Icon className="icon" />
+        <span>{item.title}</span>
+      </NavLink>
+    </li>
+  );
+})}
+</ul>
+</div>
 
     </div>
   );

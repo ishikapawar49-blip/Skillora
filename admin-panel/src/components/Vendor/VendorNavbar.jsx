@@ -1,59 +1,110 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bell, Search, ChevronDown } from "lucide-react";
 import "./VendorNavbar.css";
+import { useNavigate } from "react-router-dom";
 
-const VendorNavbar = ({ title, userName, userRole }) => {
+const VendorNavbar = ({ title }) => {
   const [open, setOpen] = useState(false);
+  const [vendor, setVendor] = useState(null);
+  const [unread, setUnread] = useState(0);
 
-  const initials = userName
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
+  const navigate = useNavigate();
+
+  // ✅ FETCH PROFILE
+  const fetchProfile = async () => {
+    const token = localStorage.getItem("vendorToken");
+
+    const res = await fetch("http://localhost:5000/api/vendor/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    setVendor(data);
+  };
+
+  // ✅ FETCH UNREAD COUNT
+  const fetchUnread = async () => {
+    const token = localStorage.getItem("vendorToken");
+
+    const res = await fetch(
+      "http://localhost:5000/api/vendor/notifications/unread-count",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+    setUnread(data.count);
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    fetchUnread();
+
+    const interval = setInterval(fetchUnread, 5000); // realtime feel
+    return () => clearInterval(interval);
+  }, []);
+
+  // ✅ LOGOUT
+  const handleLogout = () => {
+    localStorage.removeItem("vendorToken");
+    navigate("/");
+  };
+
+  if (!vendor) return null;
 
   return (
     <header className="ven-nav">
 
       {/* LEFT */}
       <div className="ven-nav-left">
-        <button className="ven-nav-menu"></button>
         <h1>{title}</h1>
       </div>
 
       {/* RIGHT */}
       <div className="ven-nav-right">
 
-        {/* SEARCH */}
-        <div className="ven-nav-search">
-          <Search className="ven-nav-search-icon" />
-          <input type="text" placeholder="Search..." />
-        </div>
-
-        {/* BELL */}
-        <div className="ven-nav-bell">
+        {/* 🔔 NOTIFICATION */}
+        <div
+          className="ven-nav-bell"
+          onClick={() => navigate("/vendor/notifications")}
+        >
           <Bell />
-          <span className="ven-nav-dot"></span>
+          {unread > 0 && (
+  <span className="ven-nav-badge">
+    {unread > 99 ? "99+" : unread}
+  </span>
+)}
         </div>
 
-        {/* PROFILE */}
+        {/* 👤 PROFILE */}
         <div className="ven-nav-profile" onClick={() => setOpen(!open)}>
-          <div className="ven-nav-avatar">{initials}</div>
+
+          {/* ✅ PROFILE IMAGE */}
+          <img
+            src={vendor.profileImage}
+            alt="profile"
+            className="ven-nav-avatar-img"
+          />
 
           <div className="ven-nav-user">
-            <span className="ven-nav-name">{userName}</span>
-            <span className="ven-nav-role">{userRole}</span>
+            <span className="ven-nav-name">{vendor.ownerName}</span>
+            <span className="ven-nav-role">Vendor</span>
           </div>
 
-          <ChevronDown className="ven-nav-chevron" />
+          <ChevronDown />
 
           {open && (
             <div className="ven-nav-dropdown">
-              <p>Profile</p>
-              <p>Settings</p>
-              <p>Logout</p>
+              <p onClick={() => navigate("/vendor/profile")}>Profile</p>
+              <p onClick={handleLogout}>Logout</p>
             </div>
           )}
         </div>
-
       </div>
     </header>
   );
