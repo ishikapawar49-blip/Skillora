@@ -1,0 +1,118 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.ven-earn-container {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+/* HEADER */
+.ven-earn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ven-earn-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.ven-earn-header p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* BUTTON */
+.ven-earn-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* STATS */
+.ven-earn-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.ven-earn-card {
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.ven-earn-card.gradient {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+}
+
+.ven-earn-card h2 {
+  margin: 6px 0;
+}
+
+.green {
+  color: #16a34a;
+}
+
+/* CHART */
+.ven-earn-chart-box {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+/* TABLE */
+.ven-earn-table {
+  margin-top: 20px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.ven-earn-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ven-earn-row.head {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.mono {
+  font-family: monospace;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+/* BADGES */
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.badge.completed {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.badge.pending {
+  background: #fef3c7;
+  color: #d97706;
+}

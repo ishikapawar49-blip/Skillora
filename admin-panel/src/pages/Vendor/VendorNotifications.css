@@ -1,0 +1,107 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.ven-noti-container {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+/* HEADER */
+.ven-noti-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ven-noti-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.ven-noti-header p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* BUTTON */
+.ven-noti-btn {
+  padding: 8px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+/* LIST */
+.ven-noti-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* CARD */
+.ven-noti-card {
+  display: flex;
+  gap: 14px;
+  background: white;
+  padding: 14px;
+  border-radius: 14px;
+  transition: 0.2s;
+}
+
+.ven-noti-card:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+/* UNREAD */
+.ven-noti-card.unread {
+  border-left: 4px solid #7c3aed;
+}
+
+/* ICON */
+.ven-noti-icon {
+  padding: 10px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ven-noti-icon.active {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+}
+
+/* CONTENT */
+.ven-noti-content {
+  flex: 1;
+}
+
+.ven-noti-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 14px;
+}
+
+.title.bold {
+  font-weight: 600;
+}
+
+.ven-noti-top span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* MESSAGE */
+.message {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}

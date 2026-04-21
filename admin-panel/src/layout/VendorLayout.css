@@ -1,0 +1,27 @@
+/* MAIN LAYOUT */
+.ven-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* SIDEBAR FIX */
+.ven-layout > *:first-child {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+/* RIGHT SIDE */
+.ven-layout-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+}
+
+/* CONTENT AREA */
+.ven-layout-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}

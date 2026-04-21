@@ -20,6 +20,9 @@ import AuthPage from "./pages/Auth/AuthPage";
 
 import AccountPage from "./pages/Account/AccountPage";
 import Wishlist from "./pages/Account/Wishlist";
+import PaymentPage from "./pages/ServicePage/PaymentPage";
+import ReviewPage from "./pages/Account/ReviewPage";
+
 
 function Layout() {
 
@@ -37,7 +40,7 @@ function Layout() {
          <Route path="/services/:slug" element={<ServiceDetails />} />
           <Route path="/services/:slug/book" element={<BookService />} />
           <Route path="/services/:slug/book/address" element={<AddressPage />} />
-          <Route path="/services/:slug/book/success" element={<SuccessPage />} />
+          <Route path="/services/:slug/book/success/:id" element={<SuccessPage />} />
 
         <Route path="/professionals" element={<Professionals />} />
         <Route path="/about" element={<About />} />
@@ -45,6 +48,9 @@ function Layout() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/wishlist" element={<Wishlist/>}/>
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/review/:bookingId" element={<ReviewPage />} />
+
       </Routes>
 
       {!hideNavbarFooter && <Footer />}

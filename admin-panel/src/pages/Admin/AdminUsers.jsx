@@ -1,22 +1,9 @@
-import React, { useState } from "react";
-import {
-  MoreHorizontal,
-  Eye,
-  Ban,
-  Trash2,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { MoreHorizontal, Eye, Ban, Trash2 } from "lucide-react";
 import "./AdminUsers.css";
 
-const users = [
-  { id: 1, name: "Sarah Johnson", email: "sarah@email.com", phone: "+1 234 567", status: "active", joined: "Jan 12, 2024", bookings: 8 },
-  { id: 2, name: "Mike Chen", email: "mike@email.com", phone: "+1 345 678", status: "active", joined: "Feb 3, 2024", bookings: 12 },
-  { id: 3, name: "Emma Wilson", email: "emma@email.com", phone: "+1 456 789", status: "inactive", joined: "Mar 15, 2024", bookings: 3 },
-  { id: 4, name: "James Brown", email: "james@email.com", phone: "+1 567 890", status: "active", joined: "Apr 7, 2024", bookings: 5 },
-  { id: 5, name: "Lisa Davis", email: "lisa@email.com", phone: "+1 678 901", status: "pending", joined: "May 20, 2024", bookings: 0 },
-];
-
-const getInitials = (name) =>
-  name.split(" ").map(n => n[0]).join("");
+const getInitials = (name = "") =>
+  name.split(" ").map((n) => n[0]).join("");
 
 const getStatusClass = (status) => {
   if (status === "active") return "badge active";
@@ -25,16 +12,81 @@ const getStatusClass = (status) => {
 };
 
 const AdminUsers = () => {
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [openIndex, setOpenIndex] = useState(null);
 
-  const filteredUsers = users.filter((u) =>
-    u.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // 🔥 FETCH USERS
+  const fetchUsers = async () => {
+    try {
+      const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+
+      const res = await fetch("http://localhost:5000/api/admin/users", {
+        headers: {
+          Authorization: `Bearer ${adminInfo?.token}`,
+        },
+      });
+
+      const data = await res.json();
+      console.log("API RESPONSE:", data);
+
+      // ✅ FIX: always ensure array
+      setUsers(Array.isArray(data) ? data : data.users || []);
+    } catch (error) {
+      console.log(error);
+      setUsers([]); // fallback
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // ❌ DELETE USER
+  const handleDelete = async (id) => {
+    try {
+      const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+
+      await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${adminInfo?.token}`,
+        },
+      });
+
+      fetchUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 🚫 BLOCK USER
+  const handleBlock = async (id) => {
+    try {
+      const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+
+      await fetch(`http://localhost:5000/api/admin/users/${id}/block`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${adminInfo?.token}`,
+        },
+      });
+
+      fetchUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 🔍 SAFE FILTER
+  const filteredUsers = Array.isArray(users)
+    ? users.filter((u) =>
+        u.name?.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="users-page">
-
       {/* Header */}
       <div className="users-header">
         <div>
@@ -65,52 +117,83 @@ const AdminUsers = () => {
           </thead>
 
           <tbody>
-            {filteredUsers.map((u, i) => (
-              <tr key={u.id}>
-                
-                {/* User */}
-                <td>
-                  <div className="user-cell">
-                    <div className="avatar">{getInitials(u.name)}</div>
-                    <div>
-                      <p className="name">{u.name}</p>
-                      <p className="email">{u.email}</p>
-                    </div>
-                  </div>
+            {filteredUsers.length === 0 ? (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center" }}>
+                  No users found
                 </td>
-
-                <td>{u.phone}</td>
-                <td>{u.joined}</td>
-                <td>{u.bookings}</td>
-
-                {/* Status */}
-                <td>
-                  <span className={getStatusClass(u.status)}>
-                    {u.status}
-                  </span>
-                </td>
-
-                {/* Actions */}
-                <td className="actions">
-                  <button onClick={() => setOpenIndex(openIndex === i ? null : i)}>
-                    <MoreHorizontal size={18} />
-                  </button>
-
-                  {openIndex === i && (
-                    <div className="dropdown">
-                      <p><Eye size={14} /> View</p>
-                      <p><Ban size={14} /> Block</p>
-                      <p className="danger"><Trash2 size={14} /> Delete</p>
-                    </div>
-                  )}
-                </td>
-
               </tr>
-            ))}
+            ) : (
+              filteredUsers.map((u, i) => (
+                <tr key={u._id}>
+                  
+                  {/* User */}
+                  <td>
+                    <div className="user-cell">
+                      <div className="avatar">
+                        {getInitials(u.name)}
+                      </div>
+                      <div>
+                        <p className="name">{u.name}</p>
+                        <p className="email">{u.email}</p>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>{u.phone || "-"}</td>
+
+                  {/* Date */}
+                  <td>
+                    {u.createdAt
+                      ? new Date(u.createdAt).toLocaleDateString()
+                      : "-"}
+                  </td>
+
+                  <td>{u.bookings || 0}</td>
+
+                  {/* Status */}
+                  <td>
+                    <span className={getStatusClass(u.status || "active")}>
+                      {u.status || "active"}
+                    </span>
+                  </td>
+
+                  {/* Actions */}
+                  <td className="actions">
+                    <button
+                      onClick={() =>
+                        setOpenIndex(openIndex === i ? null : i)
+                      }
+                    >
+                      <MoreHorizontal size={18} />
+                    </button>
+
+                    {openIndex === i && (
+                      <div className="dropdown">
+                        <p>
+                          <Eye size={14} /> View
+                        </p>
+
+                        <p onClick={() => handleBlock(u._id)}>
+                          <Ban size={14} /> Block
+                        </p>
+
+                        <p
+                          className="danger"
+                          onClick={() => handleDelete(u._id)}
+                        >
+                          <Trash2 size={14} /> Delete
+                        </p>
+                      </div>
+                    )}
+                  </td>
+
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };

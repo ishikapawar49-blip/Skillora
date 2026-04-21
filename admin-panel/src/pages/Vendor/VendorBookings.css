@@ -1,0 +1,137 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.ven-book-container {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+/* HEADER */
+.ven-book-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.ven-book-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* TABLE */
+.ven-book-table {
+  margin-top: 20px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+/* ROW */
+.ven-book-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr 1fr 1fr 1fr;
+  padding: 14px 16px;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+}
+
+.ven-book-head {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* TEXT */
+.ven-book-id {
+  font-family: monospace;
+}
+
+.ven-book-time {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.ven-book-amount {
+  font-weight: 600;
+}
+
+/* BADGES */
+.ven-book-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.ven-book-badge.completed {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.ven-book-badge.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.ven-book-badge.cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ACTIONS */
+.ven-book-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.ven-book-actions button {
+  border: none;
+  background: transparent;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ven-book-actions .accept {
+  color: #16a34a;
+}
+
+.ven-book-actions .accept:hover {
+  background: #dcfce7;
+}
+
+.ven-book-actions .reject {
+  color: #dc2626;
+}
+
+.ven-book-actions .reject:hover {
+  background: #fee2e2;
+}
+
+.ven-book-badge.paid {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.ven-book-badge.unpaid {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ven-book-badge.pending {
+  background: #fff4e5;
+  color: #ff9800;
+}
+
+.ven-book-badge.completed {
+  background: #e6f7ee;
+  color: #2e7d32;
+}
+
+.ven-book-badge.cancelled {
+  background: #fdecea;
+  color: #d32f2f;
+}

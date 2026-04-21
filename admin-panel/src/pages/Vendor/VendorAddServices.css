@@ -1,0 +1,109 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.ven-add-container {
+  padding: 24px;
+  background: #f8fafc;
+}
+
+/* HEADER */
+.ven-add-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ven-add-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.ven-add-header p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.ven-add-back {
+  border: none;
+  background: #f1f5f9;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* CARD */
+.ven-add-card {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+/* GRID */
+.ven-add-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ven-add-full {
+  margin-top: 16px;
+}
+
+/* INPUTS */
+label {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* UPLOAD */
+.ven-add-upload {
+  border: 2px dashed #e2e8f0;
+  padding: 30px;
+  text-align: center;
+  border-radius: 12px;
+  color: #64748b;
+}
+
+/* ACTIONS */
+.ven-add-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ven-add-cancel {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+}
+
+.ven-add-submit {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}

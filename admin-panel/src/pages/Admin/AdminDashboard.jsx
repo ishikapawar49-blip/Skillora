@@ -1,16 +1,6 @@
-import React from "react";
-import {
-  Users,
-  Store,
-  CalendarCheck,
-  DollarSign,
-  TrendingUp,
-  ArrowUpRight,
-} from "lucide-react";
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie, Cell
-} from "recharts";
+import React, { useState, useEffect } from "react";
+import { Users, Store, CalendarCheck, DollarSign, TrendingUp, ArrowUpRight,} from "lucide-react";
+import {BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,LineChart, Line, PieChart, Pie, Cell} from "recharts";
 import "./AdminDashboard.css";
 
 const barData = [
@@ -39,9 +29,39 @@ const pieData = [
   { name: "Other", value: 20 },
 ];
 
+
 const COLORS = ["#8b5cf6", "#ec4899", "#3b82f6", "#22c55e"];
 
 const AdminDashboard = () => {
+
+  const [stats, setStats] = useState({
+  totalUsers: 0,
+  totalVendors: 0,
+  totalBookings: 0,
+  revenue: 0,
+});
+
+  useEffect(() => {
+  const fetchStats = async () => {
+    try {
+      const token = localStorage.getItem("adminToken");
+
+      const res = await fetch("http://localhost:5000/api/admin/stats", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      setStats(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchStats();
+}, []);
+
   return (
     <div className="dashboard">
 
@@ -55,25 +75,25 @@ const AdminDashboard = () => {
       <div className="stats-grid">
         <div className="card gradient">
           <Users />
-          <h3>12,486</h3>
+          <h3>{stats.totalUsers}</h3>
           <p>Total Users</p>
         </div>
 
         <div className="card">
           <Store />
-          <h3>842</h3>
+          <h3>{stats.totalVendors}</h3>
           <p>Total Vendors</p>
         </div>
 
         <div className="card">
           <CalendarCheck />
-          <h3>3,247</h3>
+          <h3>{stats.totalBookings}</h3>
           <p>Total Bookings</p>
         </div>
 
         <div className="card">
           <DollarSign />
-          <h3>$48,290</h3>
+          <h3>{stats.revenue}</h3>
           <p>Revenue</p>
         </div>
       </div>

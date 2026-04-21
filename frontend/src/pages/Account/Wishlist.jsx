@@ -1,72 +1,107 @@
-import React,{useContext} from "react";
+import React, { useEffect, useState } from "react";
+import { FaHeart } from "react-icons/fa";
 import "./Wishlist.css";
-import {WishlistContext} from "../../context/WishlistContext";
-import {FiHeart} from "react-icons/fi";
 
 const Wishlist = () => {
 
-const {wishlist,toggleWishlist} = useContext(WishlistContext);
+const [wishlist, setWishlist] = useState([]);
+
+useEffect(() => {
+  const fetchWishlist = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/wishlist", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      });
+
+      const data = await res.json();
+      setWishlist(data);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchWishlist();
+}, []);
+
+const removeFromWishlist = async (serviceId) => {
+  await fetch("http://localhost:5000/api/wishlist", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+    body: JSON.stringify({ serviceId }),
+  });
+
+  setWishlist((prev) =>
+    prev.filter((item) => item.service._id !== serviceId)
+  );
+};
 
 return (
 
 <div className="wishlist-page">
 
 <h1 className="wishlist-title">
-<FiHeart/> Your Wishlist
+ Your Wishlist
 </h1>
 
 <div className="wishlist-grid">
 
-{wishlist.map(service => (
+{wishlist.map((item) => {
+  const service = item.service;
 
-<div className="wishlist-card" key={service.id}>
+  return (
+    <div className="service-card">
 
-<div className="wishlist-img">
+  <div className="service-image">
 
-<img src={service.image}/>
+    <img src={service.image} alt={service.title} />
 
-<div
-className="wishlist-heart"
-onClick={()=>toggleWishlist(service)}
->
-<FaHeart/>
+    <span className="service-category">
+      {service.category}
+    </span>
+
+    <div
+      className="fav"
+      onClick={() => removeFromWishlist(service._id)}
+    >
+      <FaHeart className="heart-filled"/>
+    </div>
+
+  </div>
+
+  <div className="service-body">
+
+    <div className="service-rating">
+      ⭐ {service.rating || 4.5}
+    </div>
+
+    <h3>{service.title}</h3>
+
+    <p>{service.description}</p>
+
+    <div className="service-bottom">
+
+      <div className="duration">
+        ⏱ {service.duration} min
+      </div>
+
+      <div className="price">
+        ₹{service.price}
+        <span>/service</span>
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
-
-<span className="wishlist-category">
-{service.category}
-</span>
-
-</div>
-
-<div className="wishlist-info">
-
-<p className="rating">
-⭐ {service.rating} ({service.reviews})
-</p>
-
-<h3>{service.title}</h3>
-
-<p className="desc">
-{service.description}
-</p>
-
-<div className="bottom">
-
-<span className="time">
-⏱ {service.time}
-</span>
-
-<span className="price">
-${service.price}/service
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-))}
+  );
+})}
 
 </div>
 

@@ -1,4 +1,11 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+//Auth
+import Login from "./pages/Auth/Login";
+import Signup from "./pages/Auth/Signup";
+
+
+// Admin
 import AdminLayout from "./layout/AdminLayout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminUsers from "./pages/Admin/AdminUsers";
@@ -10,11 +17,29 @@ import AdminReviews from "./pages/Admin/AdminReviews";
 import AdminNotifications from "./pages/Admin/AdminNotifications";
 import AdminSettings from "./pages/Admin/AdminSettings";
 
+// Vendor
+import VendorLayout from "./layout/VendorLayout";
+import VendorDashboard from "./pages/Vendor/VendorDashboard";
+import VendorProfile from "./pages/Vendor/VendorProfile";
+import VendorServices from "./pages/Vendor/VendorServices";
+import AddService from "./pages/Vendor/VendorAddServices";
+import VendorBookings from "./pages/Vendor/VendorBookings";
+import VendorSchedule from "./pages/Vendor/VendorSchedule";
+import VendorEarnings from "./pages/Vendor/VendorEarnings";
+import VendorReviews from "./pages/Vendor/VendorReviews";
+import VendorNotifications from "./pages/Vendor/VendorNotifications";
+
 function App() {
   return (
+    
     <Routes>
-      <Route path="/" element={<Navigate to="/admin" />} />
+        
+      {/* AUTH */}
+      {/* Login Page */}
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
+      {/* ADMIN ROUTES */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
         <Route path="users" element={<AdminUsers />} />
@@ -26,6 +51,20 @@ function App() {
         <Route path="notifications" element={<AdminNotifications />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
+
+      {/* VENDOR ROUTES 🔥 */}
+      <Route path="/vendor" element={<VendorLayout />}>
+        <Route index element={<VendorDashboard />} />
+        <Route path="profile" element={<VendorProfile />} />
+        <Route path="services" element={<VendorServices />} />
+        <Route path="/vendor/services/add" element={<AddService />} />
+        <Route path="bookings" element={<VendorBookings />} />
+        <Route path="schedule" element={<VendorSchedule />} />
+        <Route path="earnings" element={<VendorEarnings />} />
+        <Route path="reviews" element={<VendorReviews />} />
+        <Route path="notifications" element={<VendorNotifications />} /> 
+      </Route>
+
     </Routes>
   );
 }
