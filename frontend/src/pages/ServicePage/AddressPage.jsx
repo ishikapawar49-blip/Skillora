@@ -10,8 +10,9 @@ const AddressPage = () => {
   const { slug } = useParams();
   const [service, setService] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
   const { selectedDate, selectedTime } = location.state || {};
+
+const total = Number(service?.price || 0) + 19;
 
   // Local state for address input
   const [form, setForm] = useState({
@@ -316,10 +317,20 @@ if (!service) return <h2>Loading...</h2>;
             <span>{selectedTime || "-"}</span>
           </div>
 
-          <div className="book-service-total">
-            <span>Total</span>
-            <span>₹{service.price}</span>
-          </div>
+          <div className="book-service-row">
+  <span>Service</span>
+  <span>₹{service?.price || 0}</span>
+</div>
+
+<div className="book-service-row">
+  <span>Platform Fee</span>
+  <span>₹19</span>
+</div>
+
+<div className="book-service-total">
+  <span>Total</span>
+  <span>₹{total}</span>
+</div>
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ const items = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard, exact: true },
   { title: "Users", url: "/admin/users", icon: Users },
   { title: "Vendors", url: "/admin/vendors", icon: Store },
-  { title: "Services", url: "/admin/services", icon: Briefcase },
+  // { title: "Services", url: "/admin/services", icon: Briefcase },
   { title: "Bookings", url: "/admin/bookings", icon: CalendarCheck },
   { title: "Payments", url: "/admin/payments", icon: CreditCard },
   { title: "Reviews", url: "/admin/reviews", icon: Star },

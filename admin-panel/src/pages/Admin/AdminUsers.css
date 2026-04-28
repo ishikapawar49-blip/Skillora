@@ -29,7 +29,8 @@
 .table-container {
   background: white;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
 }
 
 table {
@@ -104,37 +105,92 @@ tr {
 /* Actions */
 .actions {
   position: relative;
+  overflow: visible;
 }
 
 .actions button {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 5px;
 }
 
 .dropdown {
   position: absolute;
-  right: 0;
-  top: 30px;
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  width: 120px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  right: 10px;
+  top: 38px;
+  background: #fff;
+  border-radius: 12px;
+  min-width: 150px;
+  padding: 8px 0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  border: 1px solid #f1f1f1;
+  z-index: 9999;
 }
 
 .dropdown p {
-  padding: 10px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   cursor: pointer;
+  font-size: 14px;
+  margin: 0;
+  transition: 0.2s;
 }
 
 .dropdown p:hover {
-  background: #f1f5f9;
+  background: #f8fafc;
 }
 
 .dropdown .danger {
   color: red;
+}
+
+.popup-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.popup-card{
+  background:#fff;
+  width:350px;
+  border-radius:14px;
+  padding:25px;
+  position:relative;
+}
+
+.close-btn{
+  position:absolute;
+  top:12px;
+  right:12px;
+  border:none;
+  background:none;
+  cursor:pointer;
+}
+
+.popup-avatar{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  font-size:20px;
+}
+
+.popup-card h3{
+  text-align:center;
+  margin:15px 0;
+}
+
+.popup-card p{
+  margin:8px 0;
 }

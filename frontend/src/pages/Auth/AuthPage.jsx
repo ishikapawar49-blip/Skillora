@@ -152,11 +152,11 @@ useEffect(() => {
             </div>
 
             <div className="input-group">
-              <input type="email" placeholder="Email address" onChange={handleChange} />
+              <input type="email" name="email" placeholder="Email address" onChange={handleChange} />
             </div>
 
             <div className="input-group">
-              <input type="password" placeholder="Password" onChange={handleChange} />
+              <input type="password" name="password" placeholder="Password" onChange={handleChange} />
             </div>
 
             <button className="main-btn"onClick={handleSignup}>

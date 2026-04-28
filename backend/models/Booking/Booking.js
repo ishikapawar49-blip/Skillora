@@ -34,9 +34,34 @@ const bookingSchema = new mongoose.Schema(
       pincode: String,
     },
 
-    paymentId: String,
+   paymentId: String,
 
-    amount: Number,
+amount: Number, // old support
+
+serviceAmount: {
+  type: Number,
+  default: 0,
+},
+
+platformFee: {
+  type: Number,
+  default: 19,
+},
+
+totalAmount: {
+  type: Number,
+  default: 0,
+},
+
+vendorEarning: {
+  type: Number,
+  default: 0,
+},
+
+adminEarning: {
+  type: Number,
+  default: 0,
+},
 
     status: {
       type: String,

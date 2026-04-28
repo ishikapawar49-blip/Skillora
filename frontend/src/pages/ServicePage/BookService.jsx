@@ -39,6 +39,10 @@ const BookService = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
 
+  const platformFee = 19;
+const serviceAmount = Number(service?.price || 0);
+const total = serviceAmount + platformFee;
+
 // Generate next 30 days for booking
 const generateDates = () => {
   const today = new Date();
@@ -321,11 +325,21 @@ if (!service) return <h2>Loading...</h2>;
     <span>{selectedTime}</span>
   </div>
 )}
-         <div className="book-service-total">
-  <span>Total</span>
-  <span>₹{service.price}</span>
+<div className="book-service-row">
+  <span>Service</span>
+  <span>₹{serviceAmount}</span>
+</div>
 
-          </div>
+<div className="book-service-row">
+  <span>Platform Fee</span>
+  <span>₹{platformFee}</span>
+</div>
+
+<div className="book-service-total">
+  <span>Total</span>
+  <span>₹{total}</span>
+</div>
+
         </div>
       </div>
     </div>

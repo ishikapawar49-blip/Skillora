@@ -109,3 +109,58 @@ tr:hover {
 .actions svg:hover {
   color: black;
 }
+
+
+.vendor-img{
+width:38px;
+height:38px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.modal-box{
+width:600px;
+max-height:90vh;
+overflow:auto;
+background:white;
+padding:30px;
+border-radius:14px;
+}
+
+.big-img{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+margin:15px 0;
+}
+
+.docs a{
+display:block;
+margin:8px 0;
+color:#2563eb;
+text-decoration:none;
+}
+
+.modal button{
+margin-top:20px;
+padding:10px 20px;
+border:none;
+background:#111827;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
