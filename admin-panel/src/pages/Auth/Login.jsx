@@ -35,14 +35,16 @@ const res = await fetch(url, {
 if (res.ok) {
   alert("Login Successful 🔥");
 
-  if (role === "admin") {
-    localStorage.setItem("adminToken", data.token);
-    navigate("/admin");
-  } else {
-    localStorage.setItem("vendorToken", data.token);
-    navigate("/vendor");
-  }
+if (role === "admin") {
+  localStorage.setItem("adminToken", data.token);
+  localStorage.setItem("adminInfo", JSON.stringify(data));
+  navigate("/admin/users");
 
+} else {
+  localStorage.setItem("vendorToken", data.token);
+  localStorage.setItem("vendorInfo", JSON.stringify(data));
+  navigate("/vendor");
+}
 } else {
   alert(data.message);
 }

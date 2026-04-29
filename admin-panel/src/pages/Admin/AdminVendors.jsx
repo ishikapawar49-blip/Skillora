@@ -4,11 +4,13 @@ import "./AdminVendors.css";
 
 const AdminVendors = () => {
   const [vendors, setVendors] = useState([]);
+  const [selectedVendor, setSelectedVendor] = useState(null);
 
   // 🔥 FETCH VENDORS
   const fetchVendors = async () => {
     try {
-      const token = localStorage.getItem("adminToken");
+const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+const token = adminInfo?.token;
 
       const res = await fetch("http://localhost:5000/api/admin/vendors", {
         headers: {
@@ -34,7 +36,8 @@ const AdminVendors = () => {
   try {
     console.log("APPROVE CLICKED:", id); // 👈 ADD
 
-    const token = localStorage.getItem("adminToken");
+const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+const token = adminInfo?.token;
 
     const res = await fetch(
       `http://localhost:5000/api/admin/vendors/${id}/approve`,
@@ -60,7 +63,8 @@ const handleReject = async (id) => {
   try {
     console.log("REJECT CLICKED:", id); // 👈 ADD
 
-    const token = localStorage.getItem("adminToken");
+const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
+const token = adminInfo?.token;
 
     const res = await fetch(
       `http://localhost:5000/api/admin/vendors/${id}/reject`,
@@ -116,11 +120,25 @@ const handleReject = async (id) => {
                   
                   {/* Vendor */}
                   <td className="vendor-cell">
-                    <div className="avatar">{v.name?.[0]}</div>
-                    <div>
-                      <p className="name">{v.name}</p>
-                    </div>
-                  </td>
+
+  {v.profileImage ? (
+    <img
+      src={v.profileImage}
+      alt=""
+      className="vendor-img"
+    />
+  ) : (
+    <div className="avatar">
+      {v.ownerName?.[0]}
+    </div>
+  )}
+
+  <div>
+    <p className="name">{v.businessName || "No Business"}</p>
+    <p className="owner">{v.ownerName}</p>
+  </div>
+
+</td>
 
                   <td>{v.email}</td>
 
@@ -138,8 +156,10 @@ const handleReject = async (id) => {
                     <div className="actions">
                       
                       {/* 👁 VIEW */}
-                      {/* <Eye style={{ cursor: "pointer" }} /> */}
-
+                     <Eye
+  style={{ cursor: "pointer", color: "#2563eb" }}
+  onClick={() => setSelectedVendor(v)}
+/>
                       {/* ✔ APPROVE */}
                       {v.status !== "approved" && (
                       <CheckCircle
@@ -165,6 +185,51 @@ const handleReject = async (id) => {
           </tbody>
         </table>
       </div>
+        {selectedVendor && (
+  <div className="modal">
+    <div className="modal-box">
+
+      <h2>{selectedVendor.businessName}</h2>
+
+      {selectedVendor.profileImage && (
+        <img
+          src={selectedVendor.profileImage}
+          className="big-img"
+          alt=""
+        />
+      )}
+
+      <p><b>Owner:</b> {selectedVendor.ownerName}</p>
+      <p><b>Email:</b> {selectedVendor.email}</p>
+      <p><b>Phone:</b> {selectedVendor.phone}</p>
+      <p><b>Address:</b> {selectedVendor.address}</p>
+      <p><b>Bio:</b> {selectedVendor.bio}</p>
+      <h3>Documents</h3>
+
+      <div className="docs">
+        {selectedVendor.documents?.length > 0 ? (
+          selectedVendor.documents.map((doc, i) => (
+            <a
+  key={i}
+  href={doc.url}
+  target="_blank"
+  rel="noreferrer"
+>
+  {doc.name}
+</a>
+          ))
+        ) : (
+          <p>No Documents</p>
+        )}
+      </div>
+
+      <button onClick={() => setSelectedVendor(null)}>
+        Close
+      </button>
+
+    </div>
+  </div>
+)}
     </div>
   );
 };

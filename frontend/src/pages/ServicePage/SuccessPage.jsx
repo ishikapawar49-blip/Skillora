@@ -13,15 +13,7 @@ const SuccessPage = () => {
 
   const formatDate = (d) => {
   if (!d) return "";
-
-  const today = new Date();
-  const newDate = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    d.date
-  );
-
-  return newDate.toLocaleDateString("en-GB"); // ✅ DD-MM-YYYY
+  return new Date(d).toLocaleDateString("en-GB");
 };
 
 
@@ -134,11 +126,20 @@ if (!booking) return <h2>Loading booking...</h2>;
             <span>{booking?.selectedTime}</span>
           </div>
 
-          <div className="book-service-total">
-            <span>Total</span>
-            <span>₹{booking?.service?.price}</span>
+          <div className="book-service-row">
+  <span>Service</span>
+  <span>₹{booking?.serviceAmount}</span>
+</div>
 
-          </div>
+<div className="book-service-row">
+  <span>Platform Fee</span>
+  <span>₹{booking?.platformFee}</span>
+</div>
+
+<div className="book-service-total">
+  <span>Total</span>
+  <span>₹{booking?.totalAmount}</span>
+</div>
 
         </div>
 

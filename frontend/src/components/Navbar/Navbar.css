@@ -6,6 +6,7 @@
   background: #E8E2E3;
   display: flex;
   justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .nav-container{
@@ -18,7 +19,6 @@
 }
 
 /* LOGO */
-
 .nav-logo{
   font-family: 'Times New Roman', Times, serif;
   font-size: 34px;
@@ -28,7 +28,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* NAV LINKS */
+/* DESKTOP LINKS */
 .nav-links{
   list-style: none;
   display: flex;
@@ -46,8 +46,7 @@
   color:#6C63FF;
 }
 
-/* RIGHT SIDE */
-
+/* RIGHT */
 .nav-right{
   display:flex;
   align-items:center;
@@ -60,8 +59,6 @@
   cursor:pointer;
 }
 
-/* SIGN IN BUTTON */
-
 .nav-signin-btn{
   padding:12px 26px;
   border:none;
@@ -72,6 +69,107 @@
   font-weight:500;
   cursor:pointer;
 }
-.navbar{
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+/* MOBILE MENU BTN */
+.mobile-menu-btn{
+  display:none;
+  font-size:28px;
+  color:#444;
+  cursor:pointer;
+}
+
+/* MOBILE MENU */
+.mobile-menu{
+  position:absolute;
+  top:80px;
+  left:0;
+  width:100%;
+  background:#E8E2E3;
+  display:flex;
+  flex-direction:column;
+  padding:0;
+  max-height:0;
+  overflow:hidden;
+  transition:0.3s ease;
+}
+
+.mobile-menu a{
+  padding:16px 22px;
+  text-decoration:none;
+  color:#444;
+  border-top:1px solid rgba(0,0,0,0.05);
+  font-size:17px;
+}
+
+.mobile-menu a:hover{
+  background:#f6f3f3;
+}
+
+.mobile-btn{
+  margin:15px 20px 20px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background: linear-gradient(90deg, #7C6BFF, #FF6A6A);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.show-menu{
+  max-height:700px;
+}
+
+/* TABLET */
+@media (max-width: 1024px){
+
+  .nav-links,
+  .nav-right{
+    display:none;
+  }
+
+  .mobile-menu-btn{
+    display:block;
+  }
+
+  .nav-logo{
+    font-size:32px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px){
+
+  .nav-container{
+    height:72px;
+  }
+
+  .nav-logo{
+    font-size:30px;
+  }
+
+  .mobile-menu{
+    top:72px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px){
+
+  .nav-logo{
+    font-size:26px;
+  }
+
+  .mobile-menu-btn{
+    font-size:26px;
+  }
+
+  .mobile-menu a{
+    font-size:16px;
+    padding:14px 18px;
+  }
+
+  .mobile-btn{
+    font-size:15px;
+  }
 }

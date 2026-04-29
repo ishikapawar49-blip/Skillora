@@ -96,3 +96,34 @@
 .abk-actions svg:hover {
   color: #000;
 }
+
+.abk-paid{
+  background:#dcfce7;
+  color:#16a34a;
+}
+
+.abk-unpaid{
+  background:#fee2e2;
+  color:#dc2626;
+}
+
+.abk-amount-cell{
+  min-width: 140px;
+}
+
+.abk-total{
+  font-weight: 700;
+  color: #111827;
+  font-size: 15px;
+}
+
+.abk-split{
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.admin-cut{
+  color: #16a34a;
+  font-weight: 600;
+}

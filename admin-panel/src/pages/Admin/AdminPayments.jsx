@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DollarSign,
   TrendingUp,
   CreditCard,
   ArrowDownToLine,
 } from "lucide-react";
+
 import {
   AreaChart,
   Area,
@@ -13,69 +14,130 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+
 import "./AdminPayments.css";
 
-const revenueData = [
-  { month: "Jan", revenue: 12400 }, { month: "Feb", revenue: 18200 },
-  { month: "Mar", revenue: 22800 }, { month: "Apr", revenue: 19600 },
-  { month: "May", revenue: 28400 }, { month: "Jun", revenue: 32100 },
-  { month: "Jul", revenue: 35800 }, { month: "Aug", revenue: 38200 },
-  { month: "Sep", revenue: 41500 }, { month: "Oct", revenue: 44200 },
-  { month: "Nov", revenue: 46800 }, { month: "Dec", revenue: 48290 },
-];
-
-const transactions = [
-  { id: "TXN-001", user: "Sarah Johnson", type: "Payment", amount: "$50.00", date: "Dec 15, 2024", status: "completed" },
-  { id: "TXN-002", user: "Mike Chen", type: "Refund", amount: "$80.00", date: "Dec 14, 2024", status: "pending" },
-  { id: "TXN-003", user: "Emma Wilson", type: "Payment", amount: "$90.00", date: "Dec 14, 2024", status: "completed" },
-  { id: "TXN-004", user: "James Brown", type: "Payment", amount: "$200.00", date: "Dec 13, 2024", status: "completed" },
-  { id: "TXN-005", user: "Lisa Davis", type: "Refund", amount: "$150.00", date: "Dec 12, 2024", status: "cancelled" },
-  { id: "TXN-006", user: "Tom Anderson", type: "Payment", amount: "$500.00", date: "Dec 11, 2024", status: "completed" },
-];
-
 const AdminPayments = () => {
+
+  const [data, setData] = useState({
+    revenueData: [],
+    transactions: [],
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+
+    const token = localStorage.getItem("adminToken");
+
+    const res = await fetch(
+      "http://localhost:5000/api/admin/payments",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const json = await res.json();
+    setData(json);
+  };
+
+const handleWithdraw = async () => {
+
+  const input = prompt(
+    `Enter withdraw amount (Available ₹${data.availableBalance || 0})`
+  );
+
+  if (!input) return;
+
+  const amount = Number(input);
+
+  if (isNaN(amount) || amount <= 0) {
+    alert("Enter valid amount");
+    return;
+  }
+
+  if (amount > data.availableBalance) {
+    alert("Insufficient balance");
+    return;
+  }
+
+  const token = localStorage.getItem("adminToken");
+
+  const res = await fetch(
+    "http://localhost:5000/api/admin/payments/withdraw",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount }),
+    }
+  );
+
+  const json = await res.json();
+
+  if (json.success) {
+    alert(`₹${amount} Withdraw Successful`);
+    fetchData();
+  } else {
+    alert("Withdraw Failed");
+  }
+};
+
+
   return (
     <div className="apm-wrapper">
 
-      {/* Header */}
       <div className="apm-header">
         <h2>Payments & Transactions</h2>
         <p>Revenue tracking and payment history</p>
       </div>
 
-      {/* Stats */}
+      {/* STATS */}
       <div className="apm-stats">
+
         <div className="apm-card gradient">
           <DollarSign />
-          <h3>$48,290</h3>
-          <p>Total Revenue</p>
+          <h3>₹{data.totalRevenue || 0}</h3>
+          <p>Total Platform Revenue</p>
         </div>
 
         <div className="apm-card">
           <TrendingUp />
-          <h3>$8,420</h3>
+          <h3>₹{data.thisMonthRevenue || 0}</h3>
           <p>This Month</p>
         </div>
 
         <div className="apm-card">
           <CreditCard />
-          <h3>1,247</h3>
+          <h3>{data.totalTransactions || 0}</h3>
           <p>Transactions</p>
         </div>
 
-        <div className="apm-card">
+        <div
+          className="apm-card"
+          onClick={handleWithdraw}
+          style={{ cursor:"pointer" }}
+        >
           <ArrowDownToLine />
-          <h3>$2,180</h3>
-          <p>Pending Payouts</p>
+          <h3>₹{data.availableBalance || 0}</h3>
+          <p>Withdraw</p>
         </div>
+
       </div>
 
-      {/* Chart */}
+
+      {/* CHART */}
       <div className="apm-chart-card">
         <h3>Revenue Trend</h3>
 
         <ResponsiveContainer width="100%" height={280}>
-          <AreaChart data={revenueData}>
+          <AreaChart data={data.revenueData}>
             <defs>
               <linearGradient id="apmGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.3} />
@@ -98,9 +160,11 @@ const AdminPayments = () => {
         </ResponsiveContainer>
       </div>
 
-      {/* Table */}
+
+      {/* TABLE */}
       <div className="apm-table-container">
         <table className="apm-table">
+
           <thead>
             <tr>
               <th>ID</th>
@@ -113,22 +177,43 @@ const AdminPayments = () => {
           </thead>
 
           <tbody>
-            {transactions.map((t) => (
-              <tr key={t.id}>
-                <td className="apm-id">{t.id}</td>
-                <td>{t.user}</td>
-                <td>{t.type}</td>
-                <td className="apm-amount">{t.amount}</td>
-                <td>{t.date}</td>
 
-                <td>
-                  <span className={`apm-status apm-${t.status}`}>
-                    {t.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+{data.transactions?.length === 0 ? (
+<tr>
+<td colSpan="6" style={{textAlign:"center",padding:"30px"}}>
+No Withdraw History
+</td>
+</tr>
+) : (
+
+data.transactions.map((t) => (
+<tr key={t.id}>
+
+<td className="apm-id">{t.id}</td>
+
+<td>{t.user}</td>
+
+<td>{t.type}</td>
+
+<td className="apm-amount">₹{t.amount}</td>
+
+<td>{new Date(t.date).toLocaleDateString()}</td>
+
+<td>
+<span className={`apm-status apm-${t.status}`}>
+{t.status}
+</span>
+</td>
+
+</tr>
+))
+
+)}
+
+</tbody>
+
+
+
         </table>
       </div>
 

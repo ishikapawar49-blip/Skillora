@@ -7,11 +7,9 @@
   height: 60px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 20px;
 }
 
@@ -41,47 +39,39 @@
   gap: 16px;
 }
 
-/* SEARCH */
-.ven-nav-search {
-  display: flex;
-  align-items: center;
-  background: #f1f5f9;
-  padding: 6px 10px;
-  border-radius: 10px;
-}
-
-.ven-nav-search input {
-  border: none;
-  outline: none;
-  background: transparent;
-  margin-left: 6px;
-  font-size: 13px;
-}
-
-.ven-nav-search-icon {
-  width: 16px;
-  color: #64748b;
-}
 
 /* BELL */
+
+
+.ven-nav-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: linear-gradient(90deg, #ff4d4d, #ff6a6a);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
 .ven-nav-bell {
   position: relative;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ven-nav-bell svg {
   width: 20px;
   color: #334155;
-}
-
-.ven-nav-dot {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 8px;
-  height: 8px;
-  background: #7c3aed;
-  border-radius: 50%;
 }
 
 /* PROFILE */
@@ -157,15 +147,4 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-}
-
-.ven-nav-dot {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: red;
-  color: white;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 50%;
 }

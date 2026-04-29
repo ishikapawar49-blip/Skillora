@@ -5,7 +5,6 @@ import {
   getVendorServices,
   deleteService,
   updateService,
-  vendorDashboard,
   getVendorBookings,
   updateBookingStatus,
   getServiceBySlug,
@@ -13,12 +12,13 @@ import {
   createWithdrawRequest,
   getVendorProfile,
 } from "../../controllers/Vendor/vendorController.js";
+import { getVendorDashboard } from "../../controllers/Vendor/vendorDashboardController.js";
 import Vendor from "../../models/Vendor/Vendor.js";
 import { protectVendor } from "../../middleware/authMiddleware.js";
 import upload from "../../middleware/uploadMiddleware.js";
 import Service from "../../models/Service/Service.js";
 import { getVendorReviews } from "../../controllers/User/reviewController.js";
-import { getVendorNotifications, markAllRead } from "../../controllers/Vendor/notificationController.js";
+import { getVendorNotifications, markAllRead, getUnreadCount } from "../../controllers/Vendor/notificationController.js";
 
 
 const router = express.Router();
@@ -82,9 +82,6 @@ router.put(
 router.get("/bookings", protectVendor, getVendorBookings);
 // 🔥 UPDATE BOOKING STATUS
 router.put("/booking/:id/status", protectVendor, updateBookingStatus);
-
-// 🔐 DASHBOARD
-router.get("/dashboard", protectVendor, vendorDashboard);
 
 // 🔓 GET SERVICE BY SLUG (PUBLIC)
 router.get("/services/slug/:slug", getServiceBySlug);
@@ -212,7 +209,10 @@ router.get("/notifications", protectVendor, getVendorNotifications);
 router.put("/notifications/read", protectVendor, markAllRead);
 
 //
-// router.get("/profile", protectVendor, getVendorProfile);
-// router.get("/notifications/unread-count", protectVendor, getUnreadCount);
+router.get("/profile", protectVendor, getVendorProfile);
+router.get("/notifications/unread-count", protectVendor, getUnreadCount);
+
+// dashboard 
+router.get("/dashboard", protectVendor, getVendorDashboard);
 
 export default router;

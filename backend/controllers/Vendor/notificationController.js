@@ -16,7 +16,7 @@ export const markAllRead = async (req, res) => {
   try {
     await Notification.updateMany(
       { vendor: req.vendor._id },
-      { read: true }
+      { isRead: true }
     );
 
     res.json({ message: "All marked as read" });
@@ -26,15 +26,15 @@ export const markAllRead = async (req, res) => {
 };
 
 // ✅ GET UNREAD COUNT in notification bell
-// export const getUnreadCount = async (req, res) => {
-//   try {
-//     const count = await Notification.countDocuments({
-//       vendor: req.vendor._id,
-//       read: false,
-//     });
+export const getUnreadCount = async (req, res) => {
+  try {
+    const count = await Notification.countDocuments({
+      vendor: req.vendor._id,
+      read: false,
+    });
 
-//     res.json({ count });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

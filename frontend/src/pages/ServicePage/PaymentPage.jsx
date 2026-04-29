@@ -6,8 +6,14 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+
   const { service, selectedDate, selectedTime, address } =
     location.state || {};
+
+    const platformFee = 19;
+const serviceAmount = Number(service?.price || 0);
+const totalAmount = serviceAmount + platformFee;
+
 
   // Load Razorpay
   const loadRazorpay = () => {
@@ -39,7 +45,7 @@ const PaymentPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: service.price,
+          amount: totalAmount,
         }),
       }
     );
@@ -84,12 +90,15 @@ const PaymentPage = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
-      body: JSON.stringify({
-      serviceId: service._id,
-      selectedDate: selectedDate.fullDate.toISOString(), // 🔥 FIX HERE
-      selectedTime,
-      address,
-      paymentId: response.razorpay_payment_id,
+  body: JSON.stringify({
+  serviceId: service._id,
+  selectedDate: selectedDate.fullDate.toISOString(),
+  selectedTime,
+  address,
+  paymentId: response.razorpay_payment_id,
+  serviceAmount,
+  platformFee,
+  totalAmount
     }),
     }
   );
@@ -148,10 +157,20 @@ const PaymentPage = () => {
             </span>
           </div>
 
-          <div className="payment-total">
-            <span>Total</span>
-            <span>₹{service?.price}</span>
-          </div>
+          <div className="payment-row">
+  <span>Service Amount</span>
+  <span>₹{serviceAmount}</span>
+</div>
+
+<div className="payment-row">
+  <span>Platform Fee</span>
+  <span>₹19</span>
+</div>
+
+<div className="payment-total">
+  <span>Total</span>
+  <span>₹{totalAmount}</span>
+</div>
         </div>
 
         <button className="pay-btn" onClick={handlePayment}>

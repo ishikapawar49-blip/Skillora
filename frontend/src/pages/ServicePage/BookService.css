@@ -187,7 +187,12 @@
   padding: 20px;
   border-radius: 20px;
   width: 300px;
-  height: 440px;
+  min-height: 560px;   /* 👈 height bada */
+  height: auto;        /* 👈 content ke hisaab se grow hoga */
+  margin-top: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   margin-top: 180px;
 }
 

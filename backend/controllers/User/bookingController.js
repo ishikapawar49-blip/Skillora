@@ -14,6 +14,9 @@ export const createBooking = async (req, res) => {
       selectedTime,
       address,
       paymentId,
+      serviceAmount,
+      platformFee,
+      totalAmount
     } = req.body;
 
     // 🔍 get service
@@ -41,6 +44,14 @@ const booking = await Booking.create({
   address,
   paymentId,
   amount: service.price,
+
+  serviceAmount,
+ platformFee,
+ totalAmount,
+
+ adminEarning: platformFee,
+ vendorEarning: serviceAmount,
+ 
   paymentStatus: "paid",
   status: "pending", // 🔥 FIX STATUS (always start from pending)
 });
