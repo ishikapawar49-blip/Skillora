@@ -28,7 +28,7 @@ const navigate = useNavigate();
 useEffect(() => {
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/services/category-counts");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/services/category-counts`);
       const data = await res.json();
 
       // 🔥 format data

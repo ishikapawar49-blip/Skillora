@@ -36,7 +36,7 @@ const [notifications, setNotifications] = useState([]);
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("vendorToken");
-      const res = await fetch("http://localhost:5000/api/vendor/notifications", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/notifications`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,7 +67,7 @@ const [notifications, setNotifications] = useState([]);
   // ✅ MARK ALL
   const markAll = async () => {
     const token = localStorage.getItem("vendorToken");
-    await fetch("http://localhost:5000/api/vendor/notifications/read", {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/notifications/read`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -29,7 +29,7 @@ const AdminReviews = () => {
     const token = localStorage.getItem("adminToken");
 
     const res = await fetch(
-      "http://localhost:5000/api/admin/reviews",
+      `${import.meta.env.VITE_API_URL}/api/admin/reviews`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const AdminReviews = () => {
     const token = localStorage.getItem("adminToken");
 
     await fetch(
-      `http://localhost:5000/api/admin/reviews/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/admin/reviews/${id}`,
       {
         method: "DELETE",
         headers: {

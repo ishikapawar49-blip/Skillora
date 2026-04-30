@@ -16,7 +16,7 @@ export default function VendorServices() {
       const token = localStorage.getItem("vendorToken");
       console.log("TOKEN:", token);
 
-      const res = await fetch("http://localhost:5000/api/vendor/services", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/services`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,7 +51,7 @@ const handleDelete = async (id) => {
     const token = localStorage.getItem("vendorToken");
 
     const res = await fetch(
-      `http://localhost:5000/api/vendor/services/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/vendor/services/${id}`,
       {
         method: "DELETE",
         headers: {

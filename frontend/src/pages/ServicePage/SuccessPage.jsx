@@ -21,7 +21,7 @@ const SuccessPage = () => {
   const fetchBooking = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/bookings/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/${id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("userToken")}`,

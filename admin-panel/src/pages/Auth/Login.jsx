@@ -19,8 +19,8 @@ export default function Login() {
     try {
       const url =
   role === "admin"
-    ? "http://localhost:5000/api/admin/login"
-    : "http://localhost:5000/api/vendor/login";
+    ? `${import.meta.env.VITE_API_URL}/api/admin/login`
+    : `${import.meta.env.VITE_API_URL}/api/vendor/login`;
 
 const res = await fetch(url, {
   method: "POST",

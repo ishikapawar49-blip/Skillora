@@ -17,7 +17,7 @@ useEffect(() => {
     try {
       const token = localStorage.getItem("vendorToken");
 
-      const res = await fetch("http://localhost:5000/api/vendor/reviews", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/reviews`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

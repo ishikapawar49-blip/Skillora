@@ -23,20 +23,20 @@ const AccountPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userRes = await fetch("http://localhost:5000/api/users/profile", {
+        const userRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const userData = await userRes.json();
         setUser(userData);
 
-        const bookingRes = await fetch("http://localhost:5000/api/bookings/my-bookings", {
+        const bookingRes = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings/my-bookings`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const bookingData = await bookingRes.json();
         setBookings(bookingData);
 
         // 🔥 ADD THIS
-      const reviewRes = await fetch("http://localhost:5000/api/users/reviews", {
+      const reviewRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/reviews`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const reviewData = await reviewRes.json();
@@ -60,7 +60,7 @@ const past = bookings.filter(
 
   // 🔥 SAVE PROFILE
   const handleSave = async () => {
-    const res = await fetch("http://localhost:5000/api/users/profile", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

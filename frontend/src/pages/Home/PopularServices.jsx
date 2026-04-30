@@ -15,7 +15,7 @@ const navigate = useNavigate();
 useEffect(() => {
   const fetchPopular = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/services/popular");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/services/popular`);
       const data = await res.json();
       setServices(data);
     } catch (err) {
@@ -26,7 +26,7 @@ useEffect(() => {
   // ✅ FETCH WISHLIST (for red hearts)
   const fetchWishlist = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/wishlist", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/wishlist`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
@@ -54,7 +54,7 @@ useEffect(() => {
 // ❤️ LIKE TOGGLE
 const toggleLike = async (serviceId) => {
   try {
-    await fetch("http://localhost:5000/api/wishlist", {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/wishlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

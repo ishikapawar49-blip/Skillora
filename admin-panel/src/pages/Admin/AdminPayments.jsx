@@ -33,7 +33,7 @@ const AdminPayments = () => {
     const token = localStorage.getItem("adminToken");
 
     const res = await fetch(
-      "http://localhost:5000/api/admin/payments",
+      `${import.meta.env.VITE_API_URL}/api/admin/payments`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ const handleWithdraw = async () => {
   const token = localStorage.getItem("adminToken");
 
   const res = await fetch(
-    "http://localhost:5000/api/admin/payments/withdraw",
+    `${import.meta.env.VITE_API_URL}/api/admin/payments/withdraw`,
     {
       method: "POST",
       headers: {

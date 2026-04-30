@@ -31,7 +31,7 @@ const formatDate = (day) =>
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem("vendorToken");
-      const res = await fetch("http://localhost:5000/api/bookings/vendor-bookings", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings/vendor-bookings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

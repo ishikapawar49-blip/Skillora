@@ -14,7 +14,7 @@ const VendorNavbar = ({ title }) => {
   const fetchProfile = async () => {
     const token = localStorage.getItem("vendorToken");
 
-    const res = await fetch("http://localhost:5000/api/vendor/profile", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -29,7 +29,7 @@ const VendorNavbar = ({ title }) => {
     const token = localStorage.getItem("vendorToken");
 
     const res = await fetch(
-      "http://localhost:5000/api/vendor/notifications/unread-count",
+      `${import.meta.env.VITE_API_URL}/api/vendor/notifications/unread-count`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

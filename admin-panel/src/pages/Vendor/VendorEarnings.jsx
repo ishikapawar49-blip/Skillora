@@ -30,7 +30,7 @@ useEffect(() => {
     try {
       const token = localStorage.getItem("vendorToken");
 
-      const res = await fetch("http://localhost:5000/api/vendor/earnings", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/earnings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -60,7 +60,7 @@ const handleWithdraw = async () => {
 
     const token = localStorage.getItem("vendorToken");
 
-    const res = await fetch("http://localhost:5000/api/vendor/withdraw", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/withdraw`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const handleWithdraw = async () => {
       alert("Withdraw request sent ✅");
 
       // 🔥 IMPORTANT: refresh data
-      const refresh = await fetch("http://localhost:5000/api/vendor/earnings", {
+      const refresh = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/earnings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

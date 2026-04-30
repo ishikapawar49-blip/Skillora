@@ -32,7 +32,7 @@ const OurServices = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-       let url = "http://localhost:5000/api/services";
+       let url = `${import.meta.env.VITE_API_URL}/api/services`;
 
 if (vendorId) {
   url += `?vendor=${vendorId}`;
@@ -51,7 +51,7 @@ const res = await fetch(url);
       // ✅ FETCH WISHLIST (for red hearts)
   const fetchWishlist = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/wishlist", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/wishlist`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
@@ -79,7 +79,7 @@ const res = await fetch(url);
 // ❤️ LIKE TOGGLE (BACKEND CONNECTED)
 const toggleLike = async (serviceId) => {
   try {
-    await fetch("http://localhost:5000/api/wishlist", {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/wishlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
