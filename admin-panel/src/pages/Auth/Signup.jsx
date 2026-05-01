@@ -14,7 +14,7 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/vendor/register", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

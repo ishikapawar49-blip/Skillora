@@ -33,8 +33,8 @@ const handleSubmit = async () => {
     }
 
     const url = editData
-      ? `http://localhost:5000/api/vendor/services/${editData._id}`
-      : "http://localhost:5000/api/vendor/services";
+      ? `${import.meta.env.VITE_API_URL}/api/vendor/services/${editData._id}`
+      : `${import.meta.env.VITE_API_URL}/api/vendor/services`;
 
     const method = editData ? "PUT" : "POST";
 

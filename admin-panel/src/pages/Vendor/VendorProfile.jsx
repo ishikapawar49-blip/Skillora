@@ -20,7 +20,7 @@ export default function VendorProfile() {
   useEffect(() => {
     const fetchVendor = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/vendor/profile", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/profile`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
           }
@@ -57,7 +57,7 @@ export default function VendorProfile() {
   // 🔥 SAVE PROFILE
   const handleSave = async () => {
     try {
-      await fetch("http://localhost:5000/api/vendor/profile", {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export default function VendorProfile() {
     const formData = new FormData();
     formData.append("image", file);
 
-    const res = await fetch("http://localhost:5000/api/vendor/upload-image", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/upload-image`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
@@ -104,7 +104,7 @@ export default function VendorProfile() {
       formData.append("documents", files[i]);
     }
 
-    const res = await fetch("http://localhost:5000/api/vendor/upload-docs", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/upload-docs`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
@@ -124,7 +124,7 @@ export default function VendorProfile() {
 const deleteDocument = async (docId) => {
   try {
     const res = await fetch(
-      `http://localhost:5000/api/vendor/document/${docId}`,
+      `${import.meta.env.VITE_API_URL}/api/vendor/document/${docId}`,
       {
         method: "DELETE",
         headers: {

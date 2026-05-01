@@ -11,7 +11,7 @@ export default function VendorBookings() {
     try {
       const token = localStorage.getItem("vendorToken");
 
-      const res = await fetch("http://localhost:5000/api/vendor/bookings", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/bookings`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,7 +32,7 @@ const updateStatus = async (id, status) => {
   try {
     const token = localStorage.getItem("vendorToken");
 
-    await fetch(`http://localhost:5000/api/vendor/booking/${id}/status`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/booking/${id}/status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const updateStatus = async (id, status) => {
     });
 
     // 🔥 RE-FETCH FROM BACKEND (REAL DATA)
-const res = await fetch("http://localhost:5000/api/vendor/bookings", {
+const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/bookings`, {
   headers: {
     Authorization: `Bearer ${token}`,
   },

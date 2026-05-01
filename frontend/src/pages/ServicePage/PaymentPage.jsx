@@ -38,7 +38,7 @@ const totalAmount = serviceAmount + platformFee;
 
     // Create order
     const orderRes = await fetch(
-      "http://localhost:5000/api/payment/create-order",
+      `${import.meta.env.VITE_API_URL}/api/payment/create-order`,
       {
         method: "POST",
         headers: {
@@ -64,7 +64,7 @@ const totalAmount = serviceAmount + platformFee;
 
   // ✅ 1. VERIFY PAYMENT
   const verifyRes = await fetch(
-    "http://localhost:5000/api/payment/verify",
+    `${import.meta.env.VITE_API_URL}/api/payment/verify`,
     {
       method: "POST",
       headers: {
@@ -83,7 +83,7 @@ const totalAmount = serviceAmount + platformFee;
 
   // ✅ 2. CREATE BOOKING IN DATABASE
   const bookingRes = await fetch(
-    "http://localhost:5000/api/bookings",
+    `${import.meta.env.VITE_API_URL}/api/bookings`,
     {
       method: "POST",
       headers: {

@@ -12,7 +12,7 @@ const AdminVendors = () => {
 const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 const token = adminInfo?.token;
 
-      const res = await fetch("http://localhost:5000/api/admin/vendors", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/vendors`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +40,7 @@ const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 const token = adminInfo?.token;
 
     const res = await fetch(
-      `http://localhost:5000/api/admin/vendors/${id}/approve`,
+      `${import.meta.env.VITE_API_URL}/api/admin/vendors/${id}/approve`,
       {
         method: "PUT",
         headers: {
@@ -67,7 +67,7 @@ const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 const token = adminInfo?.token;
 
     const res = await fetch(
-      `http://localhost:5000/api/admin/vendors/${id}/reject`,
+      `${import.meta.env.VITE_API_URL}/api/admin/vendors/${id}/reject`,
       {
         method: "PUT",
         headers: {

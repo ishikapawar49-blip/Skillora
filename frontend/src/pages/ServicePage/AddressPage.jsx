@@ -100,7 +100,7 @@ useEffect(() => {
     try {
       const token = localStorage.getItem("userToken");
 
-      const res = await fetch("http://localhost:5000/api/users/address", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/address`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -131,7 +131,7 @@ const handleSubmit = async () => {
   try {
     const token = localStorage.getItem("userToken");
 
-const res = await fetch("http://localhost:5000/api/users/address", {
+const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/address`, {
         method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -178,7 +178,7 @@ useEffect(() => {
   const fetchService = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/vendor/services/slug/${slug}`
+        `${import.meta.env.VITE_API_URL}/api/vendor/services/slug/${slug}`
       );
       const data = await res.json();
       setService(data);

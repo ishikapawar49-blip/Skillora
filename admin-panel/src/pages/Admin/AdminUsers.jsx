@@ -27,7 +27,7 @@ const fetchUsers = async () => {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/admin/users", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const handleDelete = async (id) => {
     const adminInfo = JSON.parse(localStorage.getItem("adminInfo"));
 
     const res = await fetch(
-      `http://localhost:5000/api/admin/users/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/admin/users/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -86,8 +86,8 @@ const handleBlock = async (id, status) => {
 
     const url =
       status === "active"
-        ? `http://localhost:5000/api/admin/users/${id}/block`
-        : `http://localhost:5000/api/admin/users/${id}/active`;
+        ? `${import.meta.env.VITE_API_URL}/api/admin/users/${id}/block`
+        : `${import.meta.env.VITE_API_URL}/api/admin/users/${id}/active`;
 
     const res = await fetch(url, {
       method: "PUT",
