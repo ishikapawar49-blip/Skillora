@@ -22,7 +22,7 @@ const items = [
   { title: "Payments", url: "/admin/payments", icon: CreditCard },
   { title: "Reviews", url: "/admin/reviews", icon: Star },
   { title: "Notifications", url: "/admin/notifications", icon: Bell },
-  { title: "Settings", url: "/admin/settings", icon: Settings },
+  // { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
 const AdminSidebar = () => {
