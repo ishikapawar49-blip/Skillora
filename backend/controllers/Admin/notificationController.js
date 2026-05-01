@@ -9,8 +9,12 @@ export const createNotification = async (type, title, message) => {
     message,
   });
 
-  // email
-  await sendEmail(title, message);
+  // ✅ FIXED EMAIL CALL
+  await sendEmail(
+    "ishikapawar49@gmail.com",
+    title,
+    `<h3>${title}</h3><p>${message}</p>`
+  );
 
   return notification;
 };
