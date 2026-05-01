@@ -1,5 +1,6 @@
 import Notification from "../../models/Admin/Notification.js";
 import { sendEmail } from "../../utils/sendEmail.js";
+import { skilloraTemplate } from "../../utils/emailTemplate.js";
 
 // 🔥 CREATE (important)
 export const createNotification = async (type, title, message) => {
@@ -11,10 +12,10 @@ export const createNotification = async (type, title, message) => {
 
   // ✅ FIXED EMAIL CALL
   await sendEmail(
-    "ishikapawar49@gmail.com",
-    title,
-    `<h3>${title}</h3><p>${message}</p>`
-  );
+  "ishikapawar49@gmail.com",
+  title,
+  skilloraTemplate(title, message)
+);
 
   return notification;
 };
