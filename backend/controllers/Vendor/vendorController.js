@@ -7,6 +7,8 @@ import Payout from "../../models/Vendor/Payout.js";
 import Notification from "../../models/Vendor/Notification.js";
 import { sendEmail } from "../../utils/sendEmail.js";
 import { skilloraTemplate } from "../../utils/emailTemplate.js";
+import { createNotification } from "../Admin/notificationController.js";
+
 
 // 🔐 TOKEN
 const generateToken = (id) => {
@@ -36,6 +38,14 @@ const vendor = await Vendor.create({
   phone,
   status: "pending",
 });
+
+   // ✅ ADD THIS HERE 🔥
+    await createNotification(
+      "vendor",
+      "New Vendor Application",
+      `${ownerName} applied as vendor`
+    );
+
     res.status(201).json({
       _id: vendor._id,
       name: vendor.name,
@@ -439,3 +449,4 @@ export const getVendorNotifications = async (req, res) => {
 
   res.json(notifications);
 };
+

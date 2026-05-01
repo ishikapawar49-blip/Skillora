@@ -4,6 +4,8 @@ import Notification from "../../models/Vendor/Notification.js";
 import { sendEmail } from "../../utils/sendEmail.js";
 import { skilloraTemplate } from "../../utils/emailTemplate.js";
 import Vendor from "../../models/Vendor/Vendor.js";
+import { createNotification } from "../Admin/notificationController.js";
+
 
 export const createReview = async (req, res) => {
   try {
@@ -47,8 +49,14 @@ if (vendor) {
     )
   );
 }
+await createNotification(
+  "alert",
+  "New Review",
+  `New ${rating}-star review submitted`
+);
 
     res.json(review);
+
 
   } catch (err) {
     console.log("ERROR:", err);
