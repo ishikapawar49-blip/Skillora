@@ -4,6 +4,7 @@ import Notification from "../../models/Vendor/Notification.js";
 import { sendEmail } from "../../utils/sendEmail.js";
 import { skilloraTemplate } from "../../utils/emailTemplate.js";
 import Vendor from "../../models/Vendor/Vendor.js";
+import { createNotification } from "../Admin/notificationController.js";
 
 // ✅ CREATE BOOKING (UPDATED)
 export const createBooking = async (req, res) => {
@@ -63,6 +64,12 @@ await Notification.create({
   title: "New Booking Request",
   message: `${req.user.name} booked ${service.title}`,
 });
+
+await createNotification(
+  "booking",
+  "New Booking",
+  `${req.user.name} booked ${service.title}`
+);
 
 const vendor = await Vendor.findById(service.vendor);
 

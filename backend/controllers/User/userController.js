@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../../models/User/User.js";
 import Booking from "../../models/Booking/Booking.js";
 import Address from "../../models/User/Address.js";
+import { createNotification } from "../Admin/notificationController.js";
 
 // Generate JWT
 const generateToken = (id) => {
@@ -22,6 +23,12 @@ export const registerUser = async (req, res) => {
     email,
     password: hashedPassword,
   });
+
+  await createNotification(
+  "user",
+  "New User Registration",
+  `${user.name} registered`
+);
 
   res.json({
     _id: user._id,

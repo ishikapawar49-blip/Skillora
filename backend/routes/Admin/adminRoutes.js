@@ -17,6 +17,10 @@ import {
  getAllReviews,
  deleteReviewByAdmin
 } from "../../controllers/Admin/adminController.js";
+import {
+  getAdminNotifications,
+  markAllAdminRead,
+} from "../../controllers/Admin/notificationController.js";
 import protect from "../../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -58,4 +62,7 @@ router.post("/payments/withdraw", protect, withdrawAdminAmount);
 router.get("/reviews", protect, getAllReviews);
 router.delete("/reviews/:id", protect, deleteReviewByAdmin);
 
+// Notifications
+router.get("/notifications", getAdminNotifications);
+router.put("/notifications/read", markAllAdminRead);
 export default router;

@@ -8,6 +8,7 @@ import Booking from "../../models/Booking/Booking.js";
 import Service from "../../models/Service/Service.js"; // 🔥 ADD TOP
 import AdminPayout from "../../models/Admin/AdminPayout.js";
 import Review from "../../models/User/Review.js";
+import { createNotification } from "./notificationController.js";
 
 
 // 🔐 Generate Token
@@ -154,6 +155,12 @@ export const approveVendor = async (req, res) => {
   vendor.status = "approved"; // ✅ change
   await vendor.save();
 
+  await createNotification(
+  "success",
+  "Vendor Approved",
+  `${vendor.businessName} approved`
+);
+
   res.json({ message: "Vendor approved" });
 };
 
@@ -167,6 +174,12 @@ export const rejectVendor = async (req, res) => {
 
   vendor.status = "rejected"; 
   await vendor.save();
+
+  await createNotification(
+  "alert",
+  "Vendor Rejected",
+  `${vendor.businessName} rejected`
+);
 
   res.json({ message: "Vendor rejected" });
 };
@@ -371,6 +384,12 @@ export const withdrawAdminAmount = async (req, res) => {
       success:true,
       message:"Withdraw successful"
     });
+    
+ await createNotification(
+  "withdraw",
+  "Admin Withdraw",
+  `Admin withdrew ₹${amount}`
+);
 
   } catch (error) {
     res.status(500).json({

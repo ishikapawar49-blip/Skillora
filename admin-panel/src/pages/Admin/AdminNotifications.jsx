@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Bell,
   CheckCircle,
@@ -9,16 +10,59 @@ import {
 } from "lucide-react";
 import "./AdminNotifications.css";
 
-const notifications = [
-  { id: 1, type: "vendor", icon: Users, title: "New Vendor Application", message: "FitLife Training has submitted a new vendor application.", time: "2 min ago", read: false },
-  { id: 2, type: "payment", icon: CreditCard, title: "Payment Received", message: "Payment of $500 received from Tom Anderson.", time: "15 min ago", read: false },
-  { id: 3, type: "alert", icon: AlertCircle, title: "Review Flagged", message: "A review on Beauty Pro Studio has been flagged.", time: "1 hour ago", read: false },
-  { id: 4, type: "info", icon: Info, title: "System Update", message: "Platform maintenance scheduled.", time: "3 hours ago", read: true },
-  { id: 5, type: "success", icon: CheckCircle, title: "Vendor Approved", message: "Code Academy Plus is now live.", time: "5 hours ago", read: true },
-  { id: 6, type: "vendor", icon: Users, title: "New User Registration", message: "15 new users registered.", time: "8 hours ago", read: true },
-];
-
 const AdminNotifications = () => {
+  const [notifications, setNotifications] = useState([]);
+
+  // 🔥 ICON MAP (type ke basis pe)
+  const iconMap = {
+    vendor: Users,
+    payment: CreditCard,
+    alert: AlertCircle,
+    info: Info,
+    success: CheckCircle,
+    user: Users,
+    booking: Bell,
+    withdraw: CreditCard,
+  };
+
+  // ✅ FETCH FUNCTION
+  const fetchNotifications = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/admin/notifications`
+      );
+      setNotifications(res.data);
+    } catch (err) {
+      console.log("Error fetching notifications", err);
+    }
+  };
+
+  // ✅ INITIAL LOAD
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  // 🔥 REAL-TIME (polling every 5 sec)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchNotifications();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // ✅ MARK ALL READ
+  const markAllRead = async () => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/admin/notifications/read`
+      );
+      fetchNotifications(); // refresh
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="ant-wrapper">
 
@@ -29,20 +73,22 @@ const AdminNotifications = () => {
           <p>Stay updated with platform activity</p>
         </div>
 
-        <button className="ant-btn">Mark all as read</button>
+        <button className="ant-btn" onClick={markAllRead}>
+          Mark all as read
+        </button>
       </div>
 
       {/* List */}
       <div className="ant-list">
         {notifications.map((n) => {
-          const Icon = n.icon;
+          const Icon = iconMap[n.type] || Bell;
 
           return (
             <div
-              key={n.id}
+              key={n._id}
               className={`ant-card ${!n.read ? "ant-unread" : ""}`}
             >
-              
+
               {/* Icon */}
               <div className={`ant-icon-box ${!n.read ? "ant-gradient" : ""}`}>
                 <Icon className="ant-icon" />
@@ -54,7 +100,10 @@ const AdminNotifications = () => {
                   <p className={`ant-title ${!n.read ? "ant-bold" : ""}`}>
                     {n.title}
                   </p>
-                  <span className="ant-time">{n.time}</span>
+
+                  <span className="ant-time">
+                    {new Date(n.createdAt).toLocaleString()}
+                  </span>
                 </div>
 
                 <p className="ant-message">{n.message}</p>

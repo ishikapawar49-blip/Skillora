@@ -6,6 +6,7 @@ import Service from "../../models/Service/Service.js";
 import { sendEmail } from "../../utils/sendEmail.js";
 import { skilloraTemplate } from "../../utils/emailTemplate.js";
 import Vendor from "../../models/Vendor/Vendor.js";
+import { createNotification } from "../Admin/notificationController.js";
 
 // ✅ CREATE ORDER
 export const createOrder = async (req, res) => {
@@ -51,6 +52,13 @@ export const verifyPayment = async (req, res) => {
       message: `Payment received for ${booking.service.title}`,
     });
   }
+   
+  await createNotification(
+  "payment",
+  "Payment Received",
+  `Payment received for ${booking.service.title}`
+);
+
 
   if (booking) {
   const vendor = await Vendor.findById(booking.vendor);

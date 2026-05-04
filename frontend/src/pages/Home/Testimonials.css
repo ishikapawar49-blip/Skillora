@@ -41,8 +41,11 @@ padding:14px 16px;
 border-radius:18px;
 box-shadow:0 10px 25px rgba(0,0,0,0.05);
 transition:0.3s;
-width: 260px;
-height: 220px;
+.test-card{
+width:100%;
+max-width:260px;   /* same UI look */
+min-height:220px;  /* height flexible */
+}
 }
 
 .test-card:hover{
@@ -109,4 +112,81 @@ color:#f59e0b;
 font-size:15px;
 color:#4b5563;
 line-height:1.6;
+}
+
+@media (max-width: 992px){
+
+  .test-grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap:24px;
+  }
+
+  .test-card{
+    max-width:320px;
+  }
+
+  .test-title{
+    font-size:clamp(28px, 4vw, 40px);
+  }
+
+  .test-subtitle{
+    font-size:clamp(14px, 2vw, 16px);
+  }
+}
+
+@media (max-width: 600px){
+
+  .test-grid{
+    display:flex;                 /* grid → flex */
+    overflow-x:auto;
+    gap:16px;
+    padding:0 10px 10px;
+    scroll-snap-type:x mandatory;
+  }
+
+  /* hide scrollbar */
+  .test-grid::-webkit-scrollbar{
+    display:none;
+  }
+
+  .test-grid{
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+
+  .test-card{
+    min-width:85%;        /* ✅ one card per screen */
+    max-width:85%;
+    flex-shrink:0;
+    scroll-snap-align:center;
+  }
+
+  .test-top img{
+    width:40px;
+    height:40px;
+  }
+
+  .test-user h4{
+    font-size:16px;
+  }
+
+  .test-user p{
+    font-size:13px;
+  }
+
+  .test-review{
+    font-size:14px;
+  }
+}
+
+@media (max-width: 400px){
+
+  .test-card{
+    min-width:90%;
+    max-width:90%;
+  }
+
+  .test-container{
+    padding:0 12px;
+  }
 }

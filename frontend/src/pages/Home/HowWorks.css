@@ -13,14 +13,14 @@ padding:0 20px;
 /* TITLE */
 .hw-title{
 font-family:'Playfair Display', serif;
-font-size:48px;
+font-size:clamp(28px, 5vw, 48px);
 font-weight:700;
 color:#1e1e2f;
 margin-bottom:10px;
 }
 
 .hw-subtitle{
-font-size:18px;
+font-size:clamp(14px, 2vw, 18px);
 color:#6b7280;
 margin-bottom:60px;
 margin-top: 0px;
@@ -29,22 +29,26 @@ margin-top: 0px;
 /* GRID */
 .hw-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap:60px;
 align-items:center;
 }
 
 /* CARD */
 .hw-card{
-display:flex;
-flex-direction:column;
-align-items:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  width:100%;
+  max-width:320px;   /* keeps UI same */
+  margin:auto;
 }
 
 /* NUMBER BOX */
 .hw-number{
-width:90px;
-height:90px;
+width:clamp(60px, 10vw, 90px);
+height:clamp(60px, 10vw, 90px);
 background:#dad9f8;
 border-radius:22px;
 display:flex;
@@ -55,9 +59,8 @@ margin-bottom:4px;
 
 /* NUMBER TEXT */
 .hw-number span{
-font-size:32px;
+font-size:clamp(22px, 3vw, 32px);
 font-weight:700;
-/* Skillora gradient */
 background:linear-gradient(90deg,#7C6BFF,#FF6A6A);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
@@ -66,7 +69,7 @@ background:linear-gradient(90deg,#7C6BFF,#FF6A6A);
 /* STEP TITLE */
 .hw-card h3{
 font-family:'Playfair Display', serif;
-font-size:26px;
+font-size:clamp(18px, 2.5vw, 26px);
 margin-bottom:4px;
 color:#1e1e2f;
 }
@@ -74,9 +77,121 @@ color:#1e1e2f;
 /* DESCRIPTION */
 .hw-card p{
 max-width:300px;
-font-size:17px;
+font-size:clamp(14px, 2vw, 17px);
 color:#6b7280;
 line-height:1.6;
 margin-top: 2px;
 margin-bottom: 40px;
+}
+
+
+.hw-section{
+padding:10px 0px 40px 0px;
+background:#f5f6fb;
+text-align:center;
+}
+
+.hw-container{
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+}
+
+/* TITLE */
+.hw-title{
+font-family:'Playfair Display', serif;
+font-size:clamp(28px, 5vw, 48px);
+font-weight:700;
+color:#1e1e2f;
+margin-bottom:10px;
+}
+
+.hw-subtitle{
+font-size:clamp(14px, 2vw, 18px);
+color:#6b7280;
+margin-bottom:60px;
+margin-top: 0px;
+}
+
+/* GRID */
+.hw-grid{
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap:60px;
+align-items:center;
+}
+
+/* CARD */
+.hw-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  width:100%;
+  max-width:320px;   /* keeps UI same */
+  margin:auto;
+}
+
+/* NUMBER BOX */
+.hw-number{
+width:clamp(60px, 10vw, 90px);
+height:clamp(60px, 10vw, 90px);
+background:#dad9f8;
+border-radius:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:4px;
+}
+
+/* NUMBER TEXT */
+.hw-number span{
+font-size:clamp(22px, 3vw, 32px);
+font-weight:700;
+background:linear-gradient(90deg,#7C6BFF,#FF6A6A);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* STEP TITLE */
+.hw-card h3{
+font-family:'Playfair Display', serif;
+font-size:clamp(18px, 2.5vw, 26px);
+margin-bottom:4px;
+color:#1e1e2f;
+}
+
+/* DESCRIPTION */
+.hw-card p{
+max-width:300px;
+font-size:clamp(14px, 2vw, 17px);
+color:#6b7280;
+line-height:1.6;
+margin-top: 2px;
+margin-bottom: 40px;
+}
+
+@media (max-width: 600px){
+
+  .hw-grid{
+    grid-template-columns: 1fr;
+    gap:30px;
+  }
+
+  .hw-subtitle{
+    margin-bottom:40px;
+  }
+}
+
+@media (max-width: 992px){
+
+  .hw-grid{
+    grid-template-columns: repeat(3, 1fr);  /* ✅ 3 in one row */
+    gap:40px;
+    justify-items:center; /* center cards */
+  }
+
+  .hw-card{
+    max-width:260px;   /* control width so overflow na ho */
+  }
 }
