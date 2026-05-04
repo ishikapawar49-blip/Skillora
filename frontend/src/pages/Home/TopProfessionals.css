@@ -161,3 +161,95 @@ transition:0.3s;
 .tp-btn:hover{
 background:linear-gradient(90deg,#7C6BFF,#FF6A6A);
 }
+
+@media (max-width: 992px){
+
+  .tp-grid{
+    grid-template-columns: repeat(2, 1fr);  /* ✅ 2 per row */
+    gap:24px;
+    justify-items:center;
+  }
+
+  .tp-card{
+    width:100%;
+    max-width:320px;   /* keeps same UI feel */
+  }
+
+  .tp-header h2{
+    font-size:clamp(28px, 4vw, 40px);
+  }
+
+  .tp-header p{
+    font-size:clamp(14px, 2vw, 16px);
+  }
+}
+
+@media (max-width: 600px){
+
+  .tp-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .tp-grid{
+    display:flex;                 /* 🔥 grid → flex */
+    overflow-x:auto;
+    gap:16px;
+    padding:0 10px 10px;
+    scroll-snap-type:x mandatory;
+  }
+
+  /* hide scrollbar */
+  .tp-grid::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tp-grid{
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+
+  .tp-card{
+    min-width:85%;        /* ✅ one card per screen */
+    max-width:85%;
+    flex-shrink:0;
+    scroll-snap-align:center;
+  }
+
+  .tp-avatar img{
+    width:60px;
+    height:60px;
+  }
+
+  .tp-info h3{
+    font-size:18px;
+  }
+
+  .tp-role{
+    font-size:14px;
+  }
+
+  .tp-meta{
+    flex-wrap:wrap;   /* prevent overflow */
+    gap:10px;
+    font-size:13px;
+  }
+
+  .tp-btn{
+    padding:8px 16px;
+    font-size:14px;
+  }
+}
+
+@media (max-width: 400px){
+
+  .tp-card{
+    min-width:90%;
+    max-width:90%;
+  }
+
+  .tp-container{
+    padding:0 12px;
+  }
+}
