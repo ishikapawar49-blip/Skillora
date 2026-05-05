@@ -40,7 +40,10 @@ Real reviews from real customers
 <div className="test-card" key={t._id}>
 <div className="test-top">
 
-<img src={`https://ui-avatars.com/api/?name=${t.user?.name}`} />
+{/* <img src={`https://ui-avatars.com/api/?name=${t.user?.name}`} /> */}
+<div className="test-avatar">
+  {t.user?.name?.charAt(0)}{t.user?.name?.split(" ")[1]?.charAt(0)}
+</div>
 
 <div className="test-user">
 <h4>{t.user?.name}</h4>

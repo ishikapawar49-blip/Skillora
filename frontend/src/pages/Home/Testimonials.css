@@ -70,6 +70,21 @@ object-fit:cover;
 margin-top: 5px;
 }
 
+/* AVATAR */
+.test-avatar{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  color:white;
+  font-size:16px;
+  background: linear-gradient(90deg, #7C6BFF, #FF6A6A);
+  flex-shrink:0;
+}
+
 /* USER */
 .test-user{
 flex:1;
