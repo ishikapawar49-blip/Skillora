@@ -101,10 +101,38 @@ export const getFeaturedTestimonials = async (req, res) => {
 
       // ✅ only 4 & 5 star
       {
-        $match: {
-          rating: { $gte: 4 }
-        }
-      },
+  $match: {
+    rating: { $gte: 4 }
+  }
+},
+{
+  $lookup: {
+    from: "users",
+    localField: "user",
+    foreignField: "_id",
+    as: "userData"
+  }
+},
+{
+  $lookup: {
+    from: "services",
+    localField: "service",
+    foreignField: "_id",
+    as: "serviceData"
+  }
+},
+{
+  $unwind: "$userData"
+},
+{
+  $unwind: "$serviceData"
+},
+{
+  $match: {
+    "userData.name": "Ishika Pawar",
+    "serviceData.title": "Bridal Makeup & Styling"
+  }
+},
 
       // ✅ latest first
       {
