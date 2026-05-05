@@ -58,28 +58,30 @@ const booking = await Booking.create({
 });
 
 // 🔥 CREATE NOTIFICATION FOR VENDOR
+// AFTER booking is saved
+
 await Notification.create({
-  vendor: service.vendor,
-  type: "booking",
-  title: "New Booking Request",
-  message: `${req.user.name} booked ${service.title}`,
+  vendor: booking.vendor,
+  type: "payment",
+  title: "Payment Received",
+  message: `Payment received for ${service.title}`,
 });
 
 await createNotification(
-  "booking",
-  "New Booking",
-  `${req.user.name} booked ${service.title}`
+  "payment",
+  "Payment Received",
+  `Payment received for ${service.title}`
 );
 
-const vendor = await Vendor.findById(service.vendor);
+const vendor = await Vendor.findById(booking.vendor);
 
 if (vendor) {
   await sendEmail(
     vendor.email,
-    "New Booking Received",
+    "Payment Received",
     skilloraTemplate(
-      "New Booking",
-      `${req.user.name} booked ${service.title}`
+      "Payment Received",
+      `Payment received for ${service.title}`
     )
   );
 }
