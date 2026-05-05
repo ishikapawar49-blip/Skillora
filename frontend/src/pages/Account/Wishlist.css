@@ -85,3 +85,55 @@ margin-top:15px;
 .price{
 font-weight:600;
 }
+
+
+@media (max-width: 992px){
+
+  .wishlist-grid{
+    grid-template-columns:repeat(2,1fr);   /* 🔥 */
+    gap:24px;
+  }
+
+  .wishlist-title{
+    font-size:28px;
+  }
+
+}
+
+@media (max-width: 600px){
+
+  .wishlist-page{
+    padding:20px 12px;
+  }
+
+  .wishlist-grid{
+    grid-template-columns:1fr;   /* 🔥 single column */
+    gap:20px;
+  }
+
+  .wishlist-title{
+    font-size:24px;
+  }
+
+  /* CARD IMAGE FIX */
+  .wishlist-img img{
+    height:200px;
+  }
+
+}
+
+@media (max-width: 400px){
+
+  .wishlist-title{
+    font-size:22px;
+  }
+
+  .wishlist-img img{
+    height:180px;
+  }
+
+  .wishlist-info{
+    padding:16px;
+  }
+
+}

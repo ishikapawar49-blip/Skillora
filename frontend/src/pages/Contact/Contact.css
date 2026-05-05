@@ -98,6 +98,7 @@ margin-bottom:16px;
 
 .contact-form input,
 .contact-form textarea{
+max-width:100%;
 width:100%;
 padding:14px;
 border-radius:12px;
@@ -132,4 +133,93 @@ cursor:pointer;
 
 .send-btn:hover{
 opacity:0.9;
+}
+
+
+@media (max-width: 992px){
+
+  .contact-container{
+    grid-template-columns:1fr;   /* 🔥 stack */
+    gap:30px;
+  }
+
+  .contact-form{
+    padding:30px 60px 30px 30px;
+  }
+
+  .contact-title{
+    font-size:36px;
+  }
+
+  .contact-subtitle{
+    font-size:16px;
+  }
+  
+  .contact form input{
+    max-width: 90%;
+  }
+
+  .contact form textarea{
+    max-width: 90%;
+  } 
+}
+
+@media (max-width: 600px){
+
+  .contact-section{
+    padding:20px 12px;
+  }
+
+  .contact-title{
+    font-size:28px;
+  }
+
+  .contact-subtitle{
+    font-size:14px;
+  }
+
+  /* inputs stack */
+  .form-row{
+    flex-direction:column;
+  }
+
+  .contact-form{
+    padding:20px;
+  }
+
+  .info-card{
+    padding:16px;
+    gap:12px;
+  }
+
+  .info-icon{
+    width:40px;
+    height:40px;
+    font-size:18px;
+  }
+
+  .contact-form input{
+    max-width: 90%;
+  }
+
+  .contact-form textarea{
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 400px){
+
+  .contact-title{
+    font-size:24px;
+  }
+
+  .contact-form h2{
+    font-size:22px;
+  }
+
+  .send-btn{
+    width:100%;   /* full width button */
+    justify-content:center;
+  }
+
 }

@@ -186,14 +186,19 @@
   background: white;
   padding: 20px;
   border-radius: 20px;
-  width: 300px;
-  min-height: 560px;   /* 👈 height bada */
-  height: auto;        /* 👈 content ke hisaab se grow hoga */
+  width: 100%; 
+  max-width: 300px;
+  min-height: 560px;   
+  height: auto;        
   margin-top: 180px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 180px;
+}
+.book-service-right{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .book-service-summary h2{
@@ -232,4 +237,94 @@
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
+}
+
+@media (max-width: 992px){
+
+  .book-service-container{
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .book-service-summary{
+    margin-top: 0px;
+    max-width: 100%;
+  }
+
+  .book-service-title{
+    font-size: 32px;
+  }
+
+  .book-service-line{
+    width: 100px;   /* reduce line */
+  }
+}
+
+@media (max-width: 600px){
+
+  .book-service-container{
+    padding: 20px 12px;
+  }
+
+  /* STEPS STACK */
+  .book-service-steps{
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .book-service-line{
+    display: none;   /* 🔥 clean UI */
+  }
+
+  /* DATE SCROLL */
+  .book-service-date-grid{
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 10px;
+  }
+
+  .book-service-date-card{
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+  }
+
+  /* TIME GRID */
+  .book-service-time-grid{
+    gap: 10px;
+  }
+
+  .book-service-time-card{
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* BUTTON */
+  .book-service-btn{
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+.book-service-summary{
+    width: 100%;
+    max-width: 100%;
+    margin-top: 20px;
+  }
+
+@media (max-width: 400px){
+
+  .book-service-title{
+    font-size: 26px;
+  }
+
+  .book-service-summary{
+    padding: 16px;
+    margin-top: 10px;
+  }
+
+  .book-service-row{
+    font-size: 13px;
+  }
+
 }

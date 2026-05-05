@@ -1,7 +1,7 @@
 .address-container {
   display: flex;
   gap: 60px;
-  padding: 30px 100px;
+  padding: 30px 80px;
   background: #f8f8f8;
 }
 
@@ -164,4 +164,77 @@
   border: none;
   background: #eee;
   font-size: 15px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 992px){
+
+  .address-container{
+    flex-direction: column;
+    gap: 40px;
+    padding: 30px 40px;
+  }
+
+  .book-service-summary{
+    margin-top: 0;
+    max-width: 100%;
+  }
+
+  .address-title{
+    font-size: 32px;
+  }
+
+  .address-line{
+    width: 100px;
+  }
+}
+
+@media (max-width: 600px){
+
+  .address-container{
+    padding: 20px 12px;
+  }
+
+  /* steps clean */
+  .address-steps{
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .address-line{
+    display: none;
+  }
+
+  /* buttons stack */
+  .address-actions{
+    flex-direction: column;
+  }
+
+  .book-service-summary{
+    width: 100%;
+    max-width: 85%;
+    margin-top: 20px;
+  }
+
+  .address-section input{
+    max-width: 90%;
+  }
+
+}
+
+@media (max-width: 400px){
+
+  .address-title{
+    font-size: 26px;
+  }
+
+  .book-service-summary{
+    padding: 16px;
+  }
+
+  .book-service-row{
+    font-size: 13px;
+  }
 }

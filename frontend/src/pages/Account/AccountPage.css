@@ -265,3 +265,85 @@ background:linear-gradient(90deg,#7C6BFF,#FF6A6A);
   opacity: 0.9;
 }
 
+
+
+@media (max-width: 992px){
+
+  .account-saved-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .account-profile-form{
+    width:100%;
+  }
+
+}
+
+@media (max-width: 600px){
+
+  .account-page{
+    padding:20px 12px;
+  }
+
+  /* HEADER */
+  .account-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  /* TABS SCROLL */
+  .account-tabs{
+    overflow-x:auto;
+    flex-wrap:nowrap;
+  }
+
+  .account-tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .tab{
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+
+  /* BOOKING CARD STACK */
+  .account-booking-card{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .account-booking-card img{
+    width:100%;
+    height:180px;
+  }
+
+  .account-status{
+    align-self:flex-start;
+  }
+
+  /* GRID */
+  .account-saved-grid{
+    grid-template-columns:1fr;
+  }
+
+  /* TABLE FIX */
+  .account-payment-table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+
+}
+
+@media (max-width: 400px){
+
+  .account-title{
+    font-size:26px;
+  }
+
+  .account-booking-meta{
+    gap:10px;
+    font-size:13px;
+  }
+
+}
