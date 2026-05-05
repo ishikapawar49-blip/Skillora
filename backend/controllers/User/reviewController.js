@@ -97,23 +97,42 @@ export const getVendorReviews = async (req, res) => {
 export const getFeaturedTestimonials = async (req, res) => {
   try {
 
-    // 🔥 1. Ishika ke reviews (4⭐ & 5⭐)
-    const ishikaReviews = await Review.find({ rating: { $gte: 4 } })
+    const reviews = await Review.find({ rating: { $gte: 4 } })
       .populate("user", "name")
       .populate("service", "title")
       .sort({ createdAt: -1 });
 
-    const ishikaFiltered = ishikaReviews
-      .filter(r => r.user?.name === "Ishika Pawar")
-      .slice(0, 3); // ✅ only 2
+    // 🔥 1. Ishika specific services
+    const bridal = reviews.find(
+      r =>
+        r.user?.name === "Ishika Pawar" &&
+        r.service?.title === "Bridal Makeup & Styling"
+    );
 
-    // 🔥 2. Other users (exclude Ishika)
-    const otherReviews = ishikaReviews
-      .filter(r => r.user?.name !== "Ishika Pawar")
-      .slice(0, 1); // ✅ only 1
+    const interior = reviews.find(
+      r =>
+        r.user?.name === "Ishika Pawar" &&
+        r.service?.title === "Interior Wall Painting"
+    );
 
-    // 🔥 3. Combine
-    const finalReviews = [...ishikaFiltered, ...otherReviews];
+    const cleaning = reviews.find(
+      r =>
+        r.user?.name === "Ishika Pawar" &&
+        r.service?.title === "Deep Home Cleaning"
+    );
+
+    // 🔥 2. Other user (exclude Ishika)
+    const other = reviews.find(
+      r => r.user?.name !== "Ishika Pawar"
+    );
+
+    // 🔥 3. Final ordered array
+    const finalReviews = [
+      bridal,
+      other,
+      interior,
+      cleaning
+    ].filter(Boolean); // remove null
 
     res.json(finalReviews);
 
