@@ -111,10 +111,10 @@ export const getFeaturedTestimonials = async (req, res) => {
         $sort: { createdAt: -1 }
       },
 
-      // ✅ group by service (1 review per service)
+      // ✅ group by USER (important 🔥)
       {
         $group: {
-          _id: "$service",
+          _id: "$user",
           review: { $first: "$$ROOT" }
         }
       },
@@ -124,14 +124,14 @@ export const getFeaturedTestimonials = async (req, res) => {
         $replaceRoot: { newRoot: "$review" }
       },
 
-      // ✅ limit to 4
+      // ✅ limit 4
       {
         $limit: 4
       }
 
     ]);
 
-    // ✅ populate manually (aggregation ke baad)
+    // ✅ populate
     const populated = await Review.populate(reviews, [
       { path: "user", select: "name" },
       { path: "service", select: "title" }
