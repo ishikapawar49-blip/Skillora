@@ -103,23 +103,23 @@ export const getFeaturedTestimonials = async (req, res) => {
       .sort({ createdAt: -1 });
 
     // 🔥 1. Ishika specific services
-    const bridal = reviews.find(
-      r =>
-        r.user?.name === "Ishika Pawar" &&
-        r.service?.title === "Bridal Makeup & Styling"
-    );
+const bridal = reviews.find(
+  r =>
+    r.user?.name === "Ishika Pawar" &&
+    r.service?.title?.toLowerCase().includes("bridal")
+);
 
-    const interior = reviews.find(
-      r =>
-        r.user?.name === "Ishika Pawar" &&
-        r.service?.title === "Interior Wall Painting"
-    );
+const interior = reviews.find(
+  r =>
+    r.user?.name === "Ishika Pawar" &&
+    r.service?.title?.toLowerCase().includes("interior")
+);
 
-    const cleaning = reviews.find(
-      r =>
-        r.user?.name === "Ishika Pawar" &&
-        r.service?.title === "Deep Home Cleaning"
-    );
+const cleaning = reviews.find(
+  r =>
+    r.user?.name === "Ishika Pawar" &&
+    r.service?.title?.toLowerCase().includes("cleaning")
+);
 
     // 🔥 2. Other user (exclude Ishika)
     const other = reviews.find(
