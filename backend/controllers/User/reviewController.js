@@ -97,78 +97,20 @@ export const getVendorReviews = async (req, res) => {
 export const getFeaturedTestimonials = async (req, res) => {
   try {
 
-    const reviews = await Review.aggregate([
+    const reviews = await Review.find({ rating: { $gte: 4 } })
+      .populate("user", "name")
+      .populate("service", "title")
+      .sort({ createdAt: -1 });
 
-      // ✅ only 4 & 5 star
-      {
-  $match: {
-    rating: { $gte: 4 }
-  }
-},
-{
-  $lookup: {
-    from: "users",
-    localField: "user",
-    foreignField: "_id",
-    as: "userData"
-  }
-},
-{
-  $lookup: {
-    from: "services",
-    localField: "service",
-    foreignField: "_id",
-    as: "serviceData"
-  }
-},
-{
-  $unwind: "$userData"
-},
-{
-  $unwind: "$serviceData"
-},
-{
-  $match: {
-    "userData.name": "Ishika Pawar",
-    "serviceData.title": "Bridal Makeup & Styling"
-  }
-},
+    const filtered = reviews.filter(
+      r =>
+        r.user?.name === "Ishika Pawar" &&
+        r.service?.title === "Bridal Makeup & Styling"
+    );
 
-      // ✅ latest first
-      {
-        $sort: { createdAt: -1 }
-      },
-
-      // ✅ group by USER (important 🔥)
-      {
-        $group: {
-          _id: "$user",
-          review: { $first: "$$ROOT" }
-        }
-      },
-
-      // ✅ flatten
-      {
-        $replaceRoot: { newRoot: "$review" }
-      },
-
-      // ✅ limit 4
-      {
-        $limit: 4
-      }
-
-    ]);
-
-    // ✅ populate
-    const populated = await Review.populate(reviews, [
-      { path: "user", select: "name" },
-      { path: "service", select: "title" }
-    ]);
-
-    res.json(populated);
+    res.json(filtered.slice(0, 1));
 
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: err.message });
   }
 };
