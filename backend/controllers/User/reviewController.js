@@ -97,18 +97,25 @@ export const getVendorReviews = async (req, res) => {
 export const getFeaturedTestimonials = async (req, res) => {
   try {
 
-    const reviews = await Review.find({ rating: { $gte: 4 } })
+    // 🔥 1. Ishika ke reviews (4⭐ & 5⭐)
+    const ishikaReviews = await Review.find({ rating: { $gte: 4 } })
       .populate("user", "name")
       .populate("service", "title")
       .sort({ createdAt: -1 });
 
-    const filtered = reviews.filter(
-      r =>
-        r.user?.name === "Ishika Pawar" &&
-        r.service?.title === "Bridal Makeup & Styling"
-    );
+    const ishikaFiltered = ishikaReviews
+      .filter(r => r.user?.name === "Ishika Pawar")
+      .slice(0, 2); // ✅ only 2
 
-    res.json(filtered.slice(0, 1));
+    // 🔥 2. Other users (exclude Ishika)
+    const otherReviews = ishikaReviews
+      .filter(r => r.user?.name !== "Ishika Pawar")
+      .slice(0, 1); // ✅ only 1
+
+    // 🔥 3. Combine
+    const finalReviews = [...ishikaFiltered, ...otherReviews];
+
+    res.json(finalReviews);
 
   } catch (err) {
     res.status(500).json({ message: err.message });
