@@ -105,7 +105,7 @@ export const getFeaturedTestimonials = async (req, res) => {
 
     const ishikaFiltered = ishikaReviews
       .filter(r => r.user?.name === "Ishika Pawar")
-      .slice(0, 2); // ✅ only 2
+      .slice(0, 3); // ✅ only 2
 
     // 🔥 2. Other users (exclude Ishika)
     const otherReviews = ishikaReviews
