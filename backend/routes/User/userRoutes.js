@@ -2,7 +2,8 @@ import express from "express";
 import { getAllUsers, registerUser, loginUser, getUserAddress, saveAddress,} from "../../controllers/User/userController.js";
 import { createBooking } from "../../controllers/User/bookingController.js";
 import protect, { protectUser } from "../../middleware/authMiddleware.js";
-import { createReview, getMyReviews } from "../../controllers/User/reviewController.js";
+import { createReview, getMyReviews, getFeaturedTestimonials } from "../../controllers/User/reviewController.js";
+
 
 const router = express.Router();
 
@@ -58,4 +59,6 @@ router.post("/reviews", protectUser, createReview);
 // 
 router.get("/reviews", protectUser, getMyReviews);
 
+// 🔥 GET FEATURED TESTIMONIALS
+router.get("/featured", getFeaturedTestimonials);
 export default router;

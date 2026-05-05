@@ -93,3 +93,54 @@ export const getVendorReviews = async (req, res) => {
   }
 };
 
+
+export const getFeaturedTestimonials = async (req, res) => {
+  try {
+
+    const reviews = await Review.aggregate([
+
+      // ✅ only 4 & 5 star
+      {
+        $match: {
+          rating: { $gte: 4 }
+        }
+      },
+
+      // ✅ latest first
+      {
+        $sort: { createdAt: -1 }
+      },
+
+      // ✅ group by service (1 review per service)
+      {
+        $group: {
+          _id: "$service",
+          review: { $first: "$$ROOT" }
+        }
+      },
+
+      // ✅ flatten
+      {
+        $replaceRoot: { newRoot: "$review" }
+      },
+
+      // ✅ limit to 4
+      {
+        $limit: 4
+      }
+
+    ]);
+
+    // ✅ populate manually (aggregation ke baad)
+    const populated = await Review.populate(reviews, [
+      { path: "user", select: "name" },
+      { path: "service", select: "title" }
+    ]);
+
+    res.json(populated);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
