@@ -1,15 +1,15 @@
 import React from "react";
 import "./OurTeam.css";
 
-import team1 from "../../assets/images/pro1.png";
-import team2 from "../../assets/images/pro2.png";
-import team3 from "../../assets/images/pro3.png";
-import team4 from "../../assets/images/pro4.png";
+import team1 from "../../assets/images/t1.jpg";
+import team2 from "../../assets/images/t2.jpg";
+import team3 from "../../assets/images/t3.jpg";
+import team4 from "../../assets/images/t4.jpg";
 
 const teamMembers = [
   {
     id: 1,
-    name: "Alex Rivera",
+    name: "Aarav Mehta",
     role: "CEO & Co-Founder",
     image: team1,
   },
@@ -21,13 +21,13 @@ const teamMembers = [
   },
   {
     id: 3,
-    name: "Marcus Lee",
+    name: "Harsh Malhotra",
     role: "Head of Operations",
     image: team3,
   },
   {
     id: 4,
-    name: "Sofia Chen",
+    name: "Ananya Verma",
     role: "Head of Design",
     image: team4,
   },
