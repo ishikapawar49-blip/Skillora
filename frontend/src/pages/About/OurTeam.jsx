@@ -3,8 +3,8 @@ import "./OurTeam.css";
 
 import team1 from "../../assets/images/t1.jpg";
 import team2 from "../../assets/images/t2.jpg";
-import team3 from "../../assets/images/t3.jpg";
-import team4 from "../../assets/images/t4.jpg";
+import team3 from "../../assets/images/t4.jpg";
+import team4 from "../../assets/images/t3.jpg";
 
 const teamMembers = [
   {
