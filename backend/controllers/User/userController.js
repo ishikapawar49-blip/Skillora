@@ -57,6 +57,83 @@ export const loginUser = async (req, res) => {
     res.status(401).json({ message: "Invalid credentials" });
   }
 };
+ 
+// GOOGLE AUTH
+export const googleAuth = async (
+  req,
+  res
+) => {
+
+try {
+
+const {
+  name,
+  email,
+  image,
+} = req.body;
+
+
+// CHECK USER
+
+let user =
+await User.findOne({ email });
+
+
+// CREATE USER
+
+if (!user) {
+
+user = await User.create({
+
+  name,
+  email,
+  image,
+
+  password:
+  Math.random()
+  .toString(36),
+
+});
+
+}
+
+
+// TOKEN
+
+const token = jwt.sign(
+
+{
+  id: user._id,
+},
+
+process.env.JWT_SECRET,
+
+{
+  expiresIn: "7d",
+}
+
+);
+
+
+res.status(200).json({
+
+  token,
+
+  user,
+
+});
+
+} catch (err) {
+
+console.log(err);
+
+res.status(500).json({
+message: "Google auth failed",
+});
+
+}
+
+};
 
 // GET ALL USERS
 export const getAllUsers = async (req, res) => {

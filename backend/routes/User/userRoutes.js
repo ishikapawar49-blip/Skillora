@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers, registerUser, loginUser, getUserAddress, saveAddress, saveUserLocation, getSavedAddresses} from "../../controllers/User/userController.js";
+import { getAllUsers, registerUser, loginUser, getUserAddress, saveAddress, saveUserLocation, getSavedAddresses, googleAuth} from "../../controllers/User/userController.js";
 import { createBooking } from "../../controllers/User/bookingController.js";
 import protect, { protectUser } from "../../middleware/authMiddleware.js";
 import { createReview, getMyReviews, getFeaturedTestimonials } from "../../controllers/User/reviewController.js";
@@ -13,6 +13,10 @@ router.get("/", protect, getAllUsers);
 // 🔥 USER REGISTER & LOGIN
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.post(
+  "/google-auth",
+  googleAuth
+);
 
 // 🔥 GET USER PROFILE
 router.get("/profile", protectUser, (req, res) => {

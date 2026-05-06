@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import {  signInWithPopup} from "firebase/auth";
+import { auth, provider} from "../../firebase";
 import "./AuthPage.css";
+
 
 const AuthPage = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -74,6 +77,75 @@ const handleLogin = async () => {
   }
 };
 
+// GOOGLE AUTH
+const handleGoogleAuth = async () => {
+
+  try {
+
+    const result =
+    await signInWithPopup(
+      auth,
+      provider
+    );
+
+    const user = result.user;
+
+    // BACKEND API
+
+    const res = await fetch(
+
+`${import.meta.env.VITE_API_URL}/api/users/google-auth`,
+
+{
+  method: "POST",
+
+  headers: {
+    "Content-Type": "application/json",
+  },
+
+  body: JSON.stringify({
+
+    name: user.displayName,
+
+    email: user.email,
+
+    image: user.photoURL,
+
+  }),
+
+}
+
+    );
+
+    const data = await res.json();
+
+    if (res.ok) {
+
+      localStorage.setItem(
+        "userToken",
+        data.token
+      );
+
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify(data)
+      );
+
+      alert("Google Login Success ✅");
+
+      window.location.href = "/";
+
+    }
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
+
+// CHECK AUTH
 useEffect(() => {
   const token = localStorage.getItem("userToken");
 
@@ -130,10 +202,9 @@ useEffect(() => {
               <span></span>
             </div>
 
-<div className="social-login">
-  <button className="social-btn google">Google</button>
-  <button className="social-btn apple">Apple</button>
-</div>
+<button className="social-btn google" onClick={handleGoogleAuth}>
+  Google
+</button>
 
             <p className="bottom-text">
               Don't have an account?
@@ -169,10 +240,9 @@ useEffect(() => {
               <span></span>
             </div>
 
-<div className="social-login">
-  <button className="social-btn google">Google</button>
-  <button className="social-btn apple">Apple</button>
-</div>
+<button className="social-btn google" onClick={handleGoogleAuth}>
+   Google
+</button>
 
             <p className="bottom-text">
               Already have an account?
