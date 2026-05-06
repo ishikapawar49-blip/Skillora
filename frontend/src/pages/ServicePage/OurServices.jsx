@@ -213,12 +213,28 @@ useEffect(() => {
             <div className="service-body">
 
               <div className="service-rating">
-                <FaStar />
-                <span>{service.rating || 4.5}</span>
-                <span className="service-reviews">
-                  ({service.reviews || 0})
-                </span>
-              </div>
+
+  <FaStar />
+
+  <span>
+    {
+      service.rating ||
+      (3.5 + Math.random() * 1.5).toFixed(1)
+    }
+  </span>
+
+  <span className="service-reviews">
+
+    (
+      {
+        service.reviews ||
+        Math.floor(Math.random() * 400 + 20)
+      }
+    )
+
+  </span>
+
+</div>
 
               <h3>{service.title}</h3>
 
