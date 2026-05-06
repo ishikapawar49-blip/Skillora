@@ -47,13 +47,19 @@ View All →
 
 {professionals.map((pro)=> (
 
-<div className="tp-card" key={pro.id}>
+<div className="tp-card" key={pro._id}>
 
 <div className="tp-top">
 
 <div className="tp-avatar">
 
-<img src={pro.image} />
+{/* <img src={pro.image} /> */}
+<img
+  src={
+    pro.profileImage ||
+    "https://via.placeholder.com/100"
+  }
+/>
 
 <div className="tp-verified">
 <FiCheckCircle/>
