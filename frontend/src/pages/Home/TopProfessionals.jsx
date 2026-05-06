@@ -1,46 +1,23 @@
 import "./TopProfessionals.css";
 import { FiMapPin, FiCheckCircle } from "react-icons/fi";
-import {FaStar} from "react-icons/fa"
-import pro4 from "../../assets/images/pro4.png";
-import pro2 from "../../assets/images/pro2.png";
-import pro3 from "../../assets/images/pro3.png";
-
-export const professionals = [
-{
-id:1,
-name:"Rahul Verma",
-role:"Home Cleaning Expert",
-rating:"4.9",
-reviews:"234",
-location:"Mumbai",
-jobs:"567",
-image:pro4
-},
-
-{
-id:2,
-name:"Sandeep Patel",
-role:"Licensed Plumber",
-rating:"4.8",
-reviews:"189",
-location:"Delhi",
-jobs:"423",
-image:pro3
-},
-
-{
-id:3,
-name:"Neha Sharma",
-role:"Makeup Artist",
-rating:"4.9",
-reviews:"312",
-location:"Bangalore",
-jobs:"678",
-image:pro2
-}
-]
+import {FaStar} from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 function TopProfessionals(){
+
+const [professionals, setProfessionals] = useState([]);
+const API = import.meta.env.VITE_API_URL;
+
+useEffect(() => {
+  fetch(`${API}/api/vendor/nearby`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`
+    }
+  })
+    .then(res => res.json())
+    .then(data => setProfessionals(data))
+    .catch(err => console.log(err));
+}, []);
 
 return(
 
@@ -87,9 +64,14 @@ View All →
 
 <div className="tp-info">
 
-<h3>{pro.name}</h3>
+<h3>{pro.ownerName}</h3>
 
-<p className="tp-role">{pro.role}</p>
+<p className="tp-role">{pro.category}</p>
+
+<span className="tp-location">
+  <FiMapPin/>
+  {pro.city || "Nearby"}
+</span>
 
 <div className="tp-meta">
 

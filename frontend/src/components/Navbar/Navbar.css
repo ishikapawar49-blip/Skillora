@@ -173,3 +173,19 @@
     font-size:15px;
   }
 }
+
+.nav-location{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:14px;
+  cursor:pointer;
+  padding:6px 10px;
+  border-radius:8px;
+  background:#f3f4f6;
+  transition:0.2s;
+}
+
+.nav-location:hover{
+  background:#e5e7eb;
+}

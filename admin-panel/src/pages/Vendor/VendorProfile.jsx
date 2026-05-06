@@ -11,7 +11,9 @@ export default function VendorProfile() {
     email: "",
     phone: "",
     bio: "",
-    address: "",
+    locality: "",
+  city: "",
+  pincode: "",
     profileImage: "",
     documents: []
   });
@@ -27,15 +29,21 @@ export default function VendorProfile() {
         });
 
         const data = await res.json();
-        setVendor({
+setVendor({
+
   businessName: data.businessName || "",
   ownerName: data.ownerName || "",
   email: data.email || "",
   phone: data.phone || "",
   bio: data.bio || "",
-  address: data.address || "",
+
+  locality: data.locality || "",
+  city: data.city || "",
+  pincode: data.pincode || "",
+
   profileImage: data.profileImage || "",
   documents: data.documents || []
+
 });
 
       } catch (err) {
@@ -47,31 +55,58 @@ export default function VendorProfile() {
   }, []);
 
   // 🔥 INPUT CHANGE
-  const handleChange = (e) => {
-    setVendor({
-      ...vendor,
-      [e.target.name]: e.target.value
-    });
-  };
-
+const handleChange = (e) => {
+  setVendor({
+    ...vendor,
+    [e.target.name]: e.target.value
+  });
+};
   // 🔥 SAVE PROFILE
-  const handleSave = async () => {
-    try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/profile`, {
+const handleSave = async () => {
+
+  try {
+
+    console.log("SENDING:", vendor);
+
+    const res = await fetch(
+
+      `${import.meta.env.VITE_API_URL}/api/vendor/profile`,
+
+      {
         method: "PUT",
+
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("vendorToken")}`
         },
+
         body: JSON.stringify(vendor)
-      });
 
-      alert("Profile updated ✅");
+      }
 
-    } catch (err) {
-      console.log(err);
+    );
+
+    const data = await res.json();
+
+    console.log("RESPONSE:", data);
+
+    if (!res.ok) {
+
+      alert(data.message || "Save failed");
+
+      return;
+
     }
-  };
+
+    alert("Profile updated ✅");
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
 
   // 🔥 PROFILE IMAGE UPLOAD
   const handleImageUpload = async (e) => {
@@ -228,12 +263,46 @@ const deleteDocument = async (docId) => {
           </div>
 
           <div>
-            <label>Address</label>
-            <input
-              name="address"
-              value={vendor.address}
-              onChange={handleChange}
-            />
+          
+<div className="profile-grid">
+
+  <div>
+    <label>Locality</label>
+
+    <input
+      type="text"
+      name="locality"
+      value={vendor.locality || ""}
+      onChange={handleChange}
+      placeholder="Digdoh"
+    />
+  </div>
+
+  <div>
+    <label>City</label>
+
+    <input
+      type="text"
+      name="city"
+      value={vendor.city || ""}
+      onChange={handleChange}
+      placeholder="Nagpur"
+    />
+  </div>
+
+  <div>
+    <label>Pincode</label>
+
+    <input
+      type="text"
+      name="pincode"
+      value={vendor.pincode || ""}
+      onChange={handleChange}
+      placeholder="440036"
+    />
+  </div>
+
+</div>
           </div>
 
         </div>

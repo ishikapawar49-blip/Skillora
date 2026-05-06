@@ -11,10 +11,13 @@ import {
   getVendorEarnings,
   createWithdrawRequest,
   getVendorProfile,
+  getNearbyVendors,
+  getAllVendors,
+  updateVendorProfile,
 } from "../../controllers/Vendor/vendorController.js";
 import { getVendorDashboard } from "../../controllers/Vendor/vendorDashboardController.js";
 import Vendor from "../../models/Vendor/Vendor.js";
-import { protectVendor } from "../../middleware/authMiddleware.js";
+import { protectVendor, protectUser } from "../../middleware/authMiddleware.js";
 import upload from "../../middleware/uploadMiddleware.js";
 import Service from "../../models/Service/Service.js";
 import { getVendorReviews } from "../../controllers/User/reviewController.js";
@@ -96,28 +99,6 @@ router.get("/profile", protectVendor, async (req, res) => {
   }
 });
 
-// ✅ UPDATE PROFILE
-router.put("/profile", protectVendor, async (req, res) => {
-  try {
-    const vendor = await Vendor.findById(req.vendor._id);
-    
-    vendor.businessName = req.body.businessName;
-    vendor.bio = req.body.bio;
-    vendor.address = req.body.address;
-    vendor.phone = req.body.phone; // ✅ editable
-
-    // ❌ NOT editable
-    // vendor.ownerName ❌
-    // vendor.email ❌
-    if (req.body.profileImage) {
-      vendor.profileImage = req.body.profileImage;
-    }
-    await vendor.save();
-    res.json(vendor);
-  } catch (err) {
-    res.status(500).json({ message: "Update failed" });
-  }
-});
 
 
 // ✅ UPLOAD PROFILE IMAGE
@@ -185,14 +166,14 @@ router.delete("/document/:docId", protectVendor, async (req, res) => {
 });
 
 // ✅ GET ALL APPROVED VENDORS (FOR PROFESSIONALS PAGE)
-router.get("/all", async (req, res) => {
-  try {
-    const vendors = await Vendor.find({ status: "approved" });
-    res.json(vendors);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching vendors" });
-  }
-});
+// router.get("/all", async (req, res) => {
+//   try {
+//     const vendors = await Vendor.find({ status: "approved" });
+//     res.json(vendors);
+//   } catch (err) {
+//     res.status(500).json({ message: "Error fetching vendors" });
+//   }
+// });
 
 
 // ✅ GET EARNINGS & STATS
@@ -208,11 +189,22 @@ router.get("/reviews", protectVendor, getVendorReviews);
 router.get("/notifications", protectVendor, getVendorNotifications);
 router.put("/notifications/read", protectVendor, markAllRead);
 
-//
+// ✅ GET PROFILE
 router.get("/profile", protectVendor, getVendorProfile);
+
+// ✅ UPDATE PROFILE
+router.put("/profile", protectVendor,updateVendorProfile);
+
+// ✅ GET NEARBY VENDORS
+router.get("/all", getAllVendors);
+
+// ✅ GET UNREAD NOTIFICATIONS COUNT
 router.get("/notifications/unread-count", protectVendor, getUnreadCount);
 
 // dashboard 
 router.get("/dashboard", protectVendor, getVendorDashboard);
+
+// ✅ GET NEARBY VENDORS
+router.get("/nearby", protectUser, getNearbyVendors);
 
 export default router;

@@ -3,6 +3,7 @@ import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import LocationModal from "./components/Location/LocationModal";
 
 import Home from "./pages/Home/Home";
 

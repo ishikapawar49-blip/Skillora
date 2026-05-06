@@ -14,7 +14,29 @@ const navigate = useNavigate();
 useEffect(() => {
   const fetchVendors = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/vendor/all`);
+const coords = JSON.parse(
+  localStorage.getItem("userCoordinates")
+);
+
+const savedLocation =
+  localStorage.getItem("userLocation");
+
+let city = "";
+
+if (savedLocation) {
+
+  city = savedLocation
+    .split(",")[1]
+    ?.split("-")[0]
+    ?.trim();
+
+}
+
+const res = await fetch(
+
+`${import.meta.env.VITE_API_URL}/api/vendor/all?lat=${coords?.lat}&lng=${coords?.lng}&city=${city}`
+
+);
       const data = await res.json();
 
       setVendors(data);
@@ -98,7 +120,13 @@ onChange={(e)=>setSearch(e.target.value)}
 
 <span className="professionals-location">
 <FiMapPin/>
-{pro.address?.split(",")[1] || "India"}
+{
+  pro.locality || pro.city || pro.pincode
+    ? `${pro.locality || ""}${pro.locality ? ", " : ""}
+       ${pro.city || ""}${pro.pincode ? " - " : ""}
+       ${pro.pincode || ""}`
+    : "Location not added"
+}
 </span>
 
 </div>

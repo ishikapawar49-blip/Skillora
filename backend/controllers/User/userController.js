@@ -102,15 +102,97 @@ export const getUserAddress = async (req, res) => {
 
 // Save user address
 export const saveAddress = async (req, res) => {
+
   try {
-    const address = await Address.create({
+
+    const {
+      fullAddress,
+      pincode,
+      lat,
+      lng,
+      type
+    } = req.body;
+
+    // duplicate check
+
+    const alreadyExists = await Address.findOne({
       user: req.user._id,
-      ...req.body,
+      fullAddress
+    });
+
+    if (alreadyExists) {
+      return res.json(alreadyExists);
+    }
+
+    const address = await Address.create({
+
+      user: req.user._id,
+
+      fullAddress,
+
+      locality: fullAddress,
+
+      pincode,
+
+      lat,
+
+      lng,
+
+      type
+
     });
 
     res.status(201).json(address);
+
   } catch (err) {
-    res.status(500).json({ message: "Server Error" });
+
+    res.status(500).json({
+      message: "Server Error"
+    });
+
+  }
+
+};
+
+export const saveUserLocation = async (req, res) => {
+  try {
+    const { lat, lng, city } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    user.location = {
+      type: "Point",
+      coordinates: [lng, lat]
+    };
+
+    user.city = city;
+
+    await user.save();
+
+    res.json({ success: true });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
+// Get saved addresses
+export const getSavedAddresses = async (req, res) => {
+
+  try {
+
+    const addresses = await Address.find({
+      user: req.user._id
+    }).sort({ createdAt: -1 });
+
+    res.json(addresses);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};

@@ -1,3 +1,4 @@
+import LocationSelector from "./LocationSelector";
 import Hero from "./Hero";
 import ByCategories from "./ByCategories";
 import PopularServices from "./PopularServices";
@@ -9,6 +10,7 @@ import CTASection from "./CTASection";
 function Home() {
   return (
     <>
+      {/* <LocationSelector /> */}
       <Hero />
       <ByCategories />
       <PopularServices/>

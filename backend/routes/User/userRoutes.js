@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers, registerUser, loginUser, getUserAddress, saveAddress,} from "../../controllers/User/userController.js";
+import { getAllUsers, registerUser, loginUser, getUserAddress, saveAddress, saveUserLocation, getSavedAddresses} from "../../controllers/User/userController.js";
 import { createBooking } from "../../controllers/User/bookingController.js";
 import protect, { protectUser } from "../../middleware/authMiddleware.js";
 import { createReview, getMyReviews, getFeaturedTestimonials } from "../../controllers/User/reviewController.js";
@@ -61,4 +61,11 @@ router.get("/reviews", protectUser, getMyReviews);
 
 // 🔥 GET FEATURED TESTIMONIALS
 router.get("/featured", getFeaturedTestimonials);
+
+// 🔐 SAVE USER LOCATION
+router.post("/location", protectUser, saveUserLocation);
+
+//
+router.get("/saved-addresses", protect, getSavedAddresses);
+
 export default router;

@@ -1,4 +1,5 @@
 import Vendor from "../../models/Vendor/Vendor.js";
+import User from "../../models/User/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Service from "../../models/Service/Service.js";
@@ -8,7 +9,7 @@ import Notification from "../../models/Vendor/Notification.js";
 import { sendEmail } from "../../utils/sendEmail.js";
 import { skilloraTemplate } from "../../utils/emailTemplate.js";
 import { createNotification } from "../Admin/notificationController.js";
-
+import fetch from "node-fetch";
 
 // 🔐 TOKEN
 const generateToken = (id) => {
@@ -441,6 +442,113 @@ export const getVendorProfile = async (req, res) => {
   }
 };
 
+// ✅ UPDATE VENDOR PROFILE
+export const updateVendorProfile = async (req, res) => {
+
+  try {
+
+    console.log("BODY:", req.body);
+
+    const vendor = await Vendor.findById(
+      req.vendor._id
+    );
+
+    if (!vendor) {
+
+      return res.status(404).json({
+        message: "Vendor not found"
+      });
+
+    }
+
+    // =========================================
+    // SAVE BASIC DATA
+    // =========================================
+
+    vendor.businessName = req.body.businessName;
+    vendor.ownerName = req.body.ownerName;
+    vendor.bio = req.body.bio;
+    vendor.phone = req.body.phone;
+
+    vendor.locality = req.body.locality;
+    vendor.city = req.body.city;
+    vendor.pincode = req.body.pincode;
+
+    // =========================================
+    // GEO LOCATION
+    // =========================================
+
+    try {
+
+      if (
+        vendor.locality &&
+        vendor.city &&
+        vendor.pincode
+      ) {
+
+        const fullAddress = `
+          ${vendor.locality},
+          ${vendor.city},
+          ${vendor.pincode}
+        `;
+
+        const geoRes = await fetch(
+
+`https://us1.locationiq.com/v1/search?key=${process.env.LOCATIONIQ_KEY}&q=${encodeURIComponent(fullAddress)}&format=json`
+
+        );
+
+        const geoData = await geoRes.json();
+
+        if (geoData?.length > 0) {
+
+          vendor.location = {
+
+            type: "Point",
+
+            coordinates: [
+
+              Number(geoData[0].lon),
+
+              Number(geoData[0].lat)
+
+            ]
+
+          };
+
+        }
+
+      }
+
+    } catch (err) {
+
+      console.log("Geo Error:", err.message);
+
+    }
+
+    // =========================================
+    // SAVE
+    // =========================================
+
+    await vendor.save();
+
+    console.log("SAVED:", vendor);
+
+    res.json(vendor);
+
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+
+};
+
+// ✅ GET VENDOR NOTIFICATIONS
 export const getVendorNotifications = async (req, res) => {
   const vendorId = req.vendor._id;
 
@@ -450,3 +558,121 @@ export const getVendorNotifications = async (req, res) => {
   res.json(notifications);
 };
 
+
+// ✅ GET ALL VENDORS (NEAREST FIRST)
+export const getAllVendors = async (req, res) => {
+
+  try {
+
+    const {
+      lat,
+      lng,
+      city
+    } = req.query;
+
+    let nearbyVendors = [];
+
+    // =========================================
+    // NEARBY 20KM
+    // =========================================
+
+    if (lat && lng) {
+
+      nearbyVendors = await Vendor.find({
+
+        status: "approved",
+
+        location: {
+
+          $near: {
+
+            $geometry: {
+
+              type: "Point",
+
+              coordinates: [
+                Number(lng),
+                Number(lat)
+              ]
+
+            },
+
+            $maxDistance: 20000
+
+          }
+
+        }
+
+      });
+
+    }
+
+    // =========================================
+    // SAME CITY
+    // =========================================
+
+    const cityVendors = await Vendor.find({
+
+      status: "approved",
+
+      city: new RegExp(city, "i")
+
+    });
+
+    // =========================================
+    // REMOVE DUPLICATES
+    // =========================================
+
+    const merged = [
+
+      ...nearbyVendors,
+
+      ...cityVendors.filter(
+        cityVendor =>
+
+          !nearbyVendors.some(
+            nearby =>
+              nearby._id.toString() ===
+              cityVendor._id.toString()
+          )
+      )
+
+    ];
+
+    res.json(merged);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};
+
+
+// ✅ GET NEARBY VENDORS
+export const getNearbyVendors = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    const vendors = await Vendor.aggregate([
+      {
+        $geoNear: {
+          near: user.location,
+          distanceField: "distance",
+          spherical: true
+        }
+      },
+      {
+        $limit: 20
+      }
+    ]);
+
+    res.json(vendors);
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

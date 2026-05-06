@@ -18,6 +18,23 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "active",
   },
+  
+   location: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      default: "Point"
+    },
+    coordinates: {
+      type: [Number], // [lng, lat]
+    }
+  },
+
+  city: {
+    type: String,
+    default: ""
+  }
+
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);

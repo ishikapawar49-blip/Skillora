@@ -32,12 +32,32 @@ const OurServices = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-       let url = `${import.meta.env.VITE_API_URL}/api/services`;
+const coords = JSON.parse(
+  localStorage.getItem("userCoordinates")
+);
+
+const savedLocation =
+  localStorage.getItem("userLocation");
+
+let city = "";
+
+if (savedLocation) {
+
+  city = savedLocation
+    .split(",")[1]
+    ?.split("-")[0]
+    ?.trim();
+
+}
+
+let url =
+
+`${import.meta.env.VITE_API_URL}/api/services?lat=${coords?.lat}&lng=${coords?.lng}&city=${city}`;
 
 if (vendorId) {
-  url += `?vendor=${vendorId}`;
+  url += `&vendor=${vendorId}`;
 } else if (categoryFromURL) {
-  url += `?category=${categoryFromURL}`;
+  url += `&category=${categoryFromURL}`;
 }
 
 const res = await fetch(url);

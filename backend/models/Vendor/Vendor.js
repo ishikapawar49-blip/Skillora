@@ -12,7 +12,32 @@ const vendorSchema = new mongoose.Schema({
   businessName: String,
   category: String,
   bio: String,
-  address: String,
+
+  location: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      default: "Point"
+    },
+    coordinates: {
+      type: [Number], // [lng, lat]
+    }
+  },
+
+locality: {
+    type: String,
+    default: ""
+  },
+
+  city: {
+    type: String,
+    default: ""
+  },
+
+  pincode: {
+    type: String,
+    default: ""
+  },
 
   // 🖼 PROFILE IMAGE
   profileImage: {
@@ -36,5 +61,9 @@ const vendorSchema = new mongoose.Schema({
   }
 
 }, { timestamps: true });
+
+vendorSchema.index({
+  location: "2dsphere"
+});
 
 export default mongoose.model("Vendor", vendorSchema);
