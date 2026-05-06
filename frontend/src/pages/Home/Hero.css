@@ -248,7 +248,7 @@
 }
 
 /* SHINE EFFECT */
-.hero-stat-card::after{
+/* .hero-stat-card::after{
   content:"";
   position:absolute;
   top:-120%;
@@ -258,7 +258,7 @@
   background:rgba(255,255,255,0.25);
   transform:rotate(25deg);
   transition:0.7s;
-}
+} */
 
 /* CONTENT ABOVE GRADIENT */
 .hero-stat-card h3,
@@ -280,12 +280,12 @@
 }
 
 /* HOVER */
-/* .hero-stat-card:hover{
+.hero-stat-card:hover{
   transform:translateY(-8px) scale(1.03);
   box-shadow:
     0 10px 30px rgba(124,107,255,0.35),
     0 10px 30px rgba(255,106,106,0.25);
-} */
+}
 
 .hero-stat-card:hover::before{
   opacity:0.9;
