@@ -121,11 +121,14 @@ onChange={(e)=>setSearch(e.target.value)}
 <span className="professionals-location">
 <FiMapPin/>
 {
-  pro.locality || pro.city || pro.pincode
-    ? `${pro.locality || ""}${pro.locality ? ", " : ""}
-       ${pro.city || ""}${pro.pincode ? " - " : ""}
-       ${pro.pincode || ""}`
-    : "Location not added"
+  typeof pro.locality === "string" ||
+ typeof pro.city === "string" ||
+ typeof pro.pincode === "string"
+  ? `${pro.locality || ""}${pro.locality ? ", " : ""}
+     ${typeof pro.city === "string" ? pro.city : ""}
+     ${pro.pincode ? " - " : ""}
+     ${pro.pincode || ""}`
+  : "Location not added"
 }
 </span>
 

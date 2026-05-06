@@ -82,8 +82,15 @@ View All →
 </span>
 
 <span className="tp-location">
-<FiMapPin/>
-{pro.location}
+  <FiMapPin/>
+  {
+    pro.locality || pro.city || pro.pincode
+      ? `${pro.locality || ""}${pro.locality ? ", " : ""}
+         ${pro.city || ""}
+         ${pro.pincode ? " - " : ""}
+         ${pro.pincode || ""}`
+      : "Location not added"
+  }
 </span>
 
 </div>
