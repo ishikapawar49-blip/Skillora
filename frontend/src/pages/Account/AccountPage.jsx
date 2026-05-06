@@ -112,12 +112,12 @@ const past = bookings.filter(
         <FiClock/> Past Bookings
         </button>
 
-        <button
+        {/* <button
         className={activeTab==="payments" ? "tab active":"tab"}
         onClick={()=>setActiveTab("payments")}
         >
         <FiCreditCard/> Payments
-        </button>
+        </button> */}
 
         <button
         className={activeTab==="profile" ? "tab active":"tab"}
