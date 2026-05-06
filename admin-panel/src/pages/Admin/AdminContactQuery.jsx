@@ -175,6 +175,7 @@ setSearch(e.target.value)
 <th>User</th>
 <th>Email</th>
 <th>Subject</th>
+<th>Message</th>
 <th>Status</th>
 <th>Date</th>
 <th>Actions</th>
@@ -195,6 +196,10 @@ setSearch(e.target.value)
 <td>{item.email}</td>
 
 <td>{item.subject}</td>
+
+<td className="message-cell">
+{item.message}
+</td>
 
 <td>
 

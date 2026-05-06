@@ -99,3 +99,15 @@ background:linear-gradient(
 color:white;
 cursor:pointer;
 }
+
+.message-cell{
+  max-width: 280px;
+  min-width: 220px;
+  color:#555;
+  line-height:1.5;
+  font-size:14px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
