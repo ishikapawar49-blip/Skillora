@@ -82,3 +82,19 @@ transition:0.3s;
 .location-item:hover{
 background:#f5f5f5;
 }
+
+.location-results{
+  margin-top:20px;
+  max-height:300px;
+  overflow-y:auto;
+}
+
+.location-item{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+
+.location-item:hover{
+  background:#f5f5f5;
+}

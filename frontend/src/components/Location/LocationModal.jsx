@@ -9,44 +9,7 @@ function LocationModal({
 
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  // const [savedAddresses, setSavedAddresses] = useState([]);
 
-//   useEffect(() => {
-
-//   fetchSavedAddresses();
-
-// }, []);
-  // =========================================
-  // SEARCH LOCATION
-  // =========================================
-
-//   const fetchSavedAddresses = async () => {
-
-//   try {
-
-//     const response = await fetch(
-
-//       `${import.meta.env.VITE_API_URL}/api/users/saved-addresses`,
-
-//       {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("userToken")}`
-//         }
-//       }
-
-//     );
-
-//     const data = await response.json();
-
-//     setSavedAddresses(data);
-
-//   } catch (error) {
-
-//     console.log(error);
-
-//   }
-
-// };
 
   const searchLocation = async (value) => {
 
@@ -71,23 +34,89 @@ function LocationModal({
   // SELECT LOCATION
   // =========================================
 
-  const selectLocation = (place) => {
+  // const selectLocation = (place) => {
 
-    const locationName = place.display_name
-      .split(",")
-      .slice(0, 2)
-      .join(",");
+  //   const locationName = place.display_name
+  //     .split(",")
+  //     .slice(0, 2)
+  //     .join(",");
 
-    localStorage.setItem(
-      "userLocation",
-      locationName
+  //   localStorage.setItem(
+  //     "userLocation",
+  //     locationName
+  //   );
+
+  //   setLocation(locationName);
+
+  //   closeModal();
+
+  // };
+
+  const selectLocation = async (place) => {
+
+  const locationName = place.display_name
+    .split(",")
+    .slice(0, 2)
+    .join(",");
+
+  // SAVE LOCATION
+  localStorage.setItem(
+    "userLocation",
+    locationName
+  );
+
+  // SAVE COORDINATES
+  localStorage.setItem(
+    "userCoordinates",
+    JSON.stringify({
+      lat: place.lat,
+      lng: place.lon
+    })
+  );
+
+  // UPDATE NAVBAR
+  setLocation(locationName);
+
+  // SAVE TO BACKEND
+  try {
+
+    await fetch(
+      `${import.meta.env.VITE_API_URL}/api/users/location`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            `Bearer ${localStorage.getItem("userToken")}`
+        },
+
+        body: JSON.stringify({
+
+          lat: place.lat,
+          lng: place.lon,
+          city:
+            place.address?.city ||
+            place.address?.town ||
+            place.address?.village ||
+            ""
+
+        })
+
+      }
     );
 
-    setLocation(locationName);
+  } catch (err) {
 
-    closeModal();
+    console.log(err);
 
-  };
+  }
+
+  closeModal();
+
+    window.location.reload();
+
+};
 
   return (
 
@@ -134,36 +163,7 @@ function LocationModal({
 
         </div>
 
-{/* <div className="saved-address-section">
 
-  <h3>Your Saved Addresses</h3>
-
-  {
-
-    savedAddresses.map((item) => (
-
-      <div
-        key={item._id}
-        className="saved-address-card"
-      >
-
-        <div>
-
-          <h4>🏠 {item.type}</h4>
-
-          <p>{item.fullAddress}</p>
-
-          <span>{item.pincode}</span>
-
-        </div>
-
-      </div>
-
-    ))
-
-  }
-
-</div> */}
 
         {/* RESULTS */}
 
