@@ -9,45 +9,44 @@ function LocationModal({
 
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  const [savedAddresses, setSavedAddresses] = useState([]);
+  // const [savedAddresses, setSavedAddresses] = useState([]);
 
+//   useEffect(() => {
 
-  useEffect(() => {
+//   fetchSavedAddresses();
 
-  fetchSavedAddresses();
-
-}, []);
+// }, []);
   // =========================================
   // SEARCH LOCATION
   // =========================================
 
-  const fetchSavedAddresses = async () => {
+//   const fetchSavedAddresses = async () => {
 
-  try {
+//   try {
 
-    const response = await fetch(
+//     const response = await fetch(
 
-      `${import.meta.env.VITE_API_URL}/api/users/saved-addresses`,
+//       `${import.meta.env.VITE_API_URL}/api/users/saved-addresses`,
 
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`
-        }
-      }
+//       {
+//         headers: {
+//           Authorization: `Bearer ${localStorage.getItem("userToken")}`
+//         }
+//       }
 
-    );
+//     );
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    setSavedAddresses(data);
+//     setSavedAddresses(data);
 
-  } catch (error) {
+//   } catch (error) {
 
-    console.log(error);
+//     console.log(error);
 
-  }
+//   }
 
-};
+// };
 
   const searchLocation = async (value) => {
 
@@ -135,7 +134,7 @@ function LocationModal({
 
         </div>
 
-<div className="saved-address-section">
+{/* <div className="saved-address-section">
 
   <h3>Your Saved Addresses</h3>
 
@@ -164,7 +163,7 @@ function LocationModal({
 
   }
 
-</div>
+</div> */}
 
         {/* RESULTS */}
 
