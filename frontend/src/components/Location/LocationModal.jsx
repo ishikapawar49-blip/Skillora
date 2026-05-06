@@ -11,96 +11,81 @@ function LocationModal({
   const [results, setResults] = useState([]);
   const searchTimeout = useRef();
 
-  // const searchLocation = async (value) => {
-
-  //   setSearch(value);
-
-  //   if (value.length < 3) {
-  //     setResults([]);
-  //     return;
-  //   }
-
-  //   const response = await fetch(
-  //     `https://us1.locationiq.com/v1/search?key=${import.meta.env.VITE_LOCATIONIQ_KEY}&q=${value}&format=json`
-  //   );
-
-  //   const data = await response.json();
-
-  //   setResults(data);
-
-  // };
-
-  const searchLocation = async (value) => {
-
-  setSearch(value);
-
-  if (value.length < 3) {
-
-    setResults([]);
-    return;
-
-  }
-
-  clearTimeout(searchTimeout.current);
-
-  searchTimeout.current = setTimeout(async () => {
-
-    try {
-
-      const response = await fetch(
-
-        `https://us1.locationiq.com/v1/search?key=${
-          import.meta.env.VITE_LOCATIONIQ_KEY
-        }&q=${value}&countrycodes=in&format=json`
-
-      );
-
-      const data = await response.json();
-
-      // 🔥 IMPORTANT
-      if (Array.isArray(data)) {
-
-        setResults(data);
-
-      } else {
-
-        setResults([]);
-
-      }
-
-    } catch (error) {
-
-      console.log(error);
-
-      setResults([]);
-
-    }
-
-  }, 700);
-
-};
 
   // =========================================
   // SELECT LOCATION
   // =========================================
+const selectLocation = async (place) => {
 
-  // const selectLocation = (place) => {
+  const locationName = place.display_name
+    .split(",")
+    .slice(0, 2)
+    .join(",");
 
-  //   const locationName = place.display_name
-  //     .split(",")
-  //     .slice(0, 2)
-  //     .join(",");
+  // ✅ SAVE LOCATION
+  localStorage.setItem(
+    "userLocation",
+    locationName
+  );
 
-  //   localStorage.setItem(
-  //     "userLocation",
-  //     locationName
-  //   );
+  // ✅ IMPORTANT
+  localStorage.setItem(
+    "manualLocationSelected",
+    "true"
+  );
 
-  //   setLocation(locationName);
+  // ✅ SAVE COORDINATES
+  localStorage.setItem(
+    "userCoordinates",
+    JSON.stringify({
+      lat: place.lat,
+      lng: place.lon
+    })
+  );
 
-  //   closeModal();
+  // ✅ UPDATE NAVBAR
+  setLocation(locationName);
 
-  // };
+  // ✅ SAVE TO BACKEND
+  try {
+
+    await fetch(
+      `${import.meta.env.VITE_API_URL}/api/users/location`,
+      {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            `Bearer ${localStorage.getItem("userToken")}`
+        },
+
+        body: JSON.stringify({
+
+          lat: place.lat,
+          lng: place.lon,
+
+          city:
+            place.address?.city ||
+            place.address?.town ||
+            place.address?.village ||
+            ""
+
+        })
+
+      }
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+  closeModal();
+
+};
 
 const searchLocation = async (value) => {
 
@@ -221,7 +206,7 @@ const searchLocation = async (value) => {
 
 {Array.isArray(results) &&
 results.map((place, index) => (
-  
+
             <div
               key={index}
               className="location-item"

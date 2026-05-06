@@ -30,17 +30,19 @@ function Navbar() {
   // AUTO LOCATION FETCH
   // =========================================
 
-  useEffect(() => {
-
-    const savedLocation = localStorage.getItem("userLocation");
-
-    if (savedLocation) {
-      setLocation(savedLocation);
-    }
-
+useEffect(() => {
+  const savedLocation =
+    localStorage.getItem("userLocation");
+  const manualLocationSelected =
+    localStorage.getItem("manualLocationSelected");
+  if (savedLocation) {
+    setLocation(savedLocation);
+  }
+  // ✅ ONLY AUTO DETECT FIRST TIME
+  if (!manualLocationSelected) {
     fetchUserLocation();
-
-  }, []);
+  }
+}, []);
 
   // =========================================
   // FETCH LIVE LOCATION
