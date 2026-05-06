@@ -160,3 +160,28 @@ label {
   color: #7b61ff;
   cursor: pointer;
 }
+
+/* SIGNUP */
+/* SIGNUP PAGE IMPROVEMENTS */
+
+.login-card form label{
+  display:block;
+  margin-bottom:6px;
+  color:#333;
+}
+
+.login-card .input-box{
+  margin-bottom:18px;
+}
+
+.login-card .input-box input{
+  font-size:15px;
+}
+
+.login-card .login-btn{
+  margin-top:8px;
+}
+
+.login-card h2{
+  margin-top:5px;
+}
