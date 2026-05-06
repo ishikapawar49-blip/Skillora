@@ -21,7 +21,7 @@ function Hero() {
             beauty, wellness and more — all in minutes.
           </p>
 
-          <div className="search-box">
+          {/* <div className="search-box">
 
             <div className="search-input">
               <FiSearch className="search-icon"/>
@@ -36,7 +36,38 @@ function Hero() {
               Search
             </button>
 
-          </div>
+          </div> */}
+
+          <div className="hero-actions">
+
+  <button className="hero-primary-btn">
+    Book a Service
+  </button>
+
+  <button className="hero-secondary-btn">
+    Explore Professionals
+  </button>
+
+</div>
+
+<div className="hero-stats">
+
+  <div className="hero-stat-card">
+    <h3>500+</h3>
+    <p>Verified Professionals</p>
+  </div>
+
+  <div className="hero-stat-card">
+    <h3>10K+</h3>
+    <p>Happy Customers</p>
+  </div>
+
+  <div className="hero-stat-card">
+    <h3>24/7</h3>
+    <p>Service Support</p>
+  </div>
+
+</div>
 
           <div className="hero-users">
 
