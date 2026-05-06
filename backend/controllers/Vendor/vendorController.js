@@ -503,9 +503,7 @@ export const updateVendorProfile = async (req, res) => {
         if (geoData?.length > 0) {
 
           vendor.location = {
-
             type: "Point",
-
             coordinates: [
 
               Number(geoData[0].lon),
