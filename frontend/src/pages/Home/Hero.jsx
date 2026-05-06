@@ -37,7 +37,7 @@ function Hero() {
             </button>
 
           </div> */}
-
+{/* 
           <div className="hero-actions">
 
   <button className="hero-primary-btn">
@@ -48,7 +48,7 @@ function Hero() {
     Explore Professionals
   </button>
 
-</div>
+</div> */}
 
 <div className="hero-stats">
 
