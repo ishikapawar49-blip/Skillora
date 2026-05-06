@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { MessageSquare } from "lucide-react";
 import {
   LayoutDashboard,
   Users,
@@ -21,6 +22,7 @@ const items = [
   { title: "Bookings", url: "/admin/bookings", icon: CalendarCheck },
   { title: "Payments", url: "/admin/payments", icon: CreditCard },
   { title: "Reviews", url: "/admin/reviews", icon: Star },
+  {title: "Contact Queries",url: "/admin/contacts",icon: MessageSquare,},
   { title: "Notifications", url: "/admin/notifications", icon: Bell },
   // { title: "Settings", url: "/admin/settings", icon: Settings },
 ];

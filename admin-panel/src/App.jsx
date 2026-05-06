@@ -14,6 +14,7 @@ import AdminServices from "./pages/Admin/AdminServices";
 import AdminBookings from "./pages/Admin/AdminBookings";
 import AdminPayments from "./pages/Admin/AdminPayments";
 import AdminReviews from "./pages/Admin/AdminReviews";
+import Contacts from "./pages/Contacts/Contacts";
 import AdminNotifications from "./pages/Admin/AdminNotifications";
 import AdminSettings from "./pages/Admin/AdminSettings";
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="bookings" element={<AdminBookings />} />
         <Route path="payments" element={<AdminPayments />} />
         <Route path="reviews" element={<AdminReviews />} />
+        <Route path="/admin/contacts"element={<Contacts />}/>
         <Route path="notifications" element={<AdminNotifications />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
