@@ -10,6 +10,7 @@ import bookingRoutes from "./routes/Booking/bookingRoutes.js";
 import serviceRoutes from "./routes/Service/serviceRoutes.js";
 import paymentRoutes from "./routes/User/paymentRoutes.js";
 import wishlistRoutes from "./routes/User/wishlistRoutes.js";
+import contactRoutes from "./routes/Contact/contactRoutes.js";
 import { startReminderJob } from "./utils/reminderJob.js";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/contact", contactRoutes);
 
 // start reminder job
 startReminderJob();
