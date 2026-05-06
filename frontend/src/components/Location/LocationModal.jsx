@@ -102,69 +102,69 @@ function LocationModal({
 
   // };
 
-  const selectLocation = async (place) => {
+const searchLocation = async (value) => {
 
-  const locationName = place.display_name
-    .split(",")
-    .slice(0, 2)
-    .join(",");
+  setSearch(value);
 
-  // SAVE LOCATION
-  localStorage.setItem(
-    "userLocation",
-    locationName
-  );
+  if (value.trim().length < 3) {
 
-  // SAVE COORDINATES
-  localStorage.setItem(
-    "userCoordinates",
-    JSON.stringify({
-      lat: place.lat,
-      lng: place.lon
-    })
-  );
-
-  // UPDATE NAVBAR
-  setLocation(locationName);
-
-  // SAVE TO BACKEND
-  try {
-
-    await fetch(
-      `${import.meta.env.VITE_API_URL}/api/users/location`,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            `Bearer ${localStorage.getItem("userToken")}`
-        },
-
-        body: JSON.stringify({
-
-          lat: place.lat,
-          lng: place.lon,
-          city:
-            place.address?.city ||
-            place.address?.town ||
-            place.address?.village ||
-            ""
-
-        })
-
-      }
-    );
-
-  } catch (err) {
-
-    console.log(err);
+    setResults([]);
+    return;
 
   }
 
-  closeModal();
+  clearTimeout(searchTimeout.current);
 
-    window.location.reload();
+  searchTimeout.current = setTimeout(async () => {
+
+    try {
+
+      const response = await fetch(
+
+        `https://us1.locationiq.com/v1/search?key=${
+          import.meta.env.VITE_LOCATIONIQ_KEY
+        }&q=${encodeURIComponent(value)}
+        &countrycodes=in
+        &limit=5
+        &format=json`
+
+      );
+
+      // 🔥 RATE LIMIT HANDLE
+      if (response.status === 429) {
+
+        console.log("Too many requests");
+
+        setResults([]);
+
+        return;
+
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+
+      // 🔥 SAFE CHECK
+      if (Array.isArray(data)) {
+
+        setResults(data);
+
+      } else {
+
+        setResults([]);
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      setResults([]);
+
+    }
+
+  }, 1200); // 🔥 IMPORTANT
 
 };
 
@@ -219,8 +219,9 @@ function LocationModal({
 
         <div className="location-results">
 
-          {results.map((place, index) => (
-
+{Array.isArray(results) &&
+results.map((place, index) => (
+  
             <div
               key={index}
               className="location-item"
