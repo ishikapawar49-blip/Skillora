@@ -1,136 +1,199 @@
 import "./TopProfessionals.css";
-import { FiMapPin, FiCheckCircle } from "react-icons/fi";
-import {FaStar} from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function TopProfessionals(){
+import { FiMapPin, FiCheckCircle } from "react-icons/fi";
+import { FaStar } from "react-icons/fa";
 
-const [professionals, setProfessionals] = useState([]);
-const API = import.meta.env.VITE_API_URL;
+function TopProfessionals() {
 
-useEffect(() => {
-  fetch(`${API}/api/vendor/nearby`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`
-    }
-  })
-    .then(res => res.json())
-    .then(data => setProfessionals(data))
-    .catch(err => console.log(err));
-}, []);
+  const [professionals, setProfessionals] = useState([]);
+  const navigate = useNavigate();
 
-return(
+  useEffect(() => {
 
-<section className="tp-section">
+    const fetchVendors = async () => {
 
-<div className="tp-container">
+      try {
 
-{/* HEADER */}
+        const coords = JSON.parse(
+          localStorage.getItem("userCoordinates")
+        );
 
-<div className="tp-header">
+        const savedLocation =
+          localStorage.getItem("userLocation");
 
-<div>
-<h2>Top Professionals</h2>
-<p>Verified experts ready to serve you</p>
-</div>
+        let city = "";
 
-<a className="tp-view">
-View All →
-</a>
+        if (savedLocation) {
 
-</div>
+          city = savedLocation
+            .split(",")[1]
+            ?.split("-")[0]
+            ?.trim();
 
+        }
 
-{/* CARDS */}
+        const res = await fetch(
 
-<div className="tp-grid">
+`${import.meta.env.VITE_API_URL}/api/vendor/all?lat=${coords?.lat}&lng=${coords?.lng}&city=${city}`
 
-{professionals.map((pro)=> (
+        );
 
-<div className="tp-card" key={pro._id}>
+        const data = await res.json();
 
-<div className="tp-top">
+        // 🔥 ONLY FIRST 3
+        setProfessionals(data.slice(0, 3));
 
-<div className="tp-avatar">
+      } catch (err) {
 
-{/* <img src={pro.image} /> */}
-<img
-  src={
-    pro.profileImage ||
-    "https://via.placeholder.com/100"
-  }
-/>
+        console.log(err);
 
-<div className="tp-verified">
-<FiCheckCircle/>
-</div>
+      }
 
-</div>
+    };
 
+    fetchVendors();
 
-<div className="tp-info">
+  }, []);
 
-<h3>{pro.ownerName}</h3>
+  return (
 
-<p className="tp-role">{pro.category}</p>
+    <section className="tp-section">
 
-<span className="tp-location">
-  <FiMapPin/>
-  {pro.city || "Nearby"}
-</span>
+      <div className="tp-container">
 
-<div className="tp-meta">
+        {/* HEADER */}
 
-<span className="tp-rating">
-<FaStar className="tp-star"/>
-{pro.rating}
-<span>({pro.reviews})</span>
-</span>
+        <div className="tp-header">
 
-<span className="tp-location">
-  <FiMapPin/>
-  {
-    pro.locality || pro.city || pro.pincode
-      ? `${pro.locality || ""}${pro.locality ? ", " : ""}
-         ${pro.city || ""}
-         ${pro.pincode ? " - " : ""}
-         ${pro.pincode || ""}`
-      : "Location not added"
-  }
-</span>
+          <div>
 
-</div>
+            <h2>Top Professionals</h2>
 
-</div>
+            <p>
+              Verified experts ready to serve you
+            </p>
 
-</div>
+          </div>
 
+          <button
+            className="tp-view"
+            onClick={() => navigate("/professionals")}
+          >
+            View All →
+          </button>
 
-<hr/>
+        </div>
 
+        {/* GRID */}
 
-<div className="tp-bottom">
+        <div className="professionals-grid">
 
-<p>{pro.jobs} jobs completed</p>
+          {professionals.map((pro) => (
 
-<button className="tp-btn">
-Book Now
-</button>
+            <div
+              className="professional-card"
+              key={pro._id}
+            >
 
-</div>
+              <div className="professional-top">
 
-</div>
+                <div className="professionals-image">
 
-))}
+                  <img
+                    src={
+                      pro.profileImage ||
+                      "https://via.placeholder.com/100"
+                    }
+                  />
 
-</div>
+                  <FiCheckCircle className="professionals-verified"/>
 
-</div>
+                </div>
 
-</section>
+                <div className="professionals-info">
 
-)
+                  <h3>{pro.ownerName}</h3>
+
+                  <p className="professionals-role">
+
+                    {pro.category || "Service Expert"}
+
+                  </p>
+
+                  <div className="professionals-meta">
+
+                    <span className="professionals-rating">
+
+                      <FaStar/>
+
+                      {pro.rating || 4.5}
+
+                      <span className="professionals-reviews">
+
+                        (0)
+
+                      </span>
+
+                    </span>
+
+                    <span className="professionals-location">
+
+                      <FiMapPin/>
+
+                      {
+                        typeof pro.locality === "string" ||
+                        typeof pro.city === "string" ||
+                        typeof pro.pincode === "string"
+                          ? `${pro.locality || ""}${pro.locality ? ", " : ""}
+                             ${typeof pro.city === "string" ? pro.city : ""}
+                             ${pro.pincode ? " - " : ""}
+                             ${pro.pincode || ""}`
+                          : "Location not added"
+                      }
+
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="professionals-divider"></div>
+
+              <div className="professional-bottom">
+
+                <p>
+                  {pro.jobsCompleted || 100}
+                  {" "}
+                  jobs completed
+                </p>
+
+                <button
+                  className="professionals-book-btn"
+                  onClick={() =>
+                    navigate(`/services?vendor=${pro._id}`)
+                  }
+                >
+                  Book Now
+                </button>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      </div>
+
+    </section>
+
+  );
 
 }
 
-export default TopProfessionals
+export default TopProfessionals;
