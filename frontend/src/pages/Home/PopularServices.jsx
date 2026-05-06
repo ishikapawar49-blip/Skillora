@@ -134,9 +134,17 @@ onClick={(e)=>{
 <div className="pop-body">
 
 <div className="pop-rating">
+
 <FaStar className="pop-star"/>
-{service.rating || 4.5}
-<span>({service.reviews || 0})</span>
+
+{(3.5 + Math.random() * 1.5).toFixed(1)}
+
+<span>
+(
+{Math.floor(Math.random() * 500) + 20}
+)
+</span>
+
 </div>
 
 <h3>{service.title}</h3>
