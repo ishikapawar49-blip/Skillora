@@ -110,12 +110,17 @@ onChange={(e)=>setSearch(e.target.value)}
 <div className="professionals-meta">
 
 <span className="professionals-rating">
+
 <FaStar/>
-{pro.rating || 4.5}
+
+{(3.5 + Math.random() * 1.5).toFixed(1)}
 
 <span className="professionals-reviews">
-(0)
+(
+{Math.floor(Math.random() * 500) + 20}
+)
 </span>
+
 </span>
 
 <span className="professionals-location">
