@@ -1,9 +1,22 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Bell, Search, ChevronDown } from "lucide-react";
 import "./AdminNavbar.css";
 
 const AdminNavbar = ({ title, userName, userRole }) => {
   const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    const navigate = useNavigate();
+
+const handleLogout = () => {
+
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("adminData");
+
+  navigate("/");
+
+};
 
   const initials = userName
     .split(" ")
@@ -21,18 +34,12 @@ const AdminNavbar = ({ title, userName, userRole }) => {
 
       {/* Right */}
       <div className="admin-nav-right">
-        
-        {/* Search */}
-        <div className="admin-search-box">
-          <Search className="admin-search-icon" />
-          <input type="text" placeholder="Search..." />
-        </div>
 
         {/* Bell */}
-        <div className="admin-bell">
+        {/* <div className="admin-bell">
           <Bell />
           <span className="admin-dot"></span>
-        </div>
+        </div> */}
 
         {/* Profile */}
         <div className="admin-profile" onClick={() => setOpen(!open)}>
@@ -45,13 +52,15 @@ const AdminNavbar = ({ title, userName, userRole }) => {
 
           <ChevronDown className="admin-chevron" />
 
-          {open && (
-            <div className="admin-dropdown">
-              <p>Profile</p>
-              <p>Settings</p>
-              <p>Logout</p>
-            </div>
-          )}
+       {open && (
+  <div className="admin-dropdown">
+
+    <p onClick={handleLogout}>
+      Logout
+    </p>
+
+  </div>
+)}
         </div>
 
       </div>
