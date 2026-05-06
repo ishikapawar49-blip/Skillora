@@ -74,12 +74,15 @@ const response = await fetch(
 
 const data = await response.json();
 
+if (!response.ok || !data) {
+  setLocation("Unable to fetch");
+  return;
+}
+
 console.log(data);
-console.log(data.address);
-console.log(data.display_name);
 
-const address = data.address;
 
+const address = data?.address || {};
           // =========================================
           // FULL ADDRESS FORMAT
           // =========================================
@@ -89,7 +92,7 @@ const area = data.display_name
   .join(",")
   .trim();
 
-const pincode = data.address.postcode || "";
+const pincode = address?.postcode || "";
 
 const fullAddress = `${area} - ${pincode}`;
 
