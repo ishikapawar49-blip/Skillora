@@ -1,5 +1,5 @@
 import "./LocationModal.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 function LocationModal({
   closeModal,
@@ -9,26 +9,76 @@ function LocationModal({
 
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
+  const searchTimeout = useRef();
 
+  // const searchLocation = async (value) => {
+
+  //   setSearch(value);
+
+  //   if (value.length < 3) {
+  //     setResults([]);
+  //     return;
+  //   }
+
+  //   const response = await fetch(
+  //     `https://us1.locationiq.com/v1/search?key=${import.meta.env.VITE_LOCATIONIQ_KEY}&q=${value}&format=json`
+  //   );
+
+  //   const data = await response.json();
+
+  //   setResults(data);
+
+  // };
 
   const searchLocation = async (value) => {
 
-    setSearch(value);
+  setSearch(value);
 
-    if (value.length < 3) {
+  if (value.length < 3) {
+
+    setResults([]);
+    return;
+
+  }
+
+  clearTimeout(searchTimeout.current);
+
+  searchTimeout.current = setTimeout(async () => {
+
+    try {
+
+      const response = await fetch(
+
+        `https://us1.locationiq.com/v1/search?key=${
+          import.meta.env.VITE_LOCATIONIQ_KEY
+        }&q=${value}&countrycodes=in&format=json`
+
+      );
+
+      const data = await response.json();
+
+      // 🔥 IMPORTANT
+      if (Array.isArray(data)) {
+
+        setResults(data);
+
+      } else {
+
+        setResults([]);
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
       setResults([]);
-      return;
+
     }
 
-    const response = await fetch(
-      `https://us1.locationiq.com/v1/search?key=${import.meta.env.VITE_LOCATIONIQ_KEY}&q=${value}&format=json`
-    );
+  }, 700);
 
-    const data = await response.json();
-
-    setResults(data);
-
-  };
+};
 
   // =========================================
   // SELECT LOCATION
