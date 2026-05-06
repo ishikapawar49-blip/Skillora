@@ -1,6 +1,5 @@
 import Contact from "../../models/Contact/Contact.js";
-import sendEmail from "../../utils/sendEmail.js";
-
+import { sendEmail } from "../../utils/sendEmail.js";
 
 // CREATE CONTACT
 

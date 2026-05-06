@@ -4,7 +4,7 @@ import React,
   useState,
 } from "react";
 
-import "./Contacts.css";
+import "./AdminContactQuery.css";
 
 import * as XLSX from "xlsx";
 
