@@ -5,7 +5,6 @@ import "./AdminNavbar.css";
 
 const AdminNavbar = ({ title, userName, userRole }) => {
   const [open, setOpen] = useState(false);
-    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
