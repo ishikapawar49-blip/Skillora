@@ -216,12 +216,11 @@ useEffect(() => {
 
   <FaStar />
 
-  <span>
-    {
-      service.rating ||
-      (3.5 + Math.random() * 1.5).toFixed(1)
-    }
-  </span>
+<span>
+  {
+    (3.5 + Math.random() * 1.5).toFixed(1)
+  }
+</span>
 
   <span className="service-reviews">
 
