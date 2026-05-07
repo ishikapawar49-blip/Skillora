@@ -2,7 +2,6 @@ import express from "express";
 import {
  loginAdmin,
  registerAdmin,
- getDashboardStats,
  getAllUsers,
  getAllVendors,
  approveVendor,
@@ -22,13 +21,15 @@ import {
   markAllAdminRead,
 } from "../../controllers/Admin/notificationController.js";
 import protect from "../../middleware/authMiddleware.js";
+import {
+  getDashboardStats,
+} from "../../controllers/Admin/dashboardController.js";
 
 const router = express.Router();
 
 // routes
 router.post("/register", registerAdmin);
 router.post("/login", loginAdmin);
-router.get("/stats", protect, getDashboardStats);
 
 // ✅ Users route (protected bhi karna better hai)
 router.get("/users", protect, getAllUsers);
@@ -65,4 +66,11 @@ router.delete("/reviews/:id", protect, deleteReviewByAdmin);
 // Notifications
 router.get("/notifications", getAdminNotifications);
 router.put("/notifications/read", markAllAdminRead);
+
+// Dashboard Stats
+router.get(
+  "/stats",
+  protect,
+  getDashboardStats
+);
 export default router;

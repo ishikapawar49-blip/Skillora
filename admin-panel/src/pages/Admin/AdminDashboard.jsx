@@ -3,32 +3,6 @@ import { Users, Store, CalendarCheck, DollarSign, TrendingUp, ArrowUpRight,} fro
 import {BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,LineChart, Line, PieChart, Pie, Cell} from "recharts";
 import "./AdminDashboard.css";
 
-const barData = [
-  { month: "Jan", revenue: 4200 },
-  { month: "Feb", revenue: 5800 },
-  { month: "Mar", revenue: 7200 },
-  { month: "Apr", revenue: 6100 },
-  { month: "May", revenue: 8400 },
-  { month: "Jun", revenue: 9200 },
-];
-
-const lineData = [
-  { day: "Mon", bookings: 12 },
-  { day: "Tue", bookings: 19 },
-  { day: "Wed", bookings: 15 },
-  { day: "Thu", bookings: 22 },
-  { day: "Fri", bookings: 28 },
-  { day: "Sat", bookings: 35 },
-  { day: "Sun", bookings: 18 },
-];
-
-const pieData = [
-  { name: "Beauty", value: 35 },
-  { name: "Fitness", value: 25 },
-  { name: "Education", value: 20 },
-  { name: "Other", value: 20 },
-];
-
 
 const COLORS = ["#8b5cf6", "#ec4899", "#3b82f6", "#22c55e"];
 
@@ -40,6 +14,18 @@ const AdminDashboard = () => {
   totalBookings: 0,
   revenue: 0,
 });
+
+const [barData, setBarData] =
+useState([]);
+
+const [lineData, setLineData] =
+useState([]);
+
+const [pieData, setPieData] =
+useState([]);
+
+const [activities, setActivities] =
+useState([]);
 
   useEffect(() => {
   const fetchStats = async () => {
@@ -54,6 +40,13 @@ const AdminDashboard = () => {
 
       const data = await res.json();
       setStats(data);
+      setBarData(data.revenueChart || []);
+
+setLineData(data.bookingChart || []);
+
+setPieData(data.pieChart || []);
+
+setActivities(data.activities || []);
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +86,7 @@ const AdminDashboard = () => {
 
         <div className="card">
           <DollarSign />
-          <h3>{stats.revenue}</h3>
+          <h3>₹{stats.revenue}</h3>
           <p>Revenue</p>
         </div>
       </div>
@@ -132,7 +125,8 @@ const AdminDashboard = () => {
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie data={pieData} dataKey="value" innerRadius={40} outerRadius={70}>
-                {pieData.map((_, i) => (
+                {Array.isArray(pieData) &&
+pieData.map((_, i) => (
                   <Cell key={i} fill={COLORS[i]} />
                 ))}
               </Pie>
@@ -142,25 +136,34 @@ const AdminDashboard = () => {
         </div>
 
         <div className="activity">
-          <h3>Recent Activity</h3>
 
-          {[
-            { text: "New vendor registered", icon: Store },
-            { text: "Booking completed", icon: CalendarCheck },
-            { text: "Payment received", icon: DollarSign },
-            { text: "New user signup", icon: Users },
-            { text: "Revenue milestone", icon: TrendingUp },
-          ].map((item, i) => {
-            const Icon = item.icon;
-            return (
-              <div className="activity-item" key={i}>
-                <Icon className="activity-icon" />
-                <p>{item.text}</p>
-                <ArrowUpRight />
-              </div>
-            );
-          })}
-        </div>
+<h3>
+Recent Activity
+</h3>
+
+{Array.isArray(activities) &&
+activities.map((item, i) => (
+
+<div
+className="activity-item"
+key={i}
+>
+
+<TrendingUp
+className="activity-icon"
+/>
+
+<p>
+{item.text}
+</p>
+
+<ArrowUpRight />
+
+</div>
+
+))}
+
+</div>
       </div>
     </div>
   );
