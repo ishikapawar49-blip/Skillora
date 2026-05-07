@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Footer.css";
 import {
   FiFacebook,
@@ -11,6 +12,9 @@ import {
 } from "react-icons/fi";
 
 const Footer = () => {
+
+  const navigate = useNavigate();
+
   return (
     <footer className="footer">
 <svg width="0" height="0">
@@ -26,9 +30,13 @@ const Footer = () => {
         {/* Column 1 */}
         <div className="footer-col brand-col">
 
-          <div className="footer-logo">
-            <h2>Skillora</h2>
-          </div>
+          <div
+  className="footer-logo"
+  onClick={() => navigate("/")}
+  style={{ cursor: "pointer" }}
+>
+  <h2>Skillora</h2>
+</div>
 
           <p className="footer-desc">
             Your trusted marketplace for professional home and personal
@@ -36,10 +44,40 @@ const Footer = () => {
           </p>
 
           <div className="social-icons">
-            <div className="social"><FiFacebook /></div>
-            <div className="social"><FiTwitter /></div>
-            <div className="social"><FiInstagram /></div>
-            <div className="social"><FiYoutube /></div>
+           <div
+  className="social"
+  onClick={() =>
+    window.open("https://facebook.com", "_blank")
+  }
+>
+  <FiFacebook />
+</div>
+           <div
+  className="social"
+  onClick={() =>
+    window.open("https://twitter.com", "_blank")
+  }
+>
+  <FiTwitter />
+</div>
+
+<div
+  className="social"
+  onClick={() =>
+    window.open("https://instagram.com", "_blank")
+  }
+>
+  <FiInstagram />
+</div>
+
+<div
+  className="social"
+  onClick={() =>
+    window.open("https://youtube.com", "_blank")
+  }
+>
+  <FiYoutube />
+</div>
           </div>
 
         </div>
@@ -50,11 +88,25 @@ const Footer = () => {
           <h3>Quick Links</h3>
 
           <ul>
-            <li>Services</li>
-            <li>Professionals</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Reviews</li>
+<li onClick={() => navigate("/services")}>
+  Services
+</li>
+
+<li onClick={() => navigate("/professionals")}>
+  Professionals
+</li>
+
+<li onClick={() => navigate("/about")}>
+  About
+</li>
+
+<li onClick={() => navigate("/contact")}>
+  Contact
+</li>
+
+<li onClick={() => navigate("/account")}>
+  Reviews
+</li>
           </ul>
 
         </div>
@@ -65,12 +117,29 @@ const Footer = () => {
           <h3>Services</h3>
 
           <ul>
-            <li>Home Cleaning</li>
-            <li>Plumbing</li>
-            <li>Electrical</li>
-            <li>Beauty & Spa</li>
-            <li>Appliance Repair</li>
-            <li>Painting</li>
+           <li onClick={() => navigate("/services")}>
+  Home Cleaning
+</li>
+
+<li onClick={() => navigate("/services")}>
+  Plumbing
+</li>
+
+<li onClick={() => navigate("/services")}>
+  Electrical
+</li>
+
+<li onClick={() => navigate("/services")}>
+  Beauty & Spa
+</li>
+
+<li onClick={() => navigate("/services")}>
+  Appliance Repair
+</li>
+
+<li onClick={() => navigate("/services")}>
+  Painting
+</li>
           </ul>
 
         </div>
@@ -103,9 +172,17 @@ const Footer = () => {
         <p>© 2026 Skillora. All rights reserved.</p>
 
         <div className="footer-links">
-          <span>Privacy</span>
-          <span>Terms</span>
-          <span>Cookies</span>
+          <span onClick={() => navigate("/about")}>
+  Privacy
+</span>
+
+<span onClick={() => navigate("/about")}>
+  Terms
+</span>
+
+<span onClick={() => navigate("/about")}>
+  Cookies
+</span>
         </div>
 
       </div>

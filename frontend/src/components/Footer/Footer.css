@@ -128,6 +128,14 @@
   gap:28px;
 }
 
+
+.footer li,
+.footer-links span,
+.social,
+.footer-logo{
+  cursor:pointer;
+}
+
 @media (max-width: 1200px){
   .footer-container{
     gap:40px;
